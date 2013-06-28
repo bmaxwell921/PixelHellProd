@@ -9,10 +9,10 @@ public class StatInfo {
 	private int health;
 	private int damage;
 	
-	private int curFireRate;
-	private int baseFireRate;
+	private float curFireRate;
+	private float baseFireRate;
 	
-	public StatInfo(int health, int damage, int baseFireRate) {
+	public StatInfo(int health, int damage, float baseFireRate) {
 		this.health = health;
 		this.damage = damage;
 		this.baseFireRate = baseFireRate;
