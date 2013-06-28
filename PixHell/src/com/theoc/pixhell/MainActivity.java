@@ -1,8 +1,10 @@
 package com.theoc.pixhell;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 
 public class MainActivity extends Activity {
 
@@ -19,4 +21,8 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
+	// button clicks
+	public void startGameActivity(View v) {
+		startActivity(new Intent(MainActivity.this, GameActivity.class));
+	}
 }
