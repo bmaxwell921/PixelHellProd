@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.content.res.AssetManager;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.view.Display;
 import android.view.Menu;
 
 public class GameActivity extends Activity
@@ -42,8 +43,12 @@ public class GameActivity extends Activity
 			e.printStackTrace();
 		}
 		
+		Display display = getWindowManager().getDefaultDisplay();
+        int temph = Math.round((float).84375 * display.getHeight());
+        int tempw = display.getWidth();
+		
 		// link M-V
-		this.model = new LevelObject(this.inputManager);
+		this.model = new LevelObject(tempw, temph, this.inputManager);
 		this.view = (GameView) this.findViewById(R.id.game_view_primary);	
 		this.view.addInputManager(this.inputManager);
 		this.view.addModel(this.model);

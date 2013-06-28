@@ -1,9 +1,7 @@
 package com.theoc.pixhell.manager;
 
-import java.util.Observable;
-import java.util.Observer;
+import com.theoc.pixhell.utilities.DirectionalVector;
 
-import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -22,6 +20,7 @@ public class InputManager
     		                                    0f, 0f, 0f};
     
     private boolean isTouched = false;
+    private DirectionalVector<Float> tiltVector = null;
 	
 	public InputManager() {
 		this.mEventListener =
@@ -46,9 +45,10 @@ public class InputManager
 			};
 	}
 	
-	public Point getTiltVector() {
-		//TODO
-		return null;
+	public DirectionalVector<Float> getTiltVector() {
+		this.tiltVector.x = this.mValuesAccel[0];
+		this.tiltVector.y = this.mValuesAccel[1];
+		return this.tiltVector;
 	}
 	
 	public boolean screenIsTouched() {
