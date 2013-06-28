@@ -1,26 +1,37 @@
 package com.theoc.pixhell;
 
+import com.theoc.pixhell.manager.InputManager;
 import com.theoc.pixhell.model.LevelObject;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.res.AssetManager;
 import android.view.Menu;
 
 public class GameActivity extends Activity
 {
-	private Thread updateThread;
+	public static final long GAME_RATE = 16;
+	public static final long FRAME_RATE = 32;
+	
+	private AssetManager 	assetMgr;
+	
+	private Thread gameThread;
+	//private Thread dispThread;
 	private GameView view;
 	private LevelObject model;
+	private InputManager relayIO;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_game);
+		this.setContentView(R.layout.activity_game);
+		this.assetMgr = this.getAssets();
 		
+		// link M-V
 		this.view = (GameView) this.findViewById(R.id.game_view_primary);
-		this.model = new LevelObject();
-		this.model.addObserver(this.view);
+		this.model = new LevelObject(this.assetMgr);
+		this.view.addModel(this.model);
 		
 		this.initThread();
 	}
@@ -36,8 +47,8 @@ public class GameActivity extends Activity
 	@Override
 	public void onStart() {
 		super.onStart();
-		if (this.updateThread != null) {
-			this.updateThread.start();		
+		if (this.gameThread != null) {
+			this.gameThread.start();		
 		}
 	}
 	
@@ -59,19 +70,18 @@ public class GameActivity extends Activity
 	
 	private void initThread() {
 		// Set Update Thread
-		Runnable runner = 
+		Runnable game_runner = 
 			new Runnable()
 			{
-				long cycleRate = 30;
+
 				@Override
 				public void run()
 				{
 					while (view.run)
 					{
 						try {
-							
-							Thread.sleep(cycleRate);
-							model.update(cycleRate);
+							Thread.sleep(GAME_RATE);
+							model.update(GAME_RATE);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -79,6 +89,27 @@ public class GameActivity extends Activity
 					finish();
 				}
 			};
-		this.updateThread = new Thread(runner);
+		this.gameThread = new Thread(game_runner);
+		
+		/*Runnable disp_runner = 
+				new Runnable()
+				{
+
+					@Override
+					public void run()
+					{
+						while (view.run)
+						{
+							try {
+								Thread.sleep(GAME_RATE);
+								model.update(GAME_RATE);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
+						finish();
+					}
+				};
+		this.dispThread = new Thread(disp_runner);*/
 	}
 }

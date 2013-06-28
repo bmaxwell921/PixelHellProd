@@ -7,7 +7,6 @@ import android.graphics.Rect;
 
 
 public abstract class GameObject {
-	//Bitmap image = BimapFacotyr.decodestream(assets.open("file"))
 	public Point position;
 	public Point velocity;
 	public int height;
