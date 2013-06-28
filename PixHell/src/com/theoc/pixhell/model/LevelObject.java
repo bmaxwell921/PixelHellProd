@@ -26,7 +26,7 @@ public class LevelObject extends Observable
 	
 	private int curWave;
 	
-	public LevelObject(InputManager im) {
+	public LevelObject(int screenWidth, int screenHeight, InputManager im) {
 		background = new Background(AssetMap.getImage(AssetMap.backgroundKey));
 		enemies = new LinkedList<Ship>();
 		
