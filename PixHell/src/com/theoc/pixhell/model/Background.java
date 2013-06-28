@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 public class Background extends GameObject {
 
 	public Background(Bitmap image) {
-		
+		super(image);
 	}
 	
 	@Override

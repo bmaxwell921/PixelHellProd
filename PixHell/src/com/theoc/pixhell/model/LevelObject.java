@@ -14,6 +14,8 @@ public class LevelObject extends Observable
 	private GameObject background;
 	private List<Ship> enemies;
 	private Ship player;
+	private int curWave;
+	
 	
 	private List<GameObject> shots;
 	
@@ -21,11 +23,16 @@ public class LevelObject extends Observable
 		background = new Background(AssetMap.getImage(AssetMap.backgroundKey));
 		player = new Player();
 		curGameState = GameState.BETWEEN_WAVE;
-		setUpNextWave(0);
+		curWave = 1;
+		setUpNextWave();
 	}
 	
 	public void update(long timeElapsed) {
-		//
+		if (curGameState == GameState.IN_WAVE) {
+			inWaveUpdate(timeElapsed);
+		} else if (curGameState == GameState.BETWEEN_WAVE) {
+			setUpNextWave();
+		}
 		
 		
 		
@@ -33,11 +40,17 @@ public class LevelObject extends Observable
 		this.notifyObservers();
 	}
 	
-	private void setUpNextWave(int waveNumber) {
+	private void inWaveUpdate(long timeElapsed) {
+		//Move everyone, then check collisions
+		//Collisions
+	}
+	
+	private void setUpNextWave() {
 		//Ask the AIWaveInfoManager to give us how many enemies to make
 		//Send that info to the AIFactory
 		
 		curGameState = GameState.IN_WAVE;
+		++curWave;
 	}
 	
 	public List<GameObject> getOnscreenObjects() {
