@@ -34,6 +34,7 @@ public class GameActivity extends Activity
 		this.setContentView(R.layout.activity_game);
 		this.assetMgr = this.getAssets();
 		
+		this.inputManager = new InputManager((SensorManager) this.getSystemService(SENSOR_SERVICE));
 		this.setSensorListners();
 		try
 		{
@@ -44,11 +45,11 @@ public class GameActivity extends Activity
 		}
 		
 		Display display = getWindowManager().getDefaultDisplay();
-        int temph = Math.round((float).84375 * display.getHeight());
-        int tempw = display.getWidth();
+		int width = display.getWidth();
+		int height = display.getHeight();
 		
 		// link M-V
-		this.model = new LevelObject(tempw, temph, this.inputManager);
+		this.model = new LevelObject(width, height, this.inputManager);
 		this.view = (GameView) this.findViewById(R.id.game_view_primary);	
 		this.view.addInputManager(this.inputManager);
 		this.view.addModel(this.model);

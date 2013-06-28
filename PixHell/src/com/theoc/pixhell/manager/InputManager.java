@@ -22,7 +22,8 @@ public class InputManager
     private boolean isTouched = false;
     private DirectionalVector<Float> tiltVector = null;
 	
-	public InputManager() {
+	public InputManager(SensorManager sensorManager) {
+		this.sensorManager = sensorManager;
 		this.mEventListener =
 			new SensorEventListener()
 			{

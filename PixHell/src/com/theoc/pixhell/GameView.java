@@ -20,7 +20,7 @@ public final class GameView extends View
 {	
 	private Paint       brush  = null;
 	private LevelObject model  = null;
-	public boolean     run    = true;
+	public boolean      run    = true;
 	private long        framesDrawn = 0;
 	
 	private InputManager inputManager = null;

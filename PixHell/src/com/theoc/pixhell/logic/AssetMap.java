@@ -1,6 +1,7 @@
 package com.theoc.pixhell.logic;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import android.content.res.AssetManager;
@@ -20,6 +21,7 @@ public class AssetMap {
 	private static Map<String, Bitmap> map;
 	
 	public static void init(AssetManager am) throws IOException {
+		map = new HashMap<String, Bitmap>();
 		map.put(backgroundKey, BitmapFactory.decodeStream(am.open(backgroundKey)));
 	}
 	
