@@ -1,9 +1,10 @@
 package com.theoc.pixhell.model;
 
+
 import android.graphics.Point;
 
 public abstract class GameObject {
-	
+	//Bitmap image = BimapFacotyr.decodestream(assets.open("file"))
 	public Point position;
 	public Point velocity;
 	public float height;
@@ -11,5 +12,8 @@ public abstract class GameObject {
 	
 	public abstract void update(float time);
 	public abstract boolean CollidesWith(GameObject gameObject);
+
+
+
 
 }
