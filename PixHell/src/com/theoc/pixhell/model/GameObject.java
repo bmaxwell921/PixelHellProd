@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 
 public abstract class GameObject {
-	//Bitmap image = BimapFacotyr.decodestream(assets.open("file"))
 	public Point position;
 	public Point velocity;
 	public float height;
