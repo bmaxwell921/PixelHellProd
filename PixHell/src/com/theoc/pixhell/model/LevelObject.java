@@ -5,11 +5,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 
+import android.graphics.Rect;
+
 import com.theoc.pixhell.logic.AssetMap;
 import com.theoc.pixhell.manager.InputManager;
 
 public class LevelObject extends Observable
 {
+	public int screenWidth, screenHeight;
 	private enum GameState {IN_WAVE, BETWEEN_WAVE};
 	private GameState curGameState;
 	
@@ -27,9 +30,12 @@ public class LevelObject extends Observable
 	private int curWave;
 	
 	public LevelObject(int screenWidth, int screenHeight, InputManager im) {
+		this.screenWidth = screenWidth;
+		this.screenHeight = screenHeight;
 		background = new Background(AssetMap.getImage(AssetMap.backgroundKey));
 		enemies = new LinkedList<Ship>();
-		
+		playerShots = new LinkedList<Weapon>();
+		enemyShots = new LinkedList<Weapon>();
 		
 //		player = new Player();
 		curGameState = GameState.BETWEEN_WAVE;
@@ -98,7 +104,16 @@ public class LevelObject extends Observable
 	}
 	
 	private void playerScreenCollision() {
-		
+		Rect screenBounds = new Rect(0, 0, screenWidth, screenHeight);
+		Rect playerRect = player.RectBoxforCollision();
+		if(!screenBounds.contains(playerRect)) {
+			//Player is outside the screen
+			
+			//TODO I think this will work....
+			screenBounds.intersect(playerRect);
+			player.position.x = playerRect.left;
+			player.position.y = playerRect.right;
+		}
 	}
 	
 	private void handleShipShotCollision(Ship single, 
