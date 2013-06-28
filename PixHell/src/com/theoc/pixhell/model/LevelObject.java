@@ -86,7 +86,6 @@ public class LevelObject extends Observable
 		playerEnemyShotCollisions();
 		
 		enemyPlayerShotCollisions();
-		playerScreenCollision();
 	}
 	
 	private void playerEnemyCollisions() {
@@ -100,19 +99,6 @@ public class LevelObject extends Observable
 	private void enemyPlayerShotCollisions() {
 		for (Ship enemy : enemies) {
 			handleShipShotCollision(enemy, playerShots);
-		}
-	}
-	
-	private void playerScreenCollision() {
-		Rect screenBounds = new Rect(0, 0, screenWidth, screenHeight);
-		Rect playerRect = player.RectBoxforCollision();
-		if(!screenBounds.contains(playerRect)) {
-			//Player is outside the screen
-			
-			//TODO I think this will work....
-			screenBounds.intersect(playerRect);
-			player.position.x = playerRect.left;
-			player.position.y = playerRect.right;
 		}
 	}
 	
@@ -137,7 +123,7 @@ public class LevelObject extends Observable
 		List<GameObject> onScreen = new ArrayList<GameObject>();
 		onScreen.add(background);
 		onScreen.addAll(enemies);
-		onScreen.add(player);
+		//onScreen.add(player);
 		onScreen.addAll(enemyShots);
 		onScreen.addAll(playerShots);
 		return onScreen;
