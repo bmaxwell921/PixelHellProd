@@ -1,21 +1,25 @@
 package com.theoc.pixhell.model;
 
+import com.theoc.pixhell.manager.InputManager;
+
 import android.graphics.Bitmap;
 import android.graphics.Point;
 
 public class Player extends Ship {
 
-	
-	public Player(Bitmap image) {
-		super(image, defaultFireRate);
+	InputManager inputmanager;
+	public Player(Bitmap image,InputManager inputmanager) {
+		this(image, defaultFireRate);
+		this.inputmanager = inputmanager;
 	}
 	
 	public Player(Bitmap image, float fireRate) {
 		super(image, fireRate);
 	}
 	
-	public Player(Bitmap image, Point location, Point velocity) {
-		super(image, location, velocity, defaultFireRate);
+	public Player(Bitmap image, Point location, Point velocity,InputManager inputmanager) {
+		this(image, location, velocity, defaultFireRate);
+		this.inputmanager = inputmanager;
 	}
 	
 	public Player(Bitmap image, Point location, Point velocity, float fireRate) {
