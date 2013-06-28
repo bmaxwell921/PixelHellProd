@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 
 public class Weapon extends GameObject {
+	public int damage;
+	
 	public Weapon(Point position, Point velocity, int height, int width,
 			Bitmap image) {
 		super(position, velocity, height, width, image);

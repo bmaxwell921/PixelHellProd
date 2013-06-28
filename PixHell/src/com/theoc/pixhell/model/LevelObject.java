@@ -18,8 +18,8 @@ public class LevelObject extends Observable
 	private Ship player;
 	
 	
-	private List<GameObject> playerShots;
-	private List<GameObject> enemyShots;
+	private List<Weapon> playerShots;
+	private List<Weapon> enemyShots;
 	
 	//private List<GameObject> consumables;
 	//private List<Explosion>
@@ -31,7 +31,7 @@ public class LevelObject extends Observable
 		enemies = new LinkedList<Ship>();
 		
 		
-		//player = new Player();
+//		player = new Player();
 		curGameState = GameState.BETWEEN_WAVE;
 		curWave = 1;
 		setUpNextWave();
@@ -39,9 +39,9 @@ public class LevelObject extends Observable
 	
 	public void update(long timeElapsed) {
 		if (curGameState == GameState.IN_WAVE) {
-			inWaveUpdate(timeElapsed);
+			//inWaveUpdate(timeElapsed);
 		} else if (curGameState == GameState.BETWEEN_WAVE) {
-			setUpNextWave();
+			//setUpNextWave();
 		}
 		
 		
@@ -77,24 +77,37 @@ public class LevelObject extends Observable
 		 * 	Player with edge of screen
 		 */
 		playerEnemyCollisions();
-//		playerEnemyShotCollisions();
-//		
-//		enemyPlayerShotCollisions();
-//		playerScreenCollision();
+		playerEnemyShotCollisions();
+		
+		enemyPlayerShotCollisions();
+		playerScreenCollision();
 	}
 	
 	private void playerEnemyCollisions() {
-		boolean isCollision = singleCollidesWithList(player, enemies);
+		
 	}
 	
-	private boolean singleCollidesWithList(GameObject single, 
-			List<? extends GameObject> others) {
-		for (GameObject other : others) {
+	private void playerEnemyShotCollisions() {
+		handleShipShotCollision(player, enemyShots);
+	}
+	
+	private void enemyPlayerShotCollisions() {
+		for (Ship enemy : enemies) {
+			handleShipShotCollision(enemy, playerShots);
+		}
+	}
+	
+	private void playerScreenCollision() {
+		
+	}
+	
+	private void handleShipShotCollision(Ship single, 
+			List<Weapon> others) {
+		for (Weapon other : others) {
 			if (single.CollidesWith(other)) {
-				return true;
+				single.applyDamage(other.damage);
 			}
 		}
-		return false;
 	}
 	
 	private void setUpNextWave() {
