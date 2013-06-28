@@ -1,6 +1,7 @@
 package com.theoc.pixhell.model;
 
-public class Weapon extends GameObject {
+public class Pickup extends GameObject{
+	
 	public void update(float time)
 	{
 		
@@ -11,7 +12,5 @@ public class Weapon extends GameObject {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
-	
 
 }
