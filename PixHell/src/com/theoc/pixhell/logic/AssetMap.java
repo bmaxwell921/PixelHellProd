@@ -22,4 +22,17 @@ public class AssetMap {
 	public static void init(AssetManager am) throws IOException {
 		map.put(backgroundKey, BitmapFactory.decodeStream(am.open(backgroundKey)));
 	}
+	
+	/**
+	 * Returns the Bitmap images associated with the given key
+	 * @param key
+	 * 			One of the public instance fields in this class
+	 * @return
+	 */
+	public static Bitmap getImage(String key) {
+		if (!map.containsKey(key)) {
+			return null;
+		}
+		return map.get(key);
+	}
 }
