@@ -11,4 +11,6 @@ public class DumbWeapon extends Weapon {
 		// TODO Auto-generated constructor stub
 	}
 
+
+	
 }
