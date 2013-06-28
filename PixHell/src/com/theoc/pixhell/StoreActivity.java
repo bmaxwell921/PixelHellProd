@@ -17,7 +17,7 @@ public class StoreActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_store);
 
-		lv = (ListView) findViewById(R.layout.activity_options);
+		lv = (ListView) findViewById(R.id.listView1);
 		lv.setAdapter(new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, menuOptions));
 	}
