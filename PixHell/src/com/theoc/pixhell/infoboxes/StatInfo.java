@@ -6,6 +6,8 @@ package com.theoc.pixhell.infoboxes;
  *
  */
 public class StatInfo {
+	private final int screenPressModifier = 2;
+	
 	private int health;
 	private int damage;
 	
@@ -17,5 +19,29 @@ public class StatInfo {
 		this.damage = damage;
 		this.baseFireRate = baseFireRate;
 		this.curFireRate = this.baseFireRate;
+	}
+	
+	public void changeHealth(int amount) {
+		health += amount;
+	}
+	
+	public int getHealth() {
+		return health;
+	}
+	
+	public int getDamage() {
+		return damage;
+	}
+	
+	public float getCurFireRate() {
+		return curFireRate;
+	}
+	
+	public void resetFireRate() {
+		curFireRate = baseFireRate;
+	}
+	
+	public void setScreenPressFireRate() {
+		curFireRate = screenPressModifier * baseFireRate;
 	}
 }

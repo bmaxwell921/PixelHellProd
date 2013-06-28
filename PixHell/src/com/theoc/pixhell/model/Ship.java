@@ -31,4 +31,8 @@ public abstract class Ship extends GameObject {
 		super(location, velocity, shipHeight, shipWidth, image);
 		stats = new StatInfo(defaultHealth, defaultDamage, fireRate);
 	}
+	
+	public void applyDamage(int damage) {
+		stats.changeHealth(-1 * damage);
+	}
 }
