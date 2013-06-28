@@ -1,5 +1,7 @@
 package com.theoc.pixhell.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
 public class LevelObject extends Observable
@@ -13,5 +15,9 @@ public class LevelObject extends Observable
 		
 		this.setChanged();
 		this.notifyObservers();
+	}
+	
+	public List<GameObject> getOnscreenObjects() {
+		return new ArrayList<GameObject>();
 	}
 }
