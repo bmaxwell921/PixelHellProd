@@ -5,11 +5,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 
+import android.graphics.Rect;
+
 import com.theoc.pixhell.logic.AssetMap;
 import com.theoc.pixhell.manager.InputManager;
 
 public class LevelObject extends Observable
 {
+	public int screenWidth, screenHeight;
 	private enum GameState {IN_WAVE, BETWEEN_WAVE};
 	private GameState curGameState;
 	
@@ -27,9 +30,12 @@ public class LevelObject extends Observable
 	private int curWave;
 	
 	public LevelObject(int screenWidth, int screenHeight, InputManager im) {
+		this.screenWidth = screenWidth;
+		this.screenHeight = screenHeight;
 		background = new Background(AssetMap.getImage(AssetMap.backgroundKey));
 		enemies = new LinkedList<Ship>();
-		
+		playerShots = new LinkedList<Weapon>();
+		enemyShots = new LinkedList<Weapon>();
 		
 //		player = new Player();
 		curGameState = GameState.BETWEEN_WAVE;
@@ -80,7 +86,6 @@ public class LevelObject extends Observable
 		playerEnemyShotCollisions();
 		
 		enemyPlayerShotCollisions();
-		playerScreenCollision();
 	}
 	
 	private void playerEnemyCollisions() {
@@ -95,10 +100,6 @@ public class LevelObject extends Observable
 		for (Ship enemy : enemies) {
 			handleShipShotCollision(enemy, playerShots);
 		}
-	}
-	
-	private void playerScreenCollision() {
-		
 	}
 	
 	private void handleShipShotCollision(Ship single, 
@@ -122,7 +123,7 @@ public class LevelObject extends Observable
 		List<GameObject> onScreen = new ArrayList<GameObject>();
 		onScreen.add(background);
 		onScreen.addAll(enemies);
-		onScreen.add(player);
+		//onScreen.add(player);
 		onScreen.addAll(enemyShots);
 		onScreen.addAll(playerShots);
 		return onScreen;

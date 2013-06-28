@@ -25,4 +25,12 @@ public class MainActivity extends Activity {
 	public void startGameActivity(View v) {
 		startActivity(new Intent(MainActivity.this, GameActivity.class));
 	}
+
+	public void startStoreActivity(View v) {
+		startActivity(new Intent(MainActivity.this, StoreActivity.class));
+	}
+
+	public void startOptionsActivity(View v) {
+		startActivity(new Intent(MainActivity.this, OptionsActivity.class));
+	}
 }
