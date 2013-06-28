@@ -14,6 +14,6 @@ public abstract class GameObject {
 	public abstract boolean CollidesWith(GameObject gameObject);
 
 
-
+	
 
 }
