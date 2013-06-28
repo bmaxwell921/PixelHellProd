@@ -21,6 +21,9 @@ public class LevelObject extends Observable
 	private List<GameObject> playerShots;
 	private List<GameObject> enemyShots;
 	
+	//private List<GameObject> consumables;
+	//private List<Explosion>
+	
 	private int curWave;
 	
 	public LevelObject(InputManager im) {
@@ -49,11 +52,49 @@ public class LevelObject extends Observable
 	
 	private void inWaveUpdate(long timeElapsed) {
 		//Move everyone, then check collisions
+		player.update(timeElapsed);
+		for (Ship ship : enemies) {
+			ship.update(timeElapsed);
+		}
+		
+		for (GameObject shot : playerShots) {
+			shot.update(timeElapsed);
+		}
+		
+		for (GameObject shot : enemyShots) {
+			shot.update(timeElapsed);
+		}
+		
+		background.update(timeElapsed);
+		
 		/*
 		 * Collisions:
 		 * 	Player on enemy - Take away health
-		 * 	Player on enemyProj
+		 * 	Player on enemyProj - take away health
+		 * 	
+		 * 	Enemy of playerProj - take away health
+		 * 	
+		 * 	Player with edge of screen
 		 */
+		playerEnemyCollisions();
+//		playerEnemyShotCollisions();
+//		
+//		enemyPlayerShotCollisions();
+//		playerScreenCollision();
+	}
+	
+	private void playerEnemyCollisions() {
+		boolean isCollision = singleCollidesWithList(player, enemies);
+	}
+	
+	private boolean singleCollidesWithList(GameObject single, 
+			List<? extends GameObject> others) {
+		for (GameObject other : others) {
+			if (single.CollidesWith(other)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	private void setUpNextWave() {
