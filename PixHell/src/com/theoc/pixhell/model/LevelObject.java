@@ -11,6 +11,8 @@ public class LevelObject extends Observable
 	}
 	
 	public void update(long timeElapsed) {
+		//
+		
 		
 		
 		this.setChanged();
