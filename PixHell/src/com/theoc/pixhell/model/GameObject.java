@@ -13,6 +13,12 @@ public abstract class GameObject {
 	public int width;
 	public Bitmap image;
 	
+	public GameObject(Bitmap image) {
+		this.image = image;
+		this.position = new Point(0, 0);
+		this.velocity = new Point(0, 0);
+	}
+	
 	public  void update(float time)
 	{
 		

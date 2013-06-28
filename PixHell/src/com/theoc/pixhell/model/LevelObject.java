@@ -26,7 +26,9 @@ public class LevelObject extends Observable
 	public LevelObject(InputManager im) {
 		background = new Background(AssetMap.getImage(AssetMap.backgroundKey));
 		enemies = new LinkedList<Ship>();
-		player = new Player();
+		
+		
+		//player = new Player();
 		curGameState = GameState.BETWEEN_WAVE;
 		curWave = 1;
 		setUpNextWave();
@@ -67,7 +69,8 @@ public class LevelObject extends Observable
 		onScreen.add(background);
 		onScreen.addAll(enemies);
 		onScreen.add(player);
-		onScreen.addAll(shots);		
+		onScreen.addAll(enemyShots);
+		onScreen.addAll(playerShots);
 		return onScreen;
 	}
 }
