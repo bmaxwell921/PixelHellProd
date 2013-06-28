@@ -1,0 +1,13 @@
+Image			|	Resolution		|	Actual Object width, height		|	Bounding box relative top left
+----------------|-------------------|-----------------------------------|---------------------
+Boss			|	200x100			|	180x100							|	(10, 0)
+Boss2			|	200x100			|	200x100							|	(0, 0)
+Enemy 			|	100x100			|	100x100							|	(0, 0)
+Enemy2			|	100x100			|	100x90							|	(0, 10)
+Enemy3			|	100x100			|	100x100							|	(0, 0)
+Player 			|	100x100			|	100x100							|	(0, 0)
+Player2			|	100x100			|	100x90							|	(0, 10)
+Shot			|	20x20			|	20x20							|	(0, 0)
+Missile			|	100x100			|	40x50							|	(30, 50)
+CoinPickup		|	100x100			|	80x80							|	(10, 10)
+HealthPickup	|	100x100			|	80x80							|	(10, 10)
