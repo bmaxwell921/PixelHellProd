@@ -26,6 +26,14 @@
             android:name="com.theoc.pixhell.GameActivity"
             android:label="@string/title_activity_game" >
         </activity>
+        <activity
+            android:name="com.theoc.pixhell.OptionsActivity"
+            android:label="@string/title_activity_options" >
+        </activity>
+        <activity
+            android:name="com.theoc.pixhell.StoreActivity"
+            android:label="@string/title_activity_store" >
+        </activity>
     </application>
 
 </manifest>
