@@ -19,4 +19,8 @@ public abstract class Enemy extends Ship {
 	public Enemy(Point location, Point velocity, float fireRate) {
 		super(location, velocity, fireRate);
 	}
+	
+	protected void moveToLocation(Point dest) {
+		//Moves the current Enemy toward the given point
+	}
 }
