@@ -15,8 +15,8 @@ public final class GameView extends View
 	implements Observer
 {
 	LevelObject model;
+	boolean     run;
 	
-
 	public GameView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		
