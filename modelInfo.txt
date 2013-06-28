@@ -1,0 +1,45 @@
+Level Object
+	-update(float dt)
+		-if we're in the middle of a level
+			-call update on ships, weapons, pickups
+			-ask EnemyFactory if/who we need to spawn
+		-if we're at the end of a wave
+			-ask the AIAdmin for details about the next wave
+
+
+GameObject (Abstract)
+	-private Point position;
+	-private Point velocity;
+	-private float width, height;
+	-public abstract void update(float dt);
+	-public boolean collidesWith(GameObject other);
+
+AI Admin - tells
+	-update(float dt)
+
+EnemyFactory - update gets called, sends which enemies to spawn
+
+Score
+	-public void update(float dt)
+
+=============================================================================================================
+Ship (Abstract)
+	-health
+	-float fireRate
+	-public abstract void update(float dt);
+	-fire(float dt)
+
+
+Enemy
+	-public void update(float dt)
+		-
+Player
+	-public void update(float dt) ->Ask the InputManager where we need to move
+
+=============================================================================================================
+Weapon
+	
+Pickup
+
+
+
