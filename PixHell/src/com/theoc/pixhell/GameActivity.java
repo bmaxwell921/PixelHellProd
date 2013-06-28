@@ -1,5 +1,8 @@
 package com.theoc.pixhell;
 
+import java.io.IOException;
+
+import com.theoc.pixhell.logic.AssetMap;
 import com.theoc.pixhell.manager.InputManager;
 import com.theoc.pixhell.model.LevelObject;
 
@@ -15,10 +18,10 @@ public class GameActivity extends Activity
 	
 	private AssetManager 	assetMgr;
 	
-	private Thread gameThread;
+	private Thread       gameThread;
 	//private Thread dispThread;
-	private GameView view;
-	private LevelObject model;
+	private GameView     view;
+	private LevelObject  model;
 	private InputManager relayIO;
 
 	@Override
@@ -30,7 +33,16 @@ public class GameActivity extends Activity
 		
 		// link M-V
 		this.view = (GameView) this.findViewById(R.id.game_view_primary);
-		this.model = new LevelObject(this.assetMgr);
+		
+		try
+		{
+			AssetMap.init(this.assetMgr);
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		this.model = new LevelObject();
 		this.view.addModel(this.model);
 		
 		this.initThread();
