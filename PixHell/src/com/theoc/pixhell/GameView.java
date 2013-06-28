@@ -3,6 +3,7 @@ package com.theoc.pixhell;
 import java.util.Observable;
 import java.util.Observer;
 
+import com.theoc.pixhell.manager.InputManager;
 import com.theoc.pixhell.model.GameObject;
 import com.theoc.pixhell.model.LevelObject;
 
@@ -17,10 +18,12 @@ import android.view.View;
 public final class GameView extends View
 	implements Observer
 {	
-	Paint       brush  = null;
-	LevelObject model  = null;
-	boolean     run    = true;
-	long        framesDrawn = 0;
+	private Paint       brush  = null;
+	private LevelObject model  = null;
+	public boolean     run    = true;
+	private long        framesDrawn = 0;
+	
+	private InputManager inputManager = null;
 	
 	public GameView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -31,6 +34,20 @@ public final class GameView extends View
 	@Override
 	public boolean onTouchEvent(MotionEvent e) {
 		boolean b = false;
+		
+		if (e.getAction() == MotionEvent.ACTION_DOWN) {
+			b = true;
+			
+			if (this.inputManager != null) {
+				this.inputManager.setTouched(true);
+			}
+		} else if (e.getAction() == MotionEvent.ACTION_UP) {
+			b = true;
+			
+			if (this.inputManager != null) {
+				this.inputManager.setTouched(false);
+			}
+		}
 		
 		return b;
 	}
@@ -66,5 +83,9 @@ public final class GameView extends View
 	public void addModel(LevelObject model) {
 		this.model = model;
 		this.model.addObserver(this);
+	}
+	
+	public void addInputManager(InputManager input) {
+		this.inputManager = input;
 	}
 }

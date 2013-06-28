@@ -9,6 +9,8 @@ import com.theoc.pixhell.model.LevelObject;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.res.AssetManager;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.view.Menu;
 
 public class GameActivity extends Activity
@@ -22,7 +24,7 @@ public class GameActivity extends Activity
 	//private Thread dispThread;
 	private GameView     view;
 	private LevelObject  model;
-	private InputManager relayIO;
+	private InputManager inputManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -31,9 +33,7 @@ public class GameActivity extends Activity
 		this.setContentView(R.layout.activity_game);
 		this.assetMgr = this.getAssets();
 		
-		// link M-V
-		this.view = (GameView) this.findViewById(R.id.game_view_primary);
-		
+		this.setSensorListners();
 		try
 		{
 			AssetMap.init(this.assetMgr);
@@ -42,7 +42,10 @@ public class GameActivity extends Activity
 			e.printStackTrace();
 		}
 		
-		this.model = new LevelObject();
+		// link M-V
+		this.model = new LevelObject(this.inputManager);
+		this.view = (GameView) this.findViewById(R.id.game_view_primary);	
+		this.view.addInputManager(this.inputManager);
 		this.view.addModel(this.model);
 		
 		this.initThread();
@@ -79,6 +82,17 @@ public class GameActivity extends Activity
 		super.onRestart();
 	}
 		
+	
+	// Register the event listener and sensor type.
+    private void setSensorListners()
+    {
+    	// Accelerometer (Tilt)
+        this.inputManager.sensorManager.registerListener(this.inputManager.mEventListener, this.inputManager.sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), 
+                SensorManager.SENSOR_DELAY_GAME);
+        // Magnetic Field (Compass Orientation)
+        this.inputManager.sensorManager.registerListener(this.inputManager.mEventListener, this.inputManager.sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), 
+                SensorManager.SENSOR_DELAY_GAME);
+    }
 	
 	private void initThread() {
 		// Set Update Thread

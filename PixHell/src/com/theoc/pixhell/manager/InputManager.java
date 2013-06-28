@@ -1,24 +1,31 @@
 package com.theoc.pixhell.manager;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 
-public class InputManager {
+public class InputManager 
+{
+	public SensorManager       sensorManager  = null;
+	public SensorEventListener mEventListener = null;
 	
-	SensorEventListener mEventListener;
-	
-	final float[] mValuesMagnet      = {0f, 0f, 0f};
-    final float[] mValuesAccel       = {0f, 0f, 0f};
-    final float[] mValuesOrientation = {0f, 0f, 0f};
-    final float[] mRotationMatrix    = {0f, 0f, 0f,
-    		                            0f, 0f, 0f,
-    		                            0f, 0f, 0f};
+	private final float[] mValuesMagnet      = {0f, 0f, 0f};
+    private final float[] mValuesAccel       = {0f, 0f, 0f};
+    private final float[] mValuesOrientation = {0f, 0f, 0f};
+    private final float[] mRotationMatrix    = {0f, 0f, 0f,
+    		                                    0f, 0f, 0f,
+    		                                    0f, 0f, 0f};
+    
+    private boolean isTouched = false;
 	
 	public InputManager() {
 		this.mEventListener =
-		new SensorEventListener()
+			new SensorEventListener()
 			{
 	            public void onAccuracyChanged(Sensor sensor, int accuracy) { }
 	
@@ -45,8 +52,11 @@ public class InputManager {
 	}
 	
 	public boolean screenIsTouched() {
-		//TODO
-		return false;
+		return this.isTouched;
+	}
+
+	public void setTouched(boolean touched) {
+		this.isTouched = touched;
 	}
 	
 }
