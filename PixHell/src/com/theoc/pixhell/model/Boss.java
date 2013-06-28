@@ -14,4 +14,6 @@ public class Boss extends Enemy {
 		return false;
 	}
 
+	
+
 }

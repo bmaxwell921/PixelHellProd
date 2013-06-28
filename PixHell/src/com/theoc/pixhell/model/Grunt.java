@@ -14,4 +14,5 @@ public class Grunt extends Enemy {
 		return false;
 	}
 
+	
 }

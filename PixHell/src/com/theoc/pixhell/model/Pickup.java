@@ -13,4 +13,6 @@ public class Pickup extends GameObject{
 		return false;
 	}
 
+	
+
 }
