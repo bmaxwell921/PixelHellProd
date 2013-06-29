@@ -64,8 +64,7 @@ public class LevelObject extends Observable {
 		player = new Player(AssetMap.getImage(AssetMap.playerOne), im,
 				screenWidth, screenHeight, 100);
 
-		this.setPlayerWeapon(WeaponType.TRI_BLASTER);
-		this.setPlayerWeapon(WeaponType.MISSILE);
+		this.setPlayerWeapon(WeaponType.BULLET);
 		
 
 		Random randomGenerator = new Random();
@@ -116,7 +115,6 @@ public class LevelObject extends Observable {
 
 	public void setPlayerWeapon(WeaponType weapon) {
 		if (weapon == WeaponType.BULLET) {
-			// player.setLauncher(new BulletLauncher());
 			player.addLauncher(new BulletLauncher(player.stats
 					.getBulletDamage(), player.stats.getBulletCooldown()));
 		} else if (weapon == WeaponType.MISSILE) {
@@ -219,7 +217,6 @@ public class LevelObject extends Observable {
 	}
 
 	private void playerEnemyCollisions() {
-		// for (Ship enemy : enemies) {
 		for (Iterator<Ship> iter = enemies.iterator(); iter.hasNext();) {
 			Ship enemy = iter.next();
 			if (player.CollidesWith(enemy)) {

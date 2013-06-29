@@ -54,12 +54,7 @@ public class Player extends Ship {
 		int halfHeight = this.height / 2;
 		Rect rectangle = new Rect((int)(center.x - halfWidth / 2f), (int)(center.y - halfHeight / 2f), 
 				(int)(center.x + halfWidth / 2), (int)(center.y + halfHeight / 2));
-		System.out.println(rectangle);
-		return rectangle;
-		
-//		Rect rectangle = new Rect((int)position.x, (int)position.y,
-//				(int)position.x+width,(int)position.y+height);
-//		return rectangle;		
+		return rectangle;	
 	}
 	
 	private boolean isOutOfBounds(Vector2 tempPos) {
