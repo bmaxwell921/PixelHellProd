@@ -20,10 +20,10 @@ public class InputManager
     		                                    0f, 0f, 0f};
     
     private boolean isTouched = false;
-    private DirectionalVector<Float> tiltVector = null;
+    private DirectionalVector<Integer> tiltVector = null;
 	
 	public InputManager(SensorManager sensorManager) {
-		this.tiltVector = new DirectionalVector<Float>(0f, 0f);
+		this.tiltVector = new DirectionalVector<Integer>(0, 0);
 		this.sensorManager = sensorManager;
 		this.mEventListener =
 			new SensorEventListener()
@@ -47,9 +47,25 @@ public class InputManager
 			};
 	}
 	
-	public DirectionalVector<Float> getTiltVector() {
-		this.tiltVector.x = this.mValuesAccel[0];
-		this.tiltVector.y = this.mValuesAccel[1];
+	public DirectionalVector<Integer> getTiltVector() {
+		if (this.mValuesAccel[0] > 2.5f) {
+			this.tiltVector.x = -1;
+		} else if (this.mValuesAccel[0] < 2.5f) {
+			this.tiltVector.x = 1;
+		}
+		else {
+			this.tiltVector.x = 0;
+		}
+		
+		if (this.mValuesAccel[1] > 2.5f) {
+			this.tiltVector.y = 1;
+		} else if (this.mValuesAccel[1] < 2.5f) {
+			this.tiltVector.y = -1;
+		}
+		else {
+			this.tiltVector.y = 0;
+		}
+		
 		return this.tiltVector;
 	}
 	
