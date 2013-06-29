@@ -15,7 +15,6 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -159,6 +158,7 @@ public class GameActivity extends Activity
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		this.syncWallet();
 		this.gameThread.interrupt();
 		this.model.pause();
 		this.soundManager.stopTheme();
@@ -181,12 +181,12 @@ public class GameActivity extends Activity
 	    		this.togglePause();
 	    		return true;
 	        case R.id.bullet:
-	        	Log.i("WEAPON:", "Bullet");
+	        	CustomEvent.create("equip: bullet").record();
 	        	model.setPlayerWeapon(WeaponType.BULLET);
 	        	model.resume();
 	            return true;
 	        case R.id.missile:
-	        	Log.i("WEAPON:", "Missile");
+	        	CustomEvent.create("equip: missile").record();
 	        	model.setPlayerWeapon(WeaponType.MISSILE);
 	        	model.resume();
 	            return true;
@@ -195,7 +195,7 @@ public class GameActivity extends Activity
 	        	return true;
 	        case R.id.health_pack:
 	        	if (healthCount > 0) {
-		        	updateStore(Constants.HEALTH_SKU);
+		        	useItem(Constants.HEALTH_SKU);
 		        	model.player.stats.restoreHealth();
 		        	model.resume();
 	        	}
@@ -255,27 +255,6 @@ public class GameActivity extends Activity
 				}
 			};
 		this.gameThread = new Thread(game_runner);
-		
-		/*Runnable disp_runner = 
-				new Runnable()
-				{
-
-					@Override
-					public void run()
-					{
-						while (view.run)
-						{
-							try {
-								Thread.sleep(GAME_RATE);
-								model.update(GAME_RATE);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-						}
-						finish();
-					}
-				};
-		this.dispThread = new Thread(disp_runner);*/
 	}
 	
 	// PERSISTENCE =======================================================
@@ -316,10 +295,10 @@ public class GameActivity extends Activity
 	
 	/**
 	 * Update the persistent storage by 1.
-	 * User bought 1 unit of stuff.
+	 * User used 1 unit of stuff.
 	 * @param string 
 	 */
-	public void updateStore(String data) {
+	public void useItem(String data) {
 		
 		//update
 		HashMap<String, Integer> temp = getStoreData();
@@ -333,8 +312,15 @@ public class GameActivity extends Activity
 
 		getSharedPreferences(Preferences.applicationIdentifier, MODE_PRIVATE)
 				.edit()
-				.putString(Preferences.persistantStorageIdentifier,
+				.putString(Constants.HEALTH_SKU,
 						serializedMap).commit();
+	}
+	
+	public void syncWallet() {
+		getSharedPreferences(Preferences.applicationIdentifier, MODE_PRIVATE)
+				.edit()
+				.putInt(Preferences.walletIdentifier,
+						this.model.getCoinNumber()).commit();
 	}
 	
 }

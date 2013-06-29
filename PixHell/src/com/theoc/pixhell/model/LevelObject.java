@@ -68,7 +68,7 @@ public class LevelObject extends Observable {
 		Random randomGenerator = new Random();
 		randomNumber = randomGenerator.nextInt(1) % 2;
 		randomNumberForSound = randomGenerator.nextInt(1) % 3;
-		coinNumber = 0;
+		coinNumber = properties.wallet;
 		score = 0;
 
 		transitionToState(GameState.BETWEEN_WAVE);
