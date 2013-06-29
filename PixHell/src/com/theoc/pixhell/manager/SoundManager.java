@@ -1,20 +1,26 @@
 package com.theoc.pixhell.manager;
 
+import java.util.HashMap;
+
 import com.theoc.pixhell.R;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 
 public final class SoundManager
 {
 	AudioManager audioManager = null;
 	MediaPlayer  mediaPlayer  = null;
+	SoundPool    soundPool    = null;
 	
-	public SoundManager(AudioManager audioManager, MediaPlayer mediaPlayer) {
+	public SoundManager(AudioManager audioManager, MediaPlayer mediaPlayer, SoundPool soundPool) {
+		this.soundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 100);
 		this.audioManager = audioManager;
 		this.mediaPlayer  = mediaPlayer;
+		this.soundPool    = soundPool;
 		
-		this.mediaPlayer.setVolume(0.01f, 0.01f);
+		this.mediaPlayer.setVolume(0.10f, 0.10f);
 		this.mediaPlayer.setLooping(true);
 	}
 	
@@ -33,6 +39,7 @@ public final class SoundManager
 	public void resumeTheme() { }
 	
 	public void playSoundEffect(int soundEffect) {
-		this.audioManager.playSoundEffect(soundEffect);
+		//this.audioManager.playSoundEffect(soundEffect);
+		this.soundPool.play(soundEffect, 0.75f, 0.75f, 1, 0, 1f);
 	}
 }

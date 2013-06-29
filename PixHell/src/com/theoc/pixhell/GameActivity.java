@@ -12,6 +12,7 @@ import com.amazon.insights.CustomEvent;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
@@ -19,6 +20,7 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 
@@ -35,7 +37,8 @@ public class GameActivity extends Activity
 	private LevelObject  model        = null;
 	private InputManager inputManager = null;
 	private SoundManager soundManager = null;
-	private MediaPlayer  mediaPlayer  = null;
+	
+	int sid = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -51,20 +54,24 @@ public class GameActivity extends Activity
 		    .withContext(getApplicationContext())
 		    .initialize();
 		
-		AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);
-		this.mediaPlayer = new MediaPlayer();
+		AudioManager am   = (AudioManager) getSystemService(AUDIO_SERVICE);
+		SoundPool    sp   = new SoundPool(4, AudioManager.STREAM_MUSIC, 100);
+		MediaPlayer  mp   = new MediaPlayer();
 		this.inputManager = new InputManager((SensorManager) this.getSystemService(SENSOR_SERVICE));
 		this.setSensorListners();
 		try
 		{
+			Context context = this.getBaseContext();
 			AssetMap.init(this.assetMgr);
-			this.mediaPlayer.setDataSource(this.assetMgr.openFd("mus/game_theme.mp3").getFileDescriptor()); 
-			this.mediaPlayer.prepare();
+			mp.setDataSource(this.assetMgr.openFd("mus/game_theme.mp3").getFileDescriptor()); 
+			mp.prepare();
+			sid = sp.load(context, AssetMap.MENU_SELECT_START, 1);
+			sp.load(context, R.raw.menu_select01, 2);
 		} catch (IOException e)
 		{
 			e.printStackTrace();
 		}
-		this.soundManager = new SoundManager(am, this.mediaPlayer);
+		this.soundManager = new SoundManager(am, mp, sp);
 		
 		Display display = getWindowManager().getDefaultDisplay();
 		int width = display.getWidth();
@@ -122,6 +129,7 @@ public class GameActivity extends Activity
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		this.gameThread.interrupt();
 		this.soundManager.stopTheme();
 		CustomEvent.create("_session.stop").record();
 		
@@ -155,13 +163,23 @@ public class GameActivity extends Activity
 				@Override
 				public void run()
 				{
+					long tick = 0;
 					while (view.run)
 					{
 						try {
 							Thread.sleep(GAME_RATE);
-							model.update(GAME_RATE);							
+							model.update(GAME_RATE);	
+							
+							tick += GAME_RATE;
 						} catch (InterruptedException e) {
 							e.printStackTrace();
+						}
+						
+						if (tick > 1000) {
+							tick = 0;
+							Log.i("tick", "tock");
+							soundManager.playSoundEffect(sid);
+							//soundManager.playSoundEffect(AssetMap.MENU_SELECT_START);
 						}
 					}
 					finish();
