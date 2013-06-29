@@ -30,7 +30,7 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 	ArrayAdapter<String> Adapter;
 	public Map<String, String> requestIdPowerupMap;
 	Gson gson;
-	
+
 	HealthConsumable healthConsumable;
 
 	PixhellDBHelper dbHelper;
@@ -43,11 +43,13 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 		lv = (ListView) findViewById(R.id.listView1);
 
 		gson = new Gson();
-		
+
 		HashMap<String, Integer> storeData = getStoreData();
-	/*	lv.setAdapter(new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, menuOptions));
-*/
+
+		lv.setAdapter(new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_1, storeData.keySet()
+						.toArray(new String[storeData.size()])));
+
 		lv.setOnItemClickListener(this);
 
 		inflater = (LayoutInflater) this
@@ -61,9 +63,11 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 		String wrapperStr = getSharedPreferences(
 				Preferences.applicationIdentifier, MODE_PRIVATE).getString(
 				Preferences.persistantStorageIdentifier, null);
-		if(wrapperStr!=null){
-			StoreItemDTO wrapper = gson.fromJson(wrapperStr, StoreItemDTO.class);
-			HashMap<String, Integer> hashMap = wrapper.data; 
+		if (wrapperStr != null) {
+			StoreItemDTO wrapper = gson
+					.fromJson(wrapperStr, StoreItemDTO.class);
+			HashMap<String, Integer> hashMap = wrapper.data;
+			return hashMap;
 		}
 		return null;
 	}
