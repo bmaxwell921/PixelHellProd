@@ -41,9 +41,7 @@ public class LevelObject extends Observable
 		enemyShots = new LinkedList<Weapon>();
 		
 		//TODO don't have this hard coded here
-		player = new Player(AssetMap.getImage(AssetMap.playerOne), 
-				new Vector2(screenWidth / 2, screenHeight / 2), new Vector2(5 , 5), 
-				im, screenWidth, screenHeight);
+		player = new Player(AssetMap.getImage(AssetMap.playerOne), im, screenWidth, screenHeight);
 
 		curGameState = GameState.BETWEEN_WAVE; 
 		

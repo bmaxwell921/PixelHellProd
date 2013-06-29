@@ -8,6 +8,7 @@ import com.theoc.pixhell.utilities.Vector2;
 
 
 public abstract class GameObject {
+	protected final float millisToSeconds = 1 / 1000f;
 	public Vector2 position;
 	public Vector2 maxVel;
 	public int height;
