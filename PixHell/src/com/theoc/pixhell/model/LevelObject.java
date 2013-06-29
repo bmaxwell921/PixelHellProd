@@ -1,9 +1,12 @@
 package com.theoc.pixhell.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
+
+import android.util.Log;
 
 import com.theoc.pixhell.infoboxes.WaveInfo;
 import com.theoc.pixhell.logic.AIFactory;
@@ -16,8 +19,9 @@ import com.theoc.pixhell.utilities.Vector2;
 public class LevelObject extends Observable
 {
 	public int screenWidth, screenHeight;
-	private enum GameState {IN_WAVE, BETWEEN_WAVE};
+	private enum GameState {PAUSE, IN_WAVE, BETWEEN_WAVE};
 	private GameState curGameState;
+	private GameState onPauseState;
 	
 	private GameObject background;
 	private List<Ship> enemies;
@@ -31,11 +35,15 @@ public class LevelObject extends Observable
 	//private List<Explosion>
 	
 	private AIFactory factory;
+	private SoundManager sm;
+	
 	
 	public LevelObject(int screenWidth, int screenHeight, InputManager im, SoundManager sm ) {
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
-		background = new Background(AssetMap.getImage(AssetMap.backgroundKey));
+		this.sm = sm;
+		background = new Background(AssetMap.getImage(AssetMap.backgroundKey), screenWidth, 
+				screenHeight);
 		enemies = new LinkedList<Ship>();
 		playerShots = new LinkedList<Weapon>();
 		enemyShots = new LinkedList<Weapon>();
@@ -52,7 +60,9 @@ public class LevelObject extends Observable
 	}
 	
 	public void update(long timeElapsed) {
-		if (curGameState == GameState.IN_WAVE) {
+		if (curGameState == GameState.PAUSE) {
+			return;
+		} else if (curGameState == GameState.IN_WAVE) {
 			inWaveUpdate(timeElapsed);
 		} else if (curGameState == GameState.BETWEEN_WAVE) {
 			setUpNextWave();
@@ -62,11 +72,20 @@ public class LevelObject extends Observable
 		this.notifyObservers();
 	}
 	
+	public void pause() {
+		onPauseState = curGameState;
+		curGameState = GameState.PAUSE;
+	}
+	
+	public void resume() {
+		curGameState = onPauseState;
+	}
+	
 	private void inWaveUpdate(long timeElapsed) {
 		doUpdates(timeElapsed);
 		doCollisionChecks();
 		spawnNewEnemies(timeElapsed);
-		
+		checkOffScreenGameObjects();
 		//Delete off screen enemies
 	}
 	
@@ -78,6 +97,7 @@ public class LevelObject extends Observable
 			Weapon weapon =ship.Fire(timeElapsed);
 			if( weapon !=null)
 			{
+				sm.playSoundEffect(AssetMap.SHOT_BULLET);
 				enemyShots.add(weapon);
 			}
 		}
@@ -90,7 +110,7 @@ public class LevelObject extends Observable
 			shot.update(timeElapsed);
 			
 		}
-		
+		System.out.println("Shots on the screen: " + enemyShots.size());
 		background.update(timeElapsed);
 	}
 	
@@ -127,6 +147,24 @@ public class LevelObject extends Observable
 				single.applyDamage(other.damage);
 			}
 		}
+	}
+	
+	private void checkOffScreenGameObjects() {
+		checkListOffScreen(enemies);
+		checkListOffScreen(playerShots);
+		checkListOffScreen(enemyShots);
+	}
+	
+	private void checkListOffScreen(List<? extends GameObject> objs) {
+		for (Iterator<? extends GameObject> iter = objs.iterator(); iter.hasNext(); ) {
+			if (isOffScreen(iter.next())) {
+				iter.remove();
+			}
+		}
+	}
+	
+	private boolean isOffScreen(GameObject obj) {
+		return !background.RectBoxforCollision().contains(obj.RectBoxforCollision());
 	}
 	
 	private void setUpNextWave() {

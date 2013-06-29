@@ -4,19 +4,7 @@ import android.graphics.Bitmap;
 
 public class Background extends GameObject {
 
-	public Background(Bitmap image) {
-		super(image);
+	public Background(Bitmap image, int screenWidth, int screenHeight) {
+		super(image, screenWidth, screenHeight);
 	}
-	
-	@Override
-	public void update(float time) {
-		//Do nothing
-		
-	}
-
-	@Override
-	public boolean CollidesWith(GameObject gameObject) {
-		return false;
-	}
-
 }
