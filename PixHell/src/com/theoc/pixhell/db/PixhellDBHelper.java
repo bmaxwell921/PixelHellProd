@@ -8,6 +8,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.theoc.pixhell.model.PersistentConsumable;
+
 public class PixhellDBHelper extends SQLiteOpenHelper {
 
 	//Keeping version constant to persist data across app updates
@@ -42,33 +44,39 @@ public class PixhellDBHelper extends SQLiteOpenHelper {
 	}
 
 	
-	public void addPurchasedConsumable(PurchasedConsumable purchasedConsumable){
+	public int updatePersistantConsumable(PersistentConsumable persistentConsumable){
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.query(TableConsumables.TABLE_NAME, new String[]{TableConsumables.COUNT},
-				TableConsumables.ITEMSKU + "=?", new String[]{purchasedConsumable.getIapSku()}, null, null, null, null);
-		
+				TableConsumables.ITEMSKU + "=?", new String[]{persistentConsumable.getSkuString()}, null, null, null, null);
+		int result = 0;
 		if(cursor !=null && cursor.getCount()>0){
 			SQLiteDatabase db2 = this.getWritableDatabase();
 			Integer currentCount = cursor.getInt(cursor.getColumnIndex(TableConsumables.COUNT));
-			currentCount++;
+			if(persistentConsumable.isIncrement())
+				currentCount += persistentConsumable.getCount();
+			else{
+				currentCount -= persistentConsumable.getCount();
+			}
+			result = currentCount;
 			ContentValues values = new ContentValues();
 			values.put(TableConsumables.COUNT, currentCount);
-			db2.update(TableConsumables.TABLE_NAME, values, TableConsumables.ITEMSKU + "=?", new String[]{purchasedConsumable.getIapSku()});
+			db2.update(TableConsumables.TABLE_NAME, values, TableConsumables.ITEMSKU + "=?", new String[]{persistentConsumable.getSkuString()});
 			db2.close();
 		}
 		else{
 			SQLiteDatabase db2 = this.getWritableDatabase();
 			ContentValues values = new ContentValues();
-			values.put(TableConsumables.ITEMSKU, purchasedConsumable.getIapSku());
-			values.put(TableConsumables.COUNT, 0);
+			values.put(TableConsumables.ITEMSKU, persistentConsumable.getSkuString());
+			values.put(TableConsumables.COUNT, result);
 			
 			db2.insert(TableConsumables.TABLE_NAME, null, values);
 			db2.close();
 		}
 		db.close();
+		return result;
 	}
 	
-	public int getPurchasedConsumableCount(String iapSku) throws SQLDataException{
+	public int getPersistantConsumableCount(String iapSku) throws SQLDataException{
 		SQLiteDatabase db = getReadableDatabase();
 		int result = -1;
 		Cursor cursor = db.query(TableConsumables.TABLE_NAME, new String[]{TableConsumables.COUNT},
