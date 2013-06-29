@@ -95,7 +95,7 @@ public class LevelObject extends Observable
 		onPauseState = GameState.IN_WAVE;
 	}
 	
-	public void setPlayerWeapon(Class<Weapon> weapon) {
+	public void setPlayerWeapon(Class<? extends Weapon> weapon) {
 		//TODO Overhaul how the weapons work to be component-entity
 	}
 	
@@ -150,9 +150,12 @@ public class LevelObject extends Observable
 	}
 	
 	private void playerEnemyCollisions() {
-		for (Ship enemy : enemies) {
+		//for (Ship enemy : enemies) {
+		for (Iterator<Ship> iter = enemies.iterator(); iter.hasNext();) {
+			Ship enemy = iter.next();
 			if (player.CollidesWith(enemy)) {
 				player.applyDamage(Constants.ENEMY_CRASH_DAMAGE);
+				iter.remove();
 			}
 		}
 	}
@@ -169,9 +172,12 @@ public class LevelObject extends Observable
 	
 	private void handleShipShotCollision(Ship single, 
 			List<Weapon> others) {
-		for (Weapon other : others) {
+		//for (Weapon other : others) {
+		for (Iterator<Weapon> iter = others.iterator(); iter.hasNext();) {
+			Weapon other = iter.next();
 			if (single.CollidesWith(other)) {
 				single.applyDamage(other.damage);
+				iter.remove();
 			}
 		}
 	}
