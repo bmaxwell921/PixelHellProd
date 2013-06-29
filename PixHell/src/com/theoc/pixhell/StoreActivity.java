@@ -72,7 +72,8 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 		int i = 0;
 		while (it.hasNext()) {
 			Map.Entry pairs = (Map.Entry) it.next();
-			temp[i++] = pairs.getKey() + "-" + pairs.getValue();
+			String humanReadableName = Constants.SKU_TO_NAME_MAP.get(pairs.getKey());
+			temp[i++] = humanReadableName + "-" + pairs.getValue();
 			it.remove(); // avoids a ConcurrentModificationException
 		}
 		return temp;
@@ -116,8 +117,8 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 	}
 
 	private void buyLife() {
-		// TODO Auto-generated method stub
 
+		PurchasingManager.initiatePurchaseRequest(Constants.LIFE_SKU);
 	}
 
 	private void buyHealth() {
