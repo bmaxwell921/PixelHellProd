@@ -98,13 +98,13 @@ public class AIFactory {
 	
 	private class PathFactory {
 		
-		List<Queue<Point>> paths;
+		List<Queue<Vector2>> paths;
 		
 		public PathFactory() {
-			paths = new ArrayList<Queue<Point>>();
+			paths = new ArrayList<Queue<Vector2>>();
 		}
 		
-		public Queue<Point> getPathFor(Enemy en) {
+		public Queue<Vector2> getPathFor(Enemy en) {
 			setUpPaths(en);
 			
 			int qPath = gen.nextInt(paths.size());
@@ -118,13 +118,13 @@ public class AIFactory {
 		}
 		
 		//Chooses a random point at the bottom of the screen to move to
-		private Queue<Point> straightLineQueue(Enemy en) {
-			Queue<Point> q = new LinkedList<Point>();
+		private Queue<Vector2> straightLineQueue(Enemy en) {
+			Queue<Vector2> q = new LinkedList<Vector2>();
 			//100 = image width
 			int x = gen.nextInt(screenWidth - en.width);
 			int buffer = 2 * en.height;
 			int y = screenHeight + buffer;
-			q.add(new Point(x, y));
+			q.add(new Vector2(x, y));
 			return q;
 		}
 	}	

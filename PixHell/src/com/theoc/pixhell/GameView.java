@@ -14,7 +14,9 @@ import android.view.View;
 import com.theoc.pixhell.manager.InputManager;
 import com.theoc.pixhell.model.GameObject;
 import com.theoc.pixhell.model.LevelObject;
-import com.theoc.pixhell.utilities.DirectionalVector;
+import com.theoc.pixhell.utilities.Vector2;
+
+
 
 public final class GameView extends View
 	implements Observer
@@ -75,7 +77,7 @@ public final class GameView extends View
 		canvas.drawText("Frames Drawn: " + this.framesDrawn, 10, 15, this.brush);
 		canvas.drawText("GameRate: " + GameActivity.GAME_RATE, 10, 30, this.brush);
 		
-		DirectionalVector<Integer> dir = this.inputManager.getTiltVector();
+		Vector2 dir = this.inputManager.getTiltVector();
 		canvas.drawText("Tilt-X: " + dir.x, 10, 60, this.brush);
 		canvas.drawText("Tilt-Y: " + dir.y, 10, 75, this.brush);
 	}

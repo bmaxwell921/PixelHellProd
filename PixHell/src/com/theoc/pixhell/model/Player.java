@@ -50,9 +50,9 @@ public class Player extends Ship {
 
 	@Override
 	public void update(float time) {
-		DirectionalVector<Integer> tilt = inputManager.getTiltVector();
-		float dx = maxVel.x * ((tilt.x < 0) ? LEFT : ((tilt.x == 0) ? ZERO : RIGHT));
-		float dy = maxVel.y * ((tilt.y < 0) ? UP : ((tilt.y == 0) ? ZERO : DOWN));
+		Vector2 tilt = inputManager.getTiltVector();
+		float dx = maxVel.x * tilt.x * time;
+		float dy = maxVel.y * tilt.y * time;
 		
 		Vector2 tempPos = new Vector2(position);
 		tempPos.x += dx;

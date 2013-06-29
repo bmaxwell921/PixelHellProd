@@ -1,11 +1,12 @@
 package com.theoc.pixhell.manager;
 
+
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-import com.theoc.pixhell.utilities.DirectionalVector;
+import com.theoc.pixhell.utilities.Vector2;
 
 public class InputManager 
 {
@@ -20,10 +21,11 @@ public class InputManager
     		                                    0f, 0f, 0f};
     
     private boolean isTouched = false;
-    private DirectionalVector<Integer> tiltVector = null;
+    //private DirectionalVector<Integer> tiltVector = null;
+    private Vector2 tiltVector = null;
 	
 	public InputManager(SensorManager sensorManager) {
-		this.tiltVector = new DirectionalVector<Integer>(0, 0);
+		this.tiltVector = new Vector2(0f, 0f);
 		this.sensorManager = sensorManager;
 		this.mEventListener =
 			new SensorEventListener()
@@ -47,14 +49,17 @@ public class InputManager
 			};
 	}
 	
-	public DirectionalVector<Integer> getTiltVector() {
-		if (this.mValuesAccel[0] > 2.0f) {
-			this.tiltVector.x = -1;
-		} else if (this.mValuesAccel[0] < -2.0f) {
-			this.tiltVector.x = 1;
-		}
-		else {
-			this.tiltVector.x = 0;
+	public Vector2 getTiltVector() {
+		if (this.mValuesAccel[0] > 3.0f) {
+			this.tiltVector.x = -2f;
+		} else if (this.mValuesAccel[0] > 1.0f) {
+			this.tiltVector.x = -1f;
+		} else if (this.mValuesAccel[0] < -3.0f) {
+			this.tiltVector.x = 2f;
+		} else if (this.mValuesAccel[0] < -1.0f) {
+			this.tiltVector.x = 1f;
+		} else {
+			this.tiltVector.x = 0f;
 		}
 		
 		if (this.mValuesAccel[1] > 2.0f) {
