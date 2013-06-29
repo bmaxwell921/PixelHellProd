@@ -29,7 +29,6 @@ import com.theoc.pixhell.manager.InputManager;
 import com.theoc.pixhell.manager.SoundManager;
 import com.theoc.pixhell.model.*;
 import com.theoc.pixhell.utilities.Constants;
-import com.theoc.pixhell.utilities.Difficulty;
 import com.theoc.pixhell.utilities.GameState;
 import com.theoc.pixhell.utilities.Preferences;
 import com.theoc.pixhell.utilities.WeaponType;
@@ -48,6 +47,8 @@ public class GameActivity extends Activity
 	private InputManager inputManager = null;
 	private SoundManager soundManager = null;
 	
+	int healthCount = 0;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -63,7 +64,7 @@ public class GameActivity extends Activity
 		    .initialize();
 		
 		AudioManager am   = (AudioManager) getSystemService(AUDIO_SERVICE);
-		SoundPool    sp   = new SoundPool(4, AudioManager.STREAM_MUSIC, 100);
+		SoundPool    sp   = new SoundPool(10, AudioManager.STREAM_MUSIC, 75);
 		MediaPlayer  mp   = new MediaPlayer();
 		this.inputManager = new InputManager((SensorManager) this.getSystemService(SENSOR_SERVICE));
 		this.inputManager.setTiltSensitivity(this.getPresistentPref_Tilt());
@@ -95,6 +96,8 @@ public class GameActivity extends Activity
 		/*for (int i = 0; i < life; i++) {
 			defInv.add(new HealthConsumable());
 		}*/
+		
+		this.healthCount = health;
 		
 		Display display = getWindowManager().getDefaultDisplay();
 		Point size = new Point();
@@ -175,7 +178,7 @@ public class GameActivity extends Activity
 	    // Handle item selection
 	    switch (item.getItemId()) {
 	    	case R.id.weapons:
-	    		model.pause();
+	    		this.togglePause();
 	    		return true;
 	        case R.id.bullet:
 	        	Log.i("WEAPON:", "Bullet");
@@ -188,12 +191,14 @@ public class GameActivity extends Activity
 	        	model.resume();
 	            return true;
 	        case R.id.inventory:
-	        	model.pause();
+	        	this.togglePause();
 	        	return true;
 	        case R.id.health_pack:
-	        	updateStore(Constants.HEALTH_SKU);
-	        	model.player.stats.restoreHealth();
-	        	model.resume();
+	        	if (healthCount > 0) {
+		        	updateStore(Constants.HEALTH_SKU);
+		        	model.player.stats.restoreHealth();
+		        	model.resume();
+	        	}
 	        	return true;
 	        case R.id.store:
 	        	finish();
@@ -206,6 +211,14 @@ public class GameActivity extends Activity
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
+	}
+	
+	private void togglePause() {
+		if (this.model.isPaused()) {
+			this.model.resume();
+		} else {
+			this.model.pause();
+		}
 	}
 		
 	

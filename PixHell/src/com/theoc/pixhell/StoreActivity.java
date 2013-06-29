@@ -1,11 +1,15 @@
 package com.theoc.pixhell;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +18,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.amazon.inapp.purchasing.PurchasingManager;
@@ -37,6 +42,7 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 
 	PixhellDBHelper dbHelper;
 
+	private List<String> cheatCodes = new ArrayList<String>();
 	String[] listViewData;
 	ArrayAdapter<String> adapter;
 
@@ -44,7 +50,7 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_store);
-
+		populateCheatCodes();
 		lv = (ListView) findViewById(R.id.listView1);
 
 		gson = new Gson();
@@ -72,7 +78,8 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 		int i = 0;
 		while (it.hasNext()) {
 			Map.Entry pairs = (Map.Entry) it.next();
-			temp[i++] = pairs.getKey() + "-" + pairs.getValue();
+			String humanReadableName = Constants.SKU_TO_NAME_MAP.get(pairs.getKey());
+			temp[i++] = humanReadableName + "-" + pairs.getValue();
 			it.remove(); // avoids a ConcurrentModificationException
 		}
 		return temp;
@@ -109,15 +116,68 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 			buyHealth();
 			break;
 		case 1:
+			showCheatDialog();
+			break;
+		case 2:
 			buyLife();
 			break;
+		
 		}
 
 	}
 
-	private void buyLife() {
-		// TODO Auto-generated method stub
+	private void populateCheatCodes() {
+		cheatCodes = new ArrayList<String>();
+		cheatCodes.add("CHEAT01");
+		cheatCodes.add("CHEAT02");
+		cheatCodes.add("CHEAT03");
+		cheatCodes.add("CHEAT04");
+		cheatCodes.add("CHEAT05");
+		cheatCodes.add("CHEAT06");		
+	}
+	
+	private boolean isCheatMatch(String cheat){
+		if(cheatCodes.indexOf(cheat) > -1){
+			cheatCodes.remove(cheat);
+			return true;
+		}
+		return false;
+	}
+	
+	private void showCheatDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		int checkedValue = getSharedPreferences(
+				Preferences.applicationIdentifier, MODE_PRIVATE).getInt(
+				Preferences.difficultyIdentifier, 0);
+		final View v = inflater.inflate(R.layout.dialog_cheat, null);
+		builder.setTitle("Cheat Code");
+		builder.setView(v);
+		
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				EditText cheat = (EditText) v.findViewById(R.id.cheatText);
+				final String cheatValue = cheat.getText().toString();
+				if(isCheatMatch(cheatValue)){
+					update(Constants.HEALTH_SKU);
+					update(Constants.HEALTH_SKU);
+					updateUI();
+				}
+				dialog.dismiss();
+			}
+		});
+		builder.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				});
 
+		builder.create().show();
+		
+	}
+	private void buyLife() {
+
+		PurchasingManager.initiatePurchaseRequest(Constants.LIFE_SKU);
 	}
 
 	private void buyHealth() {

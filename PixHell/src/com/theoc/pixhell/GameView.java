@@ -81,10 +81,12 @@ public final class GameView extends View
 		}
 		
 		//- Health Bar ----------------------------------------
-		this.brush.setColor(Color.GREEN);
+		int health = this.model.player.stats.getHealth();
+		double h_1 = (100 - health) * 2.56d;
+		double h_2 = (health / 100d) * 250d;
+		this.brush.setColor(Color.rgb((int) h_1, (int) h_2, (int) h_1 / 2));
 		int hu = height / 100;
 		int wu = width / 100;
-		int health = this.model.player.stats.getHealth();
 		canvas.drawRect(0, (100-health) * hu, wu, height, this.brush);
 		
 		//- Paused -------------------------------------------

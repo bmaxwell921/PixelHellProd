@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
+import java.util.Random;
 
 import com.theoc.pixhell.infoboxes.WaveInfo;
 import com.theoc.pixhell.logic.AIFactory;
@@ -37,11 +38,16 @@ public class LevelObject extends Observable
 	
 	private AIFactory factory;
 	private SoundManager sm;
+	int randomNumber;
+	int randomNumberForSound;
+	int coinNumber;
+	int score;
 	
 	//TODO make this better
 	private final int TEAR_DOWN_TIMER = 3000;
 	private int timeLeftForTearDown = 0;
 	private List<GameObject> explosions;
+	private List<GameObject> coins;
 	
 	public LevelObject(int screenWidth, int screenHeight, GameStartProperties properties, InputManager im, SoundManager sm ) {
 		this.screenWidth = screenWidth;
@@ -53,9 +59,18 @@ public class LevelObject extends Observable
 		playerShots = new LinkedList<Weapon>();
 		enemyShots = new LinkedList<Weapon>();
 		explosions = new LinkedList<GameObject>();
+		coins = new LinkedList<GameObject>();
 		//TODO don't have this hard coded here
 		player = new Player(AssetMap.getImage(AssetMap.playerOne), im, screenWidth, screenHeight, 100);
+
 		this.setPlayerWeapon(WeaponType.BULLET);
+
+		Random randomGenerator = new Random();
+		randomNumber =randomGenerator.nextInt(1)%2;
+		randomNumberForSound =randomGenerator.nextInt(1)%3;
+		coinNumber =0;
+		score =0;
+
 		transitionToState(GameState.BETWEEN_WAVE); 
 		onPauseState = GameState.IN_WAVE;
 		
@@ -96,6 +111,7 @@ public class LevelObject extends Observable
 		onPauseState = GameState.IN_WAVE;
 	}
 	
+
 	public void setPlayerWeapon(WeaponType weapon) {
 		if (weapon == WeaponType.BULLET) {
 			//player.setLauncher(new BulletLauncher());
@@ -106,6 +122,16 @@ public class LevelObject extends Observable
 					player.stats.getMissileCooldown()));
 		}
 	}
+	
+	public int getCoinNumber() {
+		return coinNumber;
+	}
+    
+	
+	public List<GameObject> getCoins() {
+		return coins;
+	}
+
 	
 	private void inWaveUpdate(long timeElapsed) {
 		doUpdates(timeElapsed);
@@ -126,12 +152,23 @@ public class LevelObject extends Observable
 		}
 		for (Ship ship : enemies) {
 			ship.update(timeElapsed);
-			List<Weapon> enemyWeapon =ship.Fire(timeElapsed);
+
+			List<Weapon> enemyWeapon = ship.Fire(timeElapsed);
+			Random randomGenerator = new Random();
+			randomNumberForSound =randomGenerator.nextInt(4)%2;
 			if( enemyWeapon !=null && !enemyWeapon.isEmpty())
 			{
+				if(randomNumberForSound==0)
+				{
+				sm.playSoundEffect(AssetMap.SHOT_MISSILE);
+				}
+				if(randomNumberForSound==1)
+				{
+				sm.playSoundEffect(AssetMap.SHOT_LASER);
+				}
+			}
 				sm.playSoundEffect(AssetMap.SHOT_BULLET);
 				enemyShots.addAll(enemyWeapon);
-			}
 		}
 		
 		for (GameObject shot : playerShots) {
@@ -156,6 +193,7 @@ public class LevelObject extends Observable
 		playerEnemyCollisions();
 		playerEnemyShotCollisions();
 		enemyPlayerShotCollisions();
+		playerCoinCollisions();
 	}
 	
 	private void spawnNewEnemies(float dt) {
@@ -186,12 +224,41 @@ public class LevelObject extends Observable
 		}
 	}
 	
+	private void playerCoinCollisions() {
+		coinCollision(player, coins);
+	}
+	
+	
 	private void checkDeaths() {
 		for (Iterator<Ship> iter = enemies.iterator(); iter.hasNext(); ) {
 			Ship ship = iter.next();
+			Random randomGenerator = new Random();
+			randomNumber =randomGenerator.nextInt(4)%2;
+			randomNumberForSound =randomGenerator.nextInt(4)%3;
 			if(!ship.isAlive)
 			{
+				if(randomNumber==1)
+				{
+					
 				explosions.add(new Explosion(ship.position));
+					if (randomNumberForSound==0)
+					{
+				sm.playSoundEffect(AssetMap.ENEMY_KILL_WHOOSH);
+					}
+					if(randomNumberForSound==1)
+					{
+				sm.playSoundEffect(AssetMap.ENEMY_KILL_RATTLE);
+					}
+					if(randomNumberForSound==2)
+					{
+				sm.playSoundEffect(AssetMap.ENEMY_KILL_DEREZ);
+					}
+				score=score+10;
+				}
+				else
+				{
+					coins.add(new Coins(ship.position));
+				}
 				iter.remove();
 			}
 		}
@@ -202,6 +269,14 @@ public class LevelObject extends Observable
 				iter.remove();
 			}
 		}
+		
+		for (Iterator<GameObject> iter = coins.iterator(); iter.hasNext();) {
+			GameObject coin = iter.next();
+			if (!coin.isAlive) {
+				iter.remove();
+			}
+		}
+		
 	}
 	
 	private void handleShipShotCollision(Ship single, 
@@ -211,6 +286,19 @@ public class LevelObject extends Observable
 			Weapon other = iter.next();
 			if (single.CollidesWith(other)) {
 				single.applyDamage(other.damage);
+				iter.remove();
+			}
+		}
+	}
+	
+	private void coinCollision(Ship single, 
+			List<? extends GameObject> others) {
+		//for (Weapon other : others) {
+		for (Iterator<? extends GameObject> iter = others.iterator(); iter.hasNext();) {
+		  Coins other = (Coins) iter.next();
+			if (single.CollidesWith(other)) {
+				other.isAlive =false;
+				coinNumber++;
 				iter.remove();
 			}
 		}
@@ -267,6 +355,7 @@ public class LevelObject extends Observable
 		onScreen.addAll(enemyShots);
 		onScreen.addAll(playerShots);
 		onScreen.addAll(explosions);
+		onScreen.addAll(coins);
 		return onScreen;
 	}
 }

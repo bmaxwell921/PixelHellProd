@@ -47,10 +47,14 @@ public class MenuView extends View
 		
 		if (this.image1 != null) {
 			canvas.drawBitmap(image2, w/4, h/4, this.brush);
-			canvas.drawBitmap(image2, w/2, h/2, this.brush);
+			//canvas.drawBitmap(image2, w/2, h/2, this.brush);
 			canvas.drawBitmap(image2, w/4, 3 * h/4, this.brush);
 			canvas.drawBitmap(image2, 3 * w/4, h/4, this.brush);
 			canvas.drawBitmap(image2, 3 * w/4, 3 * h/4, this.brush);
+			canvas.drawBitmap(image2, w/3, h/3, this.brush);
+			canvas.drawBitmap(image2, w/3, 2 * h/3, this.brush);
+			canvas.drawBitmap(image2, 2 * w/3, h/3, this.brush);
+			canvas.drawBitmap(image2, 2 * w/3, 2 * h/3, this.brush);
 			canvas.drawBitmap(image1, w/2, h/2, this.brush);
 		}
 	}
