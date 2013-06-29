@@ -186,9 +186,12 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 
 		listViewData = formatData(storeData);
 
-		adapter.notifyDataSetChanged();
+		adapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_1, listViewData);
+		
+		Log.i("something",listViewData+"");
 
-		lv.invalidateViews();
+		lv.setAdapter(adapter);
 
 		}
 
