@@ -13,29 +13,32 @@ public class Player extends Ship {
 
 	public Player(Bitmap image, InputManager inputManager, int screenwidth,
 			int screenheight) {
-		this(image, defaultFireRate, inputManager);
-		this.screenheight = screenheight;
-		this.screenwidth = screenwidth;
+		this(image, defaultFireRate, inputManager, screenwidth, screenheight);
 
 	}
 
-	public Player(Bitmap image, float fireRate, InputManager inputManager) {
+	public Player(Bitmap image, float fireRate, InputManager inputManager, int screenWidth, 
+			int screenHeight) {
 		super(image, fireRate);
 		this.inputManager = inputManager;
+		this.screenheight = screenHeight;
+		this.screenwidth = screenWidth;
 	}
 
 	public Player(Bitmap image, Point location, Point velocity,
 			InputManager inputManager, int screenwidth, int screenheight) {
-		this(image, location, velocity, defaultFireRate, inputManager);
-		this.screenheight = screenheight;
-		this.screenwidth = screenwidth;
+		this(image, location, velocity, defaultFireRate, inputManager, screenwidth,
+				screenheight);
+		
 
 	}
 
 	public Player(Bitmap image, Point location, Point velocity, float fireRate,
-			InputManager inputManager) {
+			InputManager inputManager, int screenHeight, int screenWidth) {
 		super(image, location, velocity, fireRate);
 		this.inputManager = inputManager;
+		this.screenheight = screenHeight;
+		this.screenwidth = screenWidth;
 	}
 
 	@Override
