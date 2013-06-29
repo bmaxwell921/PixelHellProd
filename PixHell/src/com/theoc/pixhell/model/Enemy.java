@@ -38,9 +38,17 @@ public abstract class Enemy extends Ship {
 	}
 	public boolean closeTo(Point targetPos)
     {
+		Point newPoint=null;
+		boolean b =false;
 		int xPos=targetPos.x-this.position.x;
 		int yPos=targetPos.y-this.position.y;
-		return false;
+		newPoint.x=xPos;
+		newPoint.y=yPos;
+		if((newPoint.x-this.velocity.x)+(newPoint.y-this.velocity.y)<.5)
+		{
+			b=true;
+		}
+		return b; 
         
     }
 	@Override
