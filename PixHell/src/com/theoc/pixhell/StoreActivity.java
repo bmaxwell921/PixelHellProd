@@ -21,6 +21,7 @@ import com.theoc.pixhell.db.PixhellDBHelper;
 import com.theoc.pixhell.db.StoreItemDTO;
 import com.theoc.pixhell.model.HealthConsumable;
 import com.theoc.pixhell.store.PowerupPurchaseObserver;
+import com.theoc.pixhell.utilities.Constants;
 import com.theoc.pixhell.utilities.Preferences;
 
 public class StoreActivity extends Activity implements OnItemClickListener {
@@ -116,7 +117,8 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 	}
 
 	private void buyHealth() {
-		// TODO Auto-generated method stub
+		 PurchasingManager		 
+         .initiatePurchaseRequest(Constants.HEALTH_SKU);
 
 	}
 
