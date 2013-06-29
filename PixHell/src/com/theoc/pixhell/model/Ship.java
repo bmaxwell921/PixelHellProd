@@ -62,17 +62,17 @@ public abstract class Ship extends GameObject {
 		stats.changeHealth(-1 * damage);
 	}
 
-	public BulletWeapon Fire(float time) {
+	public Weapon Fire(float time) {
 		if (this.FiringTime < 0) {
 			this.stats.resetFireRate();
 			this.FiringTime = this.stats.getCurFireRate();
-			BulletWeapon bullet = new BulletWeapon(
-					AssetMap.getImage(AssetMap.shot), new Vector2(
+			Weapon weapon = new BulletWeapon(
+					AssetMap.getImage(AssetMap.missile), new Vector2(
 
 					this.position.x + (Constants.SHIP_WIDTH) / 2
 							- (Constants.BULLET_WIDTH) / 2, this.position.y + (this.height * fireDirection)),
 					new Vector2(0, fireDirection));
-			return bullet;
+			return weapon;
 		} else {
 
 			this.FiringTime = this.FiringTime - time;
@@ -83,3 +83,13 @@ public abstract class Ship extends GameObject {
 	}
 
 }
+
+
+
+
+
+
+
+
+
+

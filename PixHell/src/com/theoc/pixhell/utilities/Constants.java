@@ -13,8 +13,10 @@ public class Constants {
 	public static final String LIFE_SKU = "com.theoc.pixhell.life";
 	public static final int SHIP_WIDTH=100;
 	public static final int SHIP_HEIGHT=100;
-	public static final int BULLET_HEIGHT=20;
-	public static final int BULLET_WIDTH=20;
+	public static final int BULLET_HEIGHT=100;
+	public static final int BULLET_WIDTH=100;
+	public static final int MISSILE_HEIGHT=100;
+	public static final int MISSILE_WIDTH=100;
 	
 	public static final int ENEMY_CRASH_DAMAGE = 50;
 	
