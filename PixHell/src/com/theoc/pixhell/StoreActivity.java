@@ -1,25 +1,26 @@
 package com.theoc.pixhell;
 
-import java.util.Currency;
+import java.util.HashMap;
 import java.util.Map;
 
-import com.amazon.inapp.purchasing.PurchasingManager;
-import com.amazon.inapp.purchasing.PurchasingObserver;
-import com.theoc.pixhell.db.PixhellDBHelper;
-import com.theoc.pixhell.model.HealthConsumable;
-import com.theoc.pixhell.store.PowerupPurchaseObserver;
-
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
+
+import com.amazon.inapp.purchasing.PurchasingManager;
+import com.google.gson.Gson;
+import com.theoc.pixhell.db.PixhellDBHelper;
+import com.theoc.pixhell.db.StoreItemDTO;
+import com.theoc.pixhell.model.HealthConsumable;
+import com.theoc.pixhell.store.PowerupPurchaseObserver;
+import com.theoc.pixhell.utilities.Preferences;
 
 public class StoreActivity extends Activity implements OnItemClickListener {
 
@@ -28,7 +29,8 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 	LayoutInflater inflater;
 	ArrayAdapter<String> Adapter;
 	public Map<String, String> requestIdPowerupMap;
-
+	Gson gson;
+	
 	HealthConsumable healthConsumable;
 
 	PixhellDBHelper dbHelper;
@@ -39,11 +41,13 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 		setContentView(R.layout.activity_store);
 
 		lv = (ListView) findViewById(R.id.listView1);
+
+		gson = new Gson();
 		
-		HashMap<String,Integer> storeData = getStoreData();
-		lv.setAdapter(new ArrayAdapter<String>(this,
+		HashMap<String, Integer> storeData = getStoreData();
+	/*	lv.setAdapter(new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, menuOptions));
-		
+*/
 		lv.setOnItemClickListener(this);
 
 		inflater = (LayoutInflater) this
@@ -54,7 +58,13 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 	}
 
 	private HashMap<String, Integer> getStoreData() {
-		String 
+		String wrapperStr = getSharedPreferences(
+				Preferences.applicationIdentifier, MODE_PRIVATE).getString(
+				Preferences.persistantStorageIdentifier, null);
+		if(wrapperStr!=null){
+			StoreItemDTO wrapper = gson.fromJson(wrapperStr, StoreItemDTO.class);
+			HashMap<String, Integer> hashMap = wrapper.data; 
+		}
 		return null;
 	}
 
