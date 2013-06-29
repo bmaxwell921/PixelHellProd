@@ -1,6 +1,7 @@
 package com.theoc.pixhell.model;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.theoc.pixhell.logic.AssetMap;
 import com.theoc.pixhell.manager.InputManager;
