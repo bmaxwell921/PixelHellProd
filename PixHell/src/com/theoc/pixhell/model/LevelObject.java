@@ -48,7 +48,8 @@ public class LevelObject extends Observable
 		curGameState = GameState.BETWEEN_WAVE; 
 		
 		//TODO get Difficulty this from elsewhere
-		factory = new AIFactory(Difficulty.EASY, new WaveInfo(10, 2000, 100));
+		factory = new AIFactory(Difficulty.EASY, new WaveInfo(10, 2000, 100), 
+				screenWidth, screenHeight);
 		setUpNextWave();
 	}
 	
@@ -67,6 +68,8 @@ public class LevelObject extends Observable
 		doUpdates(timeElapsed);
 		doCollisionChecks();
 		spawnNewEnemies(timeElapsed);
+		
+		//Delete off screen enemies
 	}
 	
 	private void doUpdates(float timeElapsed) {
