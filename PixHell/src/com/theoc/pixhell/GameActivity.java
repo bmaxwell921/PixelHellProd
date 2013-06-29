@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
@@ -22,6 +23,8 @@ import com.amazon.insights.CustomEvent;
 import com.theoc.pixhell.logic.AssetMap;
 import com.theoc.pixhell.manager.InputManager;
 import com.theoc.pixhell.manager.SoundManager;
+import com.theoc.pixhell.model.BulletWeapon;
+import com.theoc.pixhell.model.DumbWeapon;
 import com.theoc.pixhell.model.LevelObject;
 
 public class GameActivity extends Activity
@@ -71,8 +74,10 @@ public class GameActivity extends Activity
 		this.soundManager = new SoundManager(am, mp, sp);
 		
 		Display display = getWindowManager().getDefaultDisplay();
-		int width = display.getWidth();
-		int height = display.getHeight();
+		Point size = new Point();
+		display.getSize(size);
+		int width = size.x;
+		int height = size.y;
 		
 		// link M-V
 		this.model = new LevelObject(width, height, this.inputManager, this.soundManager);
@@ -152,10 +157,12 @@ public class GameActivity extends Activity
 	    		return true;
 	        case R.id.bullet:
 	        	Log.i("WEAPON:", "Bullet");
+	        	model.setPlayerWeapon(Bullet.class);
 	        	model.resume();
 	            return true;
 	        case R.id.missile:
 	        	Log.i("WEAPON:", "Missile");
+	        	model.setPlayerWeapon(Bullet.class);
 	        	model.resume();
 	            return true;
 	        case R.id.store:
