@@ -19,7 +19,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+
 		MenuView view = (MenuView) findViewById(R.id.menuView1);
 		view.setContent(getAssets());
 
@@ -47,11 +47,15 @@ public class MainActivity extends Activity {
 		startActivity(new Intent(MainActivity.this, OptionsActivity.class));
 	}
 
+	public void startStoryActivity(View v) {
+		startActivity(new Intent(MainActivity.this, StoryActivity.class));
+	}
+
 	public void initStoreData() {
 		HashMap<String, Integer> temp = new HashMap<String, Integer>();
 		temp.put(Constants.HEALTH_SKU, 1);
 		temp.put(Constants.LIFE_SKU, 0);
-		temp.put(Constants.WEAPON1_SKU,1);
+		temp.put(Constants.WEAPON1_SKU, 1);
 
 		Gson gson = new Gson();
 		StoreItemDTO wrapper = new StoreItemDTO();

@@ -15,5 +15,8 @@
     <string name="_about">About</string>
     <string name="_inventory">Inventory</string>
     <string name="_health_pack">Health Pack</string>
+    <string name="title_activity_story">StoryActivity</string>
+    <string name="story">Your are the last hope for your home planet Zeonada. You have in your possesion Divrojab found only in a few rare places in the universe. The Divrojab can be used to produce ample energy for several milleniums to come. It is imperative that you deliver Divrojab safely to Zeonada. 
+\n\n The story of your encounter with the Divrojab has reached far across your planetary system. There are a lot of creatures who are looking to rob you. It is imperative that you deliver Divrojab. It is hell, but you need to pull through for the survival of your people.</string>
 
 </resources>
