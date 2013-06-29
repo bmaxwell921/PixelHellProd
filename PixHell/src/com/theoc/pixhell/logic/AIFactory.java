@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 
-import android.graphics.Point;
 import android.util.Log;
 
 import com.theoc.pixhell.infoboxes.WaveInfo;

@@ -3,7 +3,6 @@ package com.theoc.pixhell.model;
 import java.util.Queue;
 
 import android.graphics.Bitmap;
-import android.graphics.Point;
 
 import com.theoc.pixhell.utilities.Vector2;
 
