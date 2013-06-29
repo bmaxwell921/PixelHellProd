@@ -32,7 +32,7 @@ public final class SoundManager
 	
 	public void resumeTheme() { }
 	
-	public void playSoundEffect() {
-		this.audioManager.playSoundEffect(R.raw.player_hit04);
+	public void playSoundEffect(int soundEffect) {
+		this.audioManager.playSoundEffect(soundEffect);
 	}
 }

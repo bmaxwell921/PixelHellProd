@@ -136,15 +136,7 @@ public class GameActivity extends Activity
 					{
 						try {
 							Thread.sleep(GAME_RATE);
-							model.update(GAME_RATE);
-							
-							
-							if (inputManager.screenIsTouched()) {
-								soundManager.playSoundEffect();			
-								inputManager.setTouched(false);
-							}
-							
-							
+							model.update(GAME_RATE);							
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
