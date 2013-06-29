@@ -42,7 +42,7 @@ public class LevelObject extends Observable
 	private int timeLeftForTearDown = 0;
 	private List<GameObject> explosions;
 	
-	public LevelObject(int screenWidth,ArrayList<PersistentConsumable> persistentconsumable, int screenHeight, InputManager im, SoundManager sm ) {
+	public LevelObject(int screenWidth, int screenHeight, ArrayList<PersistentConsumable> persistentconsumable, InputManager im, SoundManager sm ) {
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
 		this.sm = sm;
@@ -95,7 +95,7 @@ public class LevelObject extends Observable
 		onPauseState = GameState.IN_WAVE;
 	}
 	
-	public void setPlayerWeapon(Class<Weapon> weapon) {
+	public void setPlayerWeapon(Class<? extends Weapon> weapon) {
 		//TODO Overhaul how the weapons work to be component-entity
 	}
 	

@@ -84,7 +84,7 @@ public final class GameView extends View
 		int hu = height / 100;
 		int wu = width / 100;
 		int health = this.model.player.stats.getHealth();
-		canvas.drawRect(0, (100-health) * hu, wu, 0, this.brush);
+		canvas.drawRect(0, (100-health) * hu, wu, height, this.brush);
 		
 		//- Paused -------------------------------------------
 		if (this.model.isPaused()) {

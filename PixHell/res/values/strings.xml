@@ -13,5 +13,7 @@
     <string name="_store">Store</string>
     <string name="_options">Options</string>
     <string name="_about">About</string>
+    <string name="_inventory">Inventory</string>
+    <string name="_health_pack">Health Pack</string>
 
 </resources>

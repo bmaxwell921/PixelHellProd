@@ -1,6 +1,9 @@
 package com.theoc.pixhell;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,12 +23,18 @@ import android.view.MenuItem;
 
 import com.amazon.insights.AmazonInsights;
 import com.amazon.insights.CustomEvent;
+import com.google.gson.Gson;
+import com.theoc.pixhell.db.StoreItemDTO;
 import com.theoc.pixhell.logic.AssetMap;
 import com.theoc.pixhell.manager.InputManager;
 import com.theoc.pixhell.manager.SoundManager;
-import com.theoc.pixhell.model.BulletWeapon;
+import com.theoc.pixhell.model.*;
 import com.theoc.pixhell.model.DumbWeapon;
 import com.theoc.pixhell.model.LevelObject;
+import com.theoc.pixhell.model.PersistentConsumable;
+import com.theoc.pixhell.model.HealthConsumable;
+import com.theoc.pixhell.utilities.Constants;
+import com.theoc.pixhell.utilities.Preferences;
 
 public class GameActivity extends Activity
 {
@@ -73,6 +82,19 @@ public class GameActivity extends Activity
 		}
 		this.soundManager = new SoundManager(am, mp, sp);
 		
+		
+		this.getPresistentPref();
+		HashMap<String, Integer> skuMap = this.getStoreData();
+		int health = skuMap.get(Constants.HEALTH_SKU);	
+		//int life = skuMap.get(Constants.LIFE_SKU);	
+		ArrayList<PersistentConsumable> defInv = new ArrayList<PersistentConsumable>();
+		for (int i = 0; i < health; i++) {
+			defInv.add(new HealthConsumable());
+		}
+		/*for (int i = 0; i < life; i++) {
+			defInv.add(new HealthConsumable());
+		}*/
+		
 		Display display = getWindowManager().getDefaultDisplay();
 		Point size = new Point();
 		display.getSize(size);
@@ -80,7 +102,7 @@ public class GameActivity extends Activity
 		int height = size.y;
 		
 		// link M-V
-		this.model = new LevelObject(width, height, this.inputManager, this.soundManager);
+		this.model = new LevelObject(width, height, defInv, this.inputManager, this.soundManager);
 		this.view = (GameView) this.findViewById(R.id.game_view_primary);	
 		this.view.addInputManager(this.inputManager);
 		this.view.addModel(this.model);
@@ -147,7 +169,6 @@ public class GameActivity extends Activity
 		android.util.Log.w("f8f453bb8cf44935871480432bf58224", "CODE TO FORCE SUBMISSION: I am a horrible person [^_^]");
 	}
 	
-	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle item selection
@@ -157,14 +178,17 @@ public class GameActivity extends Activity
 	    		return true;
 	        case R.id.bullet:
 	        	Log.i("WEAPON:", "Bullet");
-	        	model.setPlayerWeapon(Bullet.class);
+	        	model.setPlayerWeapon(BulletWeapon.class);
 	        	model.resume();
 	            return true;
 	        case R.id.missile:
 	        	Log.i("WEAPON:", "Missile");
-	        	model.setPlayerWeapon(Bullet.class);
+	        	model.setPlayerWeapon(BulletWeapon.class);
 	        	model.resume();
 	            return true;
+	        case R.id.health_pack:
+	        	updateStore(Constants.HEALTH_SKU);
+	        	return true;
 	        case R.id.store:
 	        	finish();
 	        	startActivity(new Intent(GameActivity.this, StoreActivity.class));
@@ -234,4 +258,46 @@ public class GameActivity extends Activity
 				};
 		this.dispThread = new Thread(disp_runner);*/
 	}
+	
+	// PERSISTENCE =======================================================
+	
+	private HashMap<String, Integer> getStoreData() {
+		String wrapperStr = getPresistentPref();
+		if (wrapperStr != null) {
+			StoreItemDTO wrapper = new Gson().fromJson(wrapperStr, StoreItemDTO.class);
+			HashMap<String, Integer> hashMap = wrapper.data;
+			return hashMap;
+		}
+		return null;
+	}
+
+	private String getPresistentPref() {
+		return getSharedPreferences(Preferences.applicationIdentifier,
+				MODE_PRIVATE).getString(
+				Preferences.persistantStorageIdentifier, null);
+	}
+	
+	/**
+	 * Update the persistent storage by 1.
+	 * User bought 1 unit of stuff.
+	 * @param string 
+	 */
+	public void updateStore(String data) {
+		
+		//update
+		HashMap<String, Integer> temp = getStoreData();
+		int newCount = temp.get(data) - 1;
+		temp.put(data, newCount);
+		
+		// push it
+		StoreItemDTO wrapper = new StoreItemDTO();
+		wrapper.data = temp;
+		String serializedMap = new Gson().toJson(wrapper);
+
+		getSharedPreferences(Preferences.applicationIdentifier, MODE_PRIVATE)
+				.edit()
+				.putString(Preferences.persistantStorageIdentifier,
+						serializedMap).commit();
+	}
+	
 }

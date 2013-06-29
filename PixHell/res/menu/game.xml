@@ -15,6 +15,17 @@
     </item>
     
     <item
+        android:id="@+id/inventory"
+        android:title="@string/_inventory"
+        android:showAsAction="ifRoom" >
+        <menu>
+            <item
+                android:id="@+id/health_pack"
+                android:title="@string/_health_pack"/>
+        </menu>
+    </item>
+    
+    <item
         android:id="@+id/store"
         android:title="@string/_store"
         android:showAsAction="ifRoom" >
