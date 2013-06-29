@@ -7,7 +7,7 @@ import com.theoc.pixhell.utilities.Vector2;
 public class Explosion extends GameObject {
 	public final int LifeTime =10000;
 	public int timeLeft;
-	public final int milliSeconds =2000;
+	public final int milliSeconds = 1000;
 	
 	
 	
@@ -29,7 +29,7 @@ public class Explosion extends GameObject {
 		{
 			this.isAlive=false;
 		}
-		timeLeft -= milliSeconds; 
+		timeLeft -= time; 
 	}
 
 }
