@@ -117,8 +117,8 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 	}
 
 	private void buyLife() {
-		// TODO Auto-generated method stub
 
+		PurchasingManager.initiatePurchaseRequest(Constants.LIFE_SKU);
 	}
 
 	private void buyHealth() {
