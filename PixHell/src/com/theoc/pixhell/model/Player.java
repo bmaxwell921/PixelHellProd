@@ -1,8 +1,11 @@
 package com.theoc.pixhell.model;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
+import com.theoc.pixhell.logic.AssetMap;
 import com.theoc.pixhell.manager.InputManager;
+import com.theoc.pixhell.utilities.Constants;
 import com.theoc.pixhell.utilities.DirectionalVector;
 import com.theoc.pixhell.utilities.Vector2;
 
@@ -67,5 +70,32 @@ public class Player extends Ship {
 	private boolean isOutOfBounds(Vector2 tempPos) {
 		return (tempPos.x < 0 || tempPos.x + width > screenWidth
 				|| tempPos.y < 0 || tempPos.y + height > screenHeight);
+	}
+
+	public BulletWeapon Fire(float time) {
+		if (this.FiringTime < 0) {
+			this.stats.resetFireRate();
+			
+			if (!this.inputManager.screenIsTouched())
+			{
+				this.stats.resetFireRate();
+			}
+			else
+			{
+				this.stats.setScreenPressFireRate();
+			}
+			this.FiringTime = this.stats.getCurFireRate();
+			BulletWeapon bullet = new BulletWeapon(AssetMap.getImage(AssetMap.shot), new Vector2(
+
+					this.position.x +(Constants.SHIP_WIDTH)/2-(Constants.BULLET_WIDTH)/2, this.position.y), new Vector2(-1, -1),
+					1, 1);
+			return bullet;
+		} else {
+
+			this.FiringTime = this.FiringTime - time;
+
+			return null;
+		}
+
 	}
 }

@@ -1,6 +1,7 @@
 package com.theoc.pixhell;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import android.app.Activity;
@@ -20,6 +21,7 @@ import com.theoc.pixhell.db.PixhellDBHelper;
 import com.theoc.pixhell.db.StoreItemDTO;
 import com.theoc.pixhell.model.HealthConsumable;
 import com.theoc.pixhell.store.PowerupPurchaseObserver;
+import com.theoc.pixhell.utilities.Constants;
 import com.theoc.pixhell.utilities.Preferences;
 
 public class StoreActivity extends Activity implements OnItemClickListener {
@@ -45,10 +47,11 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 		gson = new Gson();
 
 		HashMap<String, Integer> storeData = getStoreData();
+		
+		String[] listViewData = formatData(storeData);
 
 		lv.setAdapter(new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, storeData.keySet()
-						.toArray(new String[storeData.size()])));
+				android.R.layout.simple_list_item_1, listViewData));
 
 		lv.setOnItemClickListener(this);
 
@@ -57,6 +60,18 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 		dbHelper = new PixhellDBHelper(getBaseContext());
 		healthConsumable = new HealthConsumable();
 
+	}
+
+	private String[] formatData(HashMap<String, Integer> storeData) {
+		String[] temp = new String[storeData.size()];
+		   Iterator it = storeData.entrySet().iterator();
+		   int i = 0;
+		    while (it.hasNext()) {
+		        Map.Entry pairs = (Map.Entry)it.next();
+		        temp[i++] = pairs.getKey()+"-"+pairs.getValue();
+		        it.remove(); // avoids a ConcurrentModificationException
+		    }
+		return temp;
 	}
 
 	private HashMap<String, Integer> getStoreData() {
@@ -102,7 +117,8 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 	}
 
 	private void buyHealth() {
-		// TODO Auto-generated method stub
+		 PurchasingManager		 
+         .initiatePurchaseRequest(Constants.HEALTH_SKU);
 
 	}
 
@@ -135,6 +151,8 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 				.edit()
 				.putString(Preferences.persistantStorageIdentifier,
 						serializedMap).commit();
+	
+		lv.invalidate();
 	}
 
 	public void onStart() {
