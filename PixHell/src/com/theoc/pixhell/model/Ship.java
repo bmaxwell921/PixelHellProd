@@ -58,7 +58,7 @@ public abstract class Ship extends GameObject {
 		checkIsAlive();
 	}
 	
-	private void checkIsAlive() {
+	protected void checkIsAlive() {
 		isAlive = stats.getHealth() > 0;
 	}
 

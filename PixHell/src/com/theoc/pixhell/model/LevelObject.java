@@ -184,6 +184,7 @@ public class LevelObject extends Observable
 			if(!ship.isAlive)
 			{
 				explosions.add(new Explosion(ship.position));
+				iter.remove();
 			}
 		}
 		

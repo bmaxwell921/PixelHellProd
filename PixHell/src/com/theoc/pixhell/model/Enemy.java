@@ -58,8 +58,12 @@ public abstract class Enemy extends Ship {
     }
 	@Override
 	public void update(float time) {
+		checkIsAlive();
+		if (!isAlive) {
+			return;
+		}
 		if (pathQueue.isEmpty()) {
-			isAlive = false;
+			//isAlive = false;
 			return;
 		}
 		if(closeTo(pathQueue.peek()))
