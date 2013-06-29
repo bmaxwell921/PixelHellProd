@@ -226,11 +226,11 @@ public class PowerupPurchaseObserver extends BasePurchasingObserver {
 				 * request and logs the failure.
 				 */
 
-				Log.v(TAG,
+				/*Log.v(TAG,
 						"Failed purchase for request"
 								+ mStoreActivity.requestIdPowerupMap
 										.get(purchaseResponse.getRequestId()));
-
+*/
 				return false;
 
 			case INVALID_SKU:
