@@ -66,7 +66,7 @@ public abstract class Ship extends GameObject {
 
 					this.position.x + (Constants.SHIP_WIDTH) / 2
 							- (Constants.BULLET_WIDTH) / 2, this.position.y),
-					new Vector2(1, 1), 1, 1);
+					new Vector2(1, 1), Constants.BULLET_WIDTH, Constants.BULLET_HEIGHT);
 			return bullet;
 		} else {
 
