@@ -2,9 +2,12 @@ package com.theoc.pixhell.model;
 
 import android.graphics.Bitmap;
 
+
 import com.theoc.pixhell.infoboxes.StatInfo;
 import com.theoc.pixhell.logic.AssetMap;
+import com.theoc.pixhell.utilities.Constants;
 import com.theoc.pixhell.utilities.Vector2;
+
 
 public abstract class Ship extends GameObject {
 	protected final static Vector2 DEFAULT_MAX_VEL = new Vector2(100, 100);
@@ -14,6 +17,7 @@ public abstract class Ship extends GameObject {
 	private static final int shipWidth = 100;
 	private static final int shipHeight = 100;
 	public float FiringTime;
+	
 
 	private StatInfo stats;
 
@@ -45,16 +49,21 @@ public abstract class Ship extends GameObject {
 		stats.changeHealth(-1 * damage);
 	}
 
-	public Weapon Fire(float time) {
-		if (this.FiringTime < 0) {
 
+
+	public BulletWeapon Fire(float time) {
+		if (this.FiringTime < 0) {
+			this.stats.resetFireRate();
 			this.FiringTime = this.stats.getCurFireRate();
-			Weapon bullet = new Weapon(new Vector2(
-					this.position.x + 1, this.position.y), new Vector2(1, 1),
+			BulletWeapon bullet = new BulletWeapon(new Vector2(
+
+					this.position.x +(Constants.SHIP_WIDTH)/2-(Constants.BULLET_WIDTH)/2, this.position.y), new Vector2(1, 1),
 					1, 1, AssetMap.getImage(AssetMap.shot));
 			return bullet;
 		} else {
+
 			this.FiringTime = this.FiringTime - time;
+
 			return null;
 		}
 
