@@ -1,9 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/action_settings"/>
+        android:id="@+id/weapons"
+        android:title="@string/_weapons"
+        android:showAsAction="ifRoom" >
+        <menu>
+            <item
+                android:id="@+id/bullet"
+                android:title="@string/_bullet"/>
+            <item
+                android:id="@+id/missile"
+                android:title="@string/_missile"/>
+        </menu>
+    </item>
+    
+    <item
+        android:id="@+id/store"
+        android:title="@string/_store"
+        android:showAsAction="ifRoom" >
+
+    </item>
+    
+     <item
+        android:id="@+id/options"
+        android:title="@string/_options"
+        android:showAsAction="ifRoom" >
+
+    </item>
 
 </menu>

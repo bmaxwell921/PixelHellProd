@@ -12,8 +12,10 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import com.amazon.insights.AmazonInsights;
 import com.amazon.insights.CustomEvent;
@@ -84,7 +86,6 @@ public class GameActivity extends Activity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.game, menu);
 		return true;
 	}
@@ -138,7 +139,36 @@ public class GameActivity extends Activity
 		intent.setAction("SubmitMeasurements");
 		intent.putExtra("force", true);
 		context.startService(intent);
-		android.util.Log.w("f8f453bb8cf44935871480432bf58224", "DEBUG CODE TO FORCE SUBMISSION: I am a horrible person [^_^]");
+		android.util.Log.w("f8f453bb8cf44935871480432bf58224", "CODE TO FORCE SUBMISSION: I am a horrible person [^_^]");
+	}
+	
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle item selection
+	    switch (item.getItemId()) {
+	    	case R.id.weapons:
+	    		model.pause();
+	    		return true;
+	        case R.id.bullet:
+	        	Log.i("WEAPON:", "Bullet");
+	        	model.resume();
+	            return true;
+	        case R.id.missile:
+	        	Log.i("WEAPON:", "Missile");
+	        	model.resume();
+	            return true;
+	        case R.id.store:
+	        	finish();
+	        	startActivity(new Intent(GameActivity.this, StoreActivity.class));
+	        	return true;
+	        case R.id.options:
+	        	finish();
+	        	startActivity(new Intent(GameActivity.this, OptionsActivity.class));
+	        	return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 		
 	

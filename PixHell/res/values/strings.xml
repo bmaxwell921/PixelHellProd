@@ -7,5 +7,11 @@
     <string name="title_activity_game">GameActivity</string>
     <string name="title_activity_options">OptionsActivity</string>
     <string name="title_activity_store">StoreActivity</string>
+    <string name="_bullet">Bullet</string>
+    <string name="_weapons">Weapons</string>
+    <string name="_missile">Missile</string>
+    <string name="_store">Store</string>
+    <string name="_options">Options</string>
+    <string name="_about">About</string>
 
 </resources>
