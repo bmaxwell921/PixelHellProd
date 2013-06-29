@@ -195,6 +195,10 @@ public class LevelObject extends Observable {
 		for (GameObject exp : explosions) {
 			exp.update(timeElapsed);
 		}
+		
+		for (GameObject coin : coins) {
+			coin.update(timeElapsed);
+		}
 
 		checkDeaths();
 
