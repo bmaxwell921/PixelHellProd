@@ -48,18 +48,18 @@ public class InputManager
 	}
 	
 	public DirectionalVector<Integer> getTiltVector() {
-		if (this.mValuesAccel[0] > 2.5f) {
+		if (this.mValuesAccel[0] > 2.0f) {
 			this.tiltVector.x = -1;
-		} else if (this.mValuesAccel[0] < -2.5f) {
+		} else if (this.mValuesAccel[0] < -2.0f) {
 			this.tiltVector.x = 1;
 		}
 		else {
 			this.tiltVector.x = 0;
 		}
 		
-		if (this.mValuesAccel[1] > 2.5f) {
+		if (this.mValuesAccel[1] > 2.0f) {
 			this.tiltVector.y = 1;
-		} else if (this.mValuesAccel[1] < -2.5f) {
+		} else if (this.mValuesAccel[1] < -2.0f) {
 			this.tiltVector.y = -1;
 		}
 		else {

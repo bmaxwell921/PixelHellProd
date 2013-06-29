@@ -7,10 +7,15 @@ import com.theoc.pixhell.manager.InputManager;
 import com.theoc.pixhell.manager.SoundManager;
 import com.theoc.pixhell.model.LevelObject;
 
+import com.amazon.insights.AmazonInsights;
+import com.amazon.insights.CustomEvent;
+
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
@@ -39,6 +44,13 @@ public class GameActivity extends Activity
 		this.setContentView(R.layout.activity_game);
 		this.assetMgr = this.getAssets();
 		
+		// Configure the Amazon Insights SDK
+		AmazonInsights
+		    .withApplicationKey("f8f453bb8cf44935871480432bf58224")
+		    .withPrivateKey("M3TQ5VNO778YBH")
+		    .withContext(getApplicationContext())
+		    .initialize();
+		
 		AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);
 		this.mediaPlayer = new MediaPlayer();
 		this.inputManager = new InputManager((SensorManager) this.getSystemService(SENSOR_SERVICE));
@@ -48,9 +60,6 @@ public class GameActivity extends Activity
 			AssetMap.init(this.assetMgr);
 			this.mediaPlayer.setDataSource(this.assetMgr.openFd("mus/game_theme.mp3").getFileDescriptor()); 
 			this.mediaPlayer.prepare();
-			//this.mediaPlayer.setDataSource(this.assetMgr.openFd("mus/game_theme.mp3").getFileDescriptor()); 
-	        //this.mediaPlayer.setData
-			//this.mediaPlayer.prepare(); 
 		} catch (IOException e)
 		{
 			e.printStackTrace();
@@ -62,7 +71,7 @@ public class GameActivity extends Activity
 		int height = display.getHeight();
 		
 		// link M-V
-		this.model = new LevelObject(width, height, this.inputManager);
+		this.model = new LevelObject(width, height, this.inputManager, this.soundManager);
 		this.view = (GameView) this.findViewById(R.id.game_view_primary);	
 		this.view.addInputManager(this.inputManager);
 		this.view.addModel(this.model);
@@ -85,30 +94,44 @@ public class GameActivity extends Activity
 			this.gameThread.start();		
 		}
 		this.soundManager.startTheme();
+		
+		CustomEvent.create("_session.start").record();
 	}
 	
 	@Override
 	public void onPause() {
 		super.onPause();
 		this.soundManager.pauseTheme();
+		CustomEvent.create("_session.pause").record();
 	}
 	
 	@Override
 	public void onResume() {
 		super.onResume();
 		this.soundManager.resumeTheme();
+		CustomEvent.create("_session.resume").record();
 	}
 	
 	@Override 
 	public void onRestart() {
 		super.onRestart();
 		this.soundManager.startTheme();
+		CustomEvent.create("_session.start").record();
 	}
 	
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		this.soundManager.stopTheme();
+		CustomEvent.create("_session.stop").record();
+		
+		// MWAHAHAHAHAHAHAHAHAHAHA!!!!! - Force Custom Event Submission
+		Context context = getApplicationContext();
+		Intent intent = new Intent(context, com.amazon.insights.InsightsProcessingService.class);
+		intent.setAction("SubmitMeasurements");
+		intent.putExtra("force", true);
+		context.startService(intent);
+		android.util.Log.w("f8f453bb8cf44935871480432bf58224", "DEBUG CODE TO FORCE SUBMISSION: I am a horrible person [^_^]");
 	}
 		
 	

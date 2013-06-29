@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.theoc.pixhell.R;
+
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,10 +20,44 @@ public class AssetMap {
 	public static final String playerTwo = "img/Player2.png";
 	public static final String shot = "";
 	
-	private static Map<String, Bitmap> map;
+	public static final int BOSS_KILL_FIZZ   = R.raw.boss_kill01;
+	public static final int BOSS_KILL_BOOM   = R.raw.boss_kill02;
+	public static final int BOSS_KILL_RATTLE = R.raw.boss_kill03;
+	public static final int BOSS_KILL_WHOOSH = R.raw.boss_kill01;
+	public static final int ENEMY_HIT_BULLET  = R.raw.enemy_hit01;
+	public static final int ENEMY_HIT_LASER   = R.raw.enemy_hit02;
+	public static final int ENEMY_HIT_MISSILE = R.raw.enemy_hit03;
+	public static final int ENEMY_HIT_BOMB    = R.raw.enemy_hit04;
+	public static final int ENEMY_KILL_FIZZ   = R.raw.enemy_kill01;
+	public static final int ENEMY_KILL_WHOOSH = R.raw.enemy_kill02;
+	public static final int ENEMY_KILL_RATTLE = R.raw.enemy_kill03;
+	public static final int ENEMY_KILL_DEREZ  = R.raw.enemy_kill04;
+	public static final int MENU_SELECT_START   = R.raw.player_hit01; 
+	public static final int MENU_SELECT_BACK    = R.raw.player_hit02;
+	public static final int MENU_SELECT_SUBMENU = R.raw.player_hit03;
+	public static final int MENU_SELECT_TOGGLE  = R.raw.player_hit04; 
+	public static final int PICKUP_HEALTH  = R.raw.pickup01; 
+	public static final int PLAYER_WEAPON  = R.raw.pickup02;
+	public static final int PLAYER_MISSILE = R.raw.pickup03;
+	public static final int PLAYER_BOMB    = R.raw.pickup04; 
+	public static final int PLAYER_HIT_BULLET  = R.raw.player_hit01; 
+	public static final int PLAYER_HIT_LASER   = R.raw.player_hit02;
+	public static final int PLAYER_HIT_MISSILE = R.raw.player_hit03;
+	public static final int PLAYER_HIT_BOMB    = R.raw.player_hit04; 
+	public static final int PLAYER_KILL_EXPLODE  = R.raw.player_kill01; 
+	public static final int PLAYER_KILL_GAMEOVER = R.raw.player_kill02;
+	public static final int PLAYER_KILL_FIZZ     = R.raw.player_kill03;
+	public static final int PLAYER_KILL_BLOOP    = R.raw.player_kill04; 
+	public static final int SHOT_BULLET  = R.raw.lazer01; 
+	public static final int SHOT_LASER   = R.raw.lazer02;
+	public static final int SHOT_MISSILE = R.raw.lazer03;
+	public static final int SHOT_BOMB    = R.raw.lazer04; 
+	
+	private static Map<String, Bitmap> imageMap;
+	//private static Map<Integer, Float> soundMap;
 	
 	public static void init(AssetManager am) throws IOException {
-		map = new HashMap<String, Bitmap>();
+		imageMap = new HashMap<String, Bitmap>();
 		addImage(am, backgroundKey);
 		addImage(am, playerOne);
 		
@@ -32,7 +68,7 @@ public class AssetMap {
 	
 	//Adds an image to the map, the key needs to be the same as the relative filepath to the image
 	private static void addImage(AssetManager am, String keyFilePath) throws IOException {
-		map.put(keyFilePath, BitmapFactory.decodeStream(am.open(keyFilePath)));
+		imageMap.put(keyFilePath, BitmapFactory.decodeStream(am.open(keyFilePath)));
 	}
 	
 	/**
@@ -42,9 +78,9 @@ public class AssetMap {
 	 * @return
 	 */
 	public static Bitmap getImage(String key) {
-		if (!map.containsKey(key)) {
+		if (!imageMap.containsKey(key)) {
 			return null;
 		}
-		return map.get(key);
+		return imageMap.get(key);
 	}
 }
