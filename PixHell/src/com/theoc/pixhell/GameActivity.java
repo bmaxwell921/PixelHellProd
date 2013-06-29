@@ -99,6 +99,7 @@ public class GameActivity extends Activity
 			this.gameThread.start();		
 		}
 		this.soundManager.startTheme();
+		this.model.resume();
 		
 		CustomEvent.create("_session.start").record();
 	}
@@ -107,6 +108,7 @@ public class GameActivity extends Activity
 	public void onPause() {
 		super.onPause();
 		this.soundManager.pauseTheme();
+		this.model.pause();
 		CustomEvent.create("_session.pause").record();
 	}
 	
@@ -114,6 +116,7 @@ public class GameActivity extends Activity
 	public void onResume() {
 		super.onResume();
 		this.soundManager.resumeTheme();
+		this.model.resume();
 		CustomEvent.create("_session.resume").record();
 	}
 	
@@ -128,6 +131,7 @@ public class GameActivity extends Activity
 	public void onDestroy() {
 		super.onDestroy();
 		this.gameThread.interrupt();
+		this.model.pause();
 		this.soundManager.stopTheme();
 		CustomEvent.create("_session.stop").record();
 		
