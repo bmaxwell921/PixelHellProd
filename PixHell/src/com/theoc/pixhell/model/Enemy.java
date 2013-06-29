@@ -37,6 +37,9 @@ public abstract class Enemy extends Ship {
 	public boolean closeTo(Point targetPos)
     {
 		boolean b =false;
+		if (targetPos == null || this.position == null) {
+			System.out.println();
+		}
 		int xPos=targetPos.x-this.position.x;
 		int yPos=targetPos.y-this.position.y;
 		Point newPoint= new Point(xPos, yPos);
@@ -50,13 +53,15 @@ public abstract class Enemy extends Ship {
     }
 	@Override
 	public void update(float time) {
+		if (pathQueue.isEmpty()) {
+			isAlive = false;
+			return;
+		}
 		if(closeTo(pathQueue.peek()))
 		{
 			pathQueue.poll();
 		}
-		moveToLocation(pathQueue.peek(),time);
-		
-		
+		moveToLocation(pathQueue.peek(),time);	
 	}
 
 	@Override

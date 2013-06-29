@@ -8,11 +8,6 @@ public class Grunt extends Enemy {
 	public Grunt(Bitmap image, Point position, Point velocity) {
 		super(image, position, velocity);
 	}
-	@Override
-	public void update(float time) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public boolean CollidesWith(GameObject gameObject) {

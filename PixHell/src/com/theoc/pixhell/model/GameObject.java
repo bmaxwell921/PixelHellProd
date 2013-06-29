@@ -13,10 +13,13 @@ public abstract class GameObject {
 	public int width;
 	public Bitmap image;
 	
+	public boolean isAlive;
+	
 	public GameObject(Bitmap image) {
 		this.image = image;
 		this.position = new Point(0, 0);
 		this.velocity = new Point(0, 0);
+		isAlive = true;
 	}
 	
 	public void update(float time)
@@ -24,7 +27,9 @@ public abstract class GameObject {
 		position.x =(int) (position.x*velocity.x*time);
 		position.y =(int) (position.y*velocity.y*time);
 	}
-	public abstract boolean CollidesWith(GameObject gameObject);
+	public boolean CollidesWith(GameObject gameObject) {
+		return this.RectBoxforCollision().intersect(gameObject.RectBoxforCollision());
+	}
 	
 	
 	public GameObject(Point position, Point velocity, int height, int width,
