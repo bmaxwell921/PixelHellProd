@@ -1,11 +1,11 @@
 package com.theoc.pixhell.model;
 
-import com.theoc.pixhell.manager.InputManager;
-import com.theoc.pixhell.utilities.DirectionalVector;
-
 import android.graphics.Bitmap;
 import android.graphics.Point;
-import android.util.Log;
+
+import com.theoc.pixhell.manager.InputManager;
+import com.theoc.pixhell.utilities.DirectionalVector;
+import com.theoc.pixhell.utilities.Vector2;
 
 public class Player extends Ship {
 	private final int LEFT = -1;
@@ -33,17 +33,17 @@ public class Player extends Ship {
 		this.screenwidth = screenWidth;
 	}
 
-	public Player(Bitmap image, Point location, Point velocity,
+	public Player(Bitmap image, Vector2 location, Vector2 maxVel,
 			InputManager inputManager, int screenwidth, int screenheight) {
-		this(image, location, velocity, defaultFireRate, inputManager, screenwidth,
+		this(image, location, maxVel, defaultFireRate, inputManager, screenwidth,
 				screenheight);
 		
 
 	}
 
-	public Player(Bitmap image, Point location, Point velocity, float fireRate,
+	public Player(Bitmap image, Vector2 location, Vector2 maxVel, float fireRate,
 			InputManager inputManager, int screenWidth, int screenHeight) {
-		super(image, location, velocity, fireRate);
+		super(image, location, maxVel, fireRate);
 		this.inputManager = inputManager;
 		this.screenheight = screenHeight;
 		this.screenwidth = screenWidth;
@@ -52,10 +52,10 @@ public class Player extends Ship {
 	@Override
 	public void update(float time) {
 		DirectionalVector<Integer> tilt = inputManager.getTiltVector();
-		int dx = velocity.x * ((tilt.x < 0) ? LEFT : ((tilt.x == 0) ? ZERO : RIGHT));
-		int dy = velocity.y * ((tilt.y < 0) ? UP : ((tilt.y == 0) ? ZERO : DOWN));
+		float dx = maxVel.x * ((tilt.x < 0) ? LEFT : ((tilt.x == 0) ? ZERO : RIGHT));
+		float dy = maxVel.y * ((tilt.y < 0) ? UP : ((tilt.y == 0) ? ZERO : DOWN));
 		
-		Point tempPos = new Point(position);
+		Vector2 tempPos = new Vector2(position);
 		tempPos.x += dx;
 		if (!isOutOfBounds(tempPos)) {
 			this.position.x += dx;
@@ -67,7 +67,7 @@ public class Player extends Ship {
 		}
 	}
 	
-	private boolean isOutOfBounds(Point tempPos) {
+	private boolean isOutOfBounds(Vector2 tempPos) {
 		return (tempPos.x < 0 || tempPos.x + width > screenwidth
 				|| tempPos.y < 0 || tempPos.y + height > screenheight);
 	}

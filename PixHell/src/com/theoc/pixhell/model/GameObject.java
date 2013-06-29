@@ -5,10 +5,12 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
 
+import com.theoc.pixhell.utilities.Vector2;
+
 
 public abstract class GameObject {
-	public Point position;
-	public Point velocity;
+	public Vector2 position;
+	public Vector2 maxVel;
 	public int height;
 	public int width;
 	public Bitmap image;
@@ -17,37 +19,34 @@ public abstract class GameObject {
 	
 	public GameObject(Bitmap image) {
 		this.image = image;
-		this.position = new Point(0, 0);
-		this.velocity = new Point(0, 0);
+		this.position = Vector2.ZERO;
+		this.maxVel = Vector2.ZERO;
 		isAlive = true;
+	}
+	
+	public GameObject(Vector2 position, Vector2 maxVel, int height, int width,
+			Bitmap image) {
+		super();
+		this.position = position;
+		this.maxVel = maxVel;
+		this.height = height;
+		this.width = width;
+		this.image = image;
 	}
 	
 	public void update(float time)
 	{
-		position.x =(int) (position.x*velocity.x*time);
-		position.y =(int) (position.y*velocity.y*time);
+		position.add(Vector2.multiply(maxVel, time));
 	}
 	public boolean CollidesWith(GameObject gameObject) {
 		return this.RectBoxforCollision().intersect(gameObject.RectBoxforCollision());
 	}
 	
-	
-	public GameObject(Point position, Point velocity, int height, int width,
-			Bitmap image) {
-		super();
-		this.position = position;
-		this.velocity = velocity;
-		this.height = height;
-		this.width = width;
-		this.image = image;
-	}
 	public  Rect RectBoxforCollision()
 	{ 
-		Rect Rectangle = new Rect(position.x,position.y,position.x+width,position.y+height); 
-		
-		
-		return Rectangle;
-		
+		Rect rectangle = new Rect((int)position.x, (int)position.y,
+				(int)position.x+width,(int)position.y+height); 
+		return rectangle;		
 	}
 
 

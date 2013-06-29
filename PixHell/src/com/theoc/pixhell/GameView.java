@@ -64,8 +64,8 @@ public final class GameView extends View
 		
 		if (this.model != null) {
 			for (GameObject obj : this.model.getOnscreenObjects()) {
-				int x = obj.position.x;
-				int y = obj.position.y;
+				int x = (int) obj.position.x;
+				int y = (int) obj.position.y;
 				canvas.drawBitmap(obj.image, x, y, this.brush);
 			}
 		}

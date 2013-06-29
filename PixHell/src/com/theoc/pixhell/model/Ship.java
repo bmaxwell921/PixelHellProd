@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 
 import com.theoc.pixhell.infoboxes.StatInfo;
+import com.theoc.pixhell.utilities.Vector2;
 
 public abstract class Ship extends GameObject {
 	protected static final float defaultFireRate = 1000;
@@ -23,12 +24,12 @@ public abstract class Ship extends GameObject {
 		stats = new StatInfo(defaultHealth, defaultDamage, fireRate);
 	}
 	
-	public Ship(Bitmap image, Point location, Point velocity) {
-		this(image, location, velocity, defaultFireRate);
+	public Ship(Bitmap image, Vector2 location, Vector2 maxVel) {
+		this(image, location, maxVel, defaultFireRate);
 	}
 	
-	public Ship(Bitmap image, Point location, Point velocity, float fireRate) {
-		super(location, velocity, shipHeight, shipWidth, image);
+	public Ship(Bitmap image, Vector2 location, Vector2 maxVel, float fireRate) {
+		super(location, maxVel, shipHeight, shipWidth, image);
 		stats = new StatInfo(defaultHealth, defaultDamage, fireRate);
 	}
 	

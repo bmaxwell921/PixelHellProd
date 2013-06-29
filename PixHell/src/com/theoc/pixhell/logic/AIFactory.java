@@ -13,6 +13,7 @@ import com.theoc.pixhell.model.Enemy;
 import com.theoc.pixhell.model.Grunt;
 import com.theoc.pixhell.model.Ship;
 import com.theoc.pixhell.utilities.Difficulty;
+import com.theoc.pixhell.utilities.Vector2;
 
 /**
  * Class that 'spawns' Ai for the Level Object
@@ -68,8 +69,8 @@ public class AIFactory {
 	private Ship chooseNextEnemy() {
 		int numEnemies = 3;
 		int val = gen.nextInt(numEnemies);
-		Point position = getStartPosition();
-		Point velocity = getVelocity();
+		Vector2 position = getStartPosition();
+		Vector2 velocity = getVelocity();
 		Enemy ret = null;
 		if (val == 0) {
 			ret = new Grunt(AssetMap.getImage(AssetMap.enemyOne), position, velocity);
@@ -83,12 +84,12 @@ public class AIFactory {
 		return ret;
 	}
 	
-	private Point getStartPosition() {
-		return new Point(gen.nextInt(screenWidth - 100), 0);
+	private Vector2 getStartPosition() {
+		return new Vector2(gen.nextInt(screenWidth - 100), 0);
 	}
 	
-	private Point getVelocity() {
-		return new Point(5, 5);
+	private Vector2 getVelocity() {
+		return new Vector2(5, 5);
 	}
 	
 	public boolean isLevelComplete() {

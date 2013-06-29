@@ -5,13 +5,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 
-import android.graphics.Point;
-
 import com.theoc.pixhell.infoboxes.WaveInfo;
 import com.theoc.pixhell.logic.AIFactory;
 import com.theoc.pixhell.logic.AssetMap;
 import com.theoc.pixhell.manager.InputManager;
 import com.theoc.pixhell.utilities.Difficulty;
+import com.theoc.pixhell.utilities.Vector2;
 
 public class LevelObject extends Observable
 {
@@ -42,7 +41,7 @@ public class LevelObject extends Observable
 		
 		//TODO don't have this hard coded here
 		player = new Player(AssetMap.getImage(AssetMap.playerOne), 
-				new Point(screenWidth / 2, screenHeight / 2), new Point(5 , 5), 
+				new Vector2(screenWidth / 2, screenHeight / 2), new Vector2(5 , 5), 
 				im, screenWidth, screenHeight);
 
 		curGameState = GameState.BETWEEN_WAVE; 
