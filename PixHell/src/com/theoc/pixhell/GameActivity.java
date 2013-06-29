@@ -163,6 +163,7 @@ public class GameActivity extends Activity
 		this.gameThread.interrupt();
 		this.model.pause();
 		this.soundManager.stopTheme();
+		CustomEvent.create("coins: " + this.model.getCoinNumber()).record();
 		CustomEvent.create("_session.stop").record();
 		
 		// MWAHAHAHAHAHAHAHAHAHAHA!!!!! - Force Custom Event Submission
