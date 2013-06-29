@@ -1,11 +1,15 @@
 package com.theoc.pixhell.logic;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 
 import android.graphics.Point;
 
 import com.theoc.pixhell.infoboxes.WaveInfo;
+import com.theoc.pixhell.model.Enemy;
 import com.theoc.pixhell.model.Grunt;
 import com.theoc.pixhell.model.Ship;
 import com.theoc.pixhell.utilities.Difficulty;
@@ -25,12 +29,16 @@ public class AIFactory {
 	
 	private PathFactory pf;
 	
-	public AIFactory(Difficulty dif, WaveInfo baseWaveInfo) {
+	private int screenWidth, screenHeight;
+	
+	public AIFactory(Difficulty dif, WaveInfo baseWaveInfo, int screenWidth, int screenHeight) {
 		this.baseWaveInfo = baseWaveInfo;
 		this.curWaveInfo = baseWaveInfo;
 		timeUntilSpawn = this.curWaveInfo.spawnDelay;
 		pf = new PathFactory();
 		gen = new Random();
+		this.screenWidth = screenWidth;
+		this.screenHeight = screenHeight;
 	}
 	
 	//TODO balance this
@@ -60,16 +68,27 @@ public class AIFactory {
 	private Ship chooseNextEnemy() {
 		int numEnemies = 3;
 		int val = gen.nextInt(numEnemies);
-		Ship ret = null;
+		Point position = getStartPosition();
+		Point velocity = getVelocity();
+		Enemy ret = null;
 		if (val == 0) {
-			ret = new Grunt(AssetMap.getImage(AssetMap.enemyOne));
+			ret = new Grunt(AssetMap.getImage(AssetMap.enemyOne), position, velocity);
 		} else if (val == 1) {
-			
+			ret = new Grunt(AssetMap.getImage(AssetMap.enemyTwo), position, velocity);
 		} else {
-			
+			ret = new Grunt(AssetMap.getImage(AssetMap.enemyThree), position, velocity);
 		}
 		
+		ret.setPathQueue(pf.getPathFor(ret));
 		return ret;
+	}
+	
+	private Point getStartPosition() {
+		return new Point(gen.nextInt(screenWidth - 100), 0);
+	}
+	
+	private Point getVelocity() {
+		return new Point(5, 5);
 	}
 	
 	public boolean isLevelComplete() {
@@ -78,10 +97,34 @@ public class AIFactory {
 	
 	private class PathFactory {
 		
+		List<Queue<Point>> paths;
 		
-		public Queue<Point> getPath() {
-			return null;
+		public PathFactory() {
+			paths = new ArrayList<Queue<Point>>();
 		}
-	}
-	
+		
+		public Queue<Point> getPathFor(Enemy en) {
+			setUpPaths(en);
+			
+			int qPath = gen.nextInt(paths.size());
+			
+			return paths.get(qPath);
+		}
+		
+		
+		private void setUpPaths(Enemy en) {
+			paths.add(straightLineQueue(en));
+		}
+		
+		//Chooses a random point at the bottom of the screen to move to
+		private Queue<Point> straightLineQueue(Enemy en) {
+			Queue<Point> q = new LinkedList<Point>();
+			//100 = image width
+			int x = gen.nextInt(screenWidth - en.width);
+			int buffer = 2 * en.height;
+			int y = screenHeight + buffer;
+			q.add(new Point(x, y));
+			return q;
+		}
+	}	
 }
