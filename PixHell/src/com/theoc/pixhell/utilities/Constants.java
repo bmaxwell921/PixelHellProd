@@ -33,9 +33,15 @@ public class Constants {
 	    Map<String, String> nameMap = new HashMap<String, String>();
 	    map.put(HEALTH_SKU, 0);
 	    map.put(LIFE_SKU, 1);
+	    map.put(WEAPON1_SKU, 2);
+	    map.put(WEAPON2_SKU, 3);
+	    map.put(WEAPON3_SKU, 4);
 	    
 	    nameMap.put(HEALTH_SKU, "Health");
 	    nameMap.put(LIFE_SKU, "Life");
+	    nameMap.put(WEAPON1_SKU, "Missile");
+	    nameMap.put(WEAPON2_SKU, "Bomb");
+	    nameMap.put(WEAPON3_SKU, "Nuke");
 	    // ...
 	    SKU_TO_TYPE_MAP = Collections.unmodifiableMap(map);
 	    SKU_TO_NAME_MAP = Collections.unmodifiableMap(nameMap);

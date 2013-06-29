@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 
-import android.util.Log;
-
 import com.theoc.pixhell.infoboxes.WaveInfo;
 import com.theoc.pixhell.model.Enemy;
 import com.theoc.pixhell.model.Grunt;
@@ -109,11 +107,14 @@ public class AIFactory {
 		
 		
 		private void setUpPaths(Enemy en) {
-			paths.add(straightLineQueue(en));
+			paths.add(verticalLineQueue(en));
+			paths.add(drunkQueue(en));
+			paths.add(zigzagQueue1(en));
+			paths.add(zigzagQueue2(en));
 		}
 		
 		//Chooses a random point at the bottom of the screen to move to
-		private Queue<Vector2> straightLineQueue(Enemy en) {
+		private Queue<Vector2> verticalLineQueue(Enemy en) {
 			Queue<Vector2> q = new LinkedList<Vector2>();
 			//100 = image width
 			int x = gen.nextInt(screenWidth - en.width);
@@ -122,5 +123,53 @@ public class AIFactory {
 			q.add(new Vector2(x, y));
 			return q;
 		}
+		
+		//I DO WHAT I WANT!!!
+		private Queue<Vector2> drunkQueue(Enemy en) {
+			Queue<Vector2> q = new LinkedList<Vector2>();
+			int l = gen.nextInt(10);
+			for (int i = 0; i < l; i++) {
+				q.add(new Vector2(gen.nextInt(screenWidth), gen.nextInt(screenHeight)));
+			}			
+			int x = gen.nextInt(screenWidth - en.width);
+			int buffer = 2 * en.height;
+			int y = screenHeight + buffer;
+			q.add(new Vector2(x, y));
+			return q;
+		}
+		
+		private Queue<Vector2> zigzagQueue1(Enemy en) {
+			Queue<Vector2> q = new LinkedList<Vector2>();
+			int l = gen.nextInt(7);
+			int y_u = screenHeight / (l + 2);
+			for (int i = 0; i < l; i += 2) {
+				q.add(new Vector2(screenWidth - 30, y_u * (i+1)));
+				q.add(new Vector2(30, y_u * i));
+			}
+			//100 = image width
+			int x = gen.nextInt(screenWidth - en.width);
+			int buffer = 2 * en.height;
+			int y = screenHeight + buffer;
+			q.add(new Vector2(x, y));
+			return q;
+		}
+		
+		private Queue<Vector2> zigzagQueue2(Enemy en) {
+			Queue<Vector2> q = new LinkedList<Vector2>();
+			int l = gen.nextInt(7);
+			int y_u = screenHeight / (l + 2);
+			for (int i = 0; i < l; i += 2) {
+				q.add(new Vector2(30, y_u * i));
+				q.add(new Vector2(screenWidth - 30, y_u * (i+1)));
+			}
+			//100 = image width
+			int x = gen.nextInt(screenWidth - en.width);
+			int buffer = 2 * en.height;
+			int y = screenHeight + buffer;
+			q.add(new Vector2(x, y));
+			return q;
+		}
+		
+		
 	}	
 }

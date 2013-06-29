@@ -41,6 +41,13 @@
             android:layout_height="68dp"
             android:onClick="startOptionsActivity"
             android:text="Options" />
+        
+           <Button
+            android:id="@+id/button4"
+            android:layout_width="fill_parent"
+            android:layout_height="68dp"
+            android:onClick="startStoryActivity"
+            android:text="Story" />
     </LinearLayout>
 
 </RelativeLayout>
