@@ -3,7 +3,7 @@ package com.theoc.pixhell.model;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 
-public class Pickup extends GameObject{
+public class Pickup extends GameObject implements Consumable{
 	
 	public Pickup(Point position, Point velocity, int height, int width,
 			Bitmap image) {
