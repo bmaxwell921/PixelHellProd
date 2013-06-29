@@ -15,6 +15,8 @@ import android.os.Bundle;
 import android.view.Display;
 import android.view.Menu;
 
+import com.amazon.insights.AmazonInsights;
+import com.amazon.insights.CustomEvent;
 import com.theoc.pixhell.logic.AssetMap;
 import com.theoc.pixhell.manager.InputManager;
 import com.theoc.pixhell.manager.SoundManager;
