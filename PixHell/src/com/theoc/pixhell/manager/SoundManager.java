@@ -11,6 +11,8 @@ public final class SoundManager
 	AudioManager audioManager = null;
 	MediaPlayer  mediaPlayer  = null;
 	SoundPool    soundPool    = null;
+	float        musicVol     = 1.0f;
+	float        sfxVol       = 1.0f;
 	
 	public SoundManager(AudioManager audioManager, MediaPlayer mediaPlayer, SoundPool soundPool) {
 		this.soundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 100);
@@ -18,8 +20,13 @@ public final class SoundManager
 		this.mediaPlayer  = mediaPlayer;
 		this.soundPool    = soundPool;
 		
-		this.mediaPlayer.setVolume(0.75f, 0.75f);
+		this.mediaPlayer.setVolume(musicVol, musicVol);
 		this.mediaPlayer.setLooping(true);
+	}
+	
+	public void setVolumes(float music, float sfx) {
+		this.musicVol = music;
+		this.sfxVol = sfx;
 	}
 	
 	public void startTheme() {
@@ -37,6 +44,6 @@ public final class SoundManager
 	public void resumeTheme() { }
 	
 	public void playSoundEffect(int soundEffect) {
-		this.soundPool.play(AssetMap.getSoundID(soundEffect), 0.99f, 0.99f, 1, 0, 1f);
+		this.soundPool.play(AssetMap.getSoundID(soundEffect), sfxVol, sfxVol, 1, 0, 1f);
 	}
 }
