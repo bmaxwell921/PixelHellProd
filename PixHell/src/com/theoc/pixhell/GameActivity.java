@@ -81,6 +81,7 @@ public class GameActivity extends Activity
 			e.printStackTrace();
 		}
 		this.soundManager = new SoundManager(am, mp, sp);
+		this.soundManager.setVolumes(this.getPersistentPref_Music(), this.getPersistentPref_SFX());
 		
 		
 		this.getPresistentPref();
@@ -190,6 +191,16 @@ public class GameActivity extends Activity
 	        	model.setPlayerWeapon(WeaponType.MISSILE);
 	        	model.resume();
 	            return true;
+	        case R.id.tri_blaster:
+	        	CustomEvent.create("equip: tri blaster").record();
+	        	model.setPlayerWeapon(WeaponType.TRI_BLASTER);
+	        	model.resume();
+	            return true;
+	        case R.id.circle_blaster:
+	        	CustomEvent.create("equip: circle blaster").record();
+	        	model.setPlayerWeapon(WeaponType.TRI_BLASTER);
+	        	model.resume();
+	            return true;
 	        case R.id.inventory:
 	        	this.togglePause();
 	        	return true;
@@ -284,13 +295,25 @@ public class GameActivity extends Activity
 	private int getPersistentPref_Diff() {
 		return getSharedPreferences(Preferences.applicationIdentifier,
 				MODE_PRIVATE).getInt(
-				Preferences.difficultyIdentifier, 0);
+				Preferences.difficultyIdentifier, 2);
 	}
 	
 	private int getPersistentPref_Money() {
 		return getSharedPreferences(Preferences.applicationIdentifier,
 				MODE_PRIVATE).getInt(
 				Preferences.walletIdentifier, 0);
+	}
+	
+	private float getPersistentPref_Music() {
+		return getSharedPreferences(Preferences.applicationIdentifier,
+				MODE_PRIVATE).getFloat(
+				Preferences.musicVolumeIdentifier, 5f);
+	}
+	
+	private float getPersistentPref_SFX() {
+		return getSharedPreferences(Preferences.applicationIdentifier,
+				MODE_PRIVATE).getFloat(
+				Preferences.soundEffectsVolumeIdentifier, 5f);
 	}
 	
 	/**

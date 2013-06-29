@@ -95,8 +95,8 @@ public final class GameView extends View
 		
 		//- Verbose Text --------------------------------------
 		this.brush.setColor(Color.WHITE);
-		canvas.drawText("Score: " + this.model.getScore(), 10, 20, this.brush);
-		canvas.drawText("Coins: " + this.model.getCoinNumber(), 10, 35, this.brush);
+		canvas.drawText("Score: " + this.model.getScore(), width - 100, 20, this.brush);
+		canvas.drawText("Coins: " + this.model.getCoinNumber(), width - 100, 35, this.brush);
 	}
 
 
