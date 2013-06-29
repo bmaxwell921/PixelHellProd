@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 
-import android.graphics.Point;
+import android.util.Log;
 
 import com.theoc.pixhell.infoboxes.WaveInfo;
 import com.theoc.pixhell.model.Enemy;
@@ -70,14 +70,13 @@ public class AIFactory {
 		int numEnemies = 3;
 		int val = gen.nextInt(numEnemies);
 		Vector2 position = getStartPosition();
-		Vector2 velocity = getVelocity();
 		Enemy ret = null;
 		if (val == 0) {
-			ret = new Grunt(AssetMap.getImage(AssetMap.enemyOne), position, velocity);
+			ret = new Grunt(AssetMap.getImage(AssetMap.enemyOne), position);
 		} else if (val == 1) {
-			ret = new Grunt(AssetMap.getImage(AssetMap.enemyTwo), position, velocity);
+			ret = new Grunt(AssetMap.getImage(AssetMap.enemyTwo), position);
 		} else {
-			ret = new Grunt(AssetMap.getImage(AssetMap.enemyThree), position, velocity);
+			ret = new Grunt(AssetMap.getImage(AssetMap.enemyThree), position);
 		}
 		
 		ret.setPathQueue(pf.getPathFor(ret));
@@ -85,11 +84,9 @@ public class AIFactory {
 	}
 	
 	private Vector2 getStartPosition() {
+		int x = gen.nextInt(screenWidth - 100);
+		Log.i("Movement", "x pos is: " + x);
 		return new Vector2(gen.nextInt(screenWidth - 100), 0);
-	}
-	
-	private Vector2 getVelocity() {
-		return new Vector2(5, 5);
 	}
 	
 	public boolean isLevelComplete() {

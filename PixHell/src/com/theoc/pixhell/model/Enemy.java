@@ -3,7 +3,6 @@ package com.theoc.pixhell.model;
 import java.util.Queue;
 
 import android.graphics.Bitmap;
-import android.graphics.Point;
 
 import com.theoc.pixhell.utilities.Vector2;
 
@@ -14,8 +13,16 @@ public abstract class Enemy extends Ship {
 		this(image, defaultFireRate);
 	}
 
+	public Enemy(Bitmap image, Vector2 location) {
+		this(image, location, defaultFireRate);
+	}
+	
 	public Enemy(Bitmap image, float fireRate) {
 		super(image, fireRate);
+	}
+	
+	public Enemy(Bitmap image, Vector2 location, float fireRate) {
+		this(image, location, DEFAULT_MAX_VEL, fireRate);
 	}
 	
 	public Enemy(Bitmap image, Vector2 location, Vector2 maxVel) {
@@ -35,8 +42,8 @@ public abstract class Enemy extends Ship {
 		//Moves the current Enemy toward the given point
 		Vector2 toward = Vector2.subtract(dest, position);
 		toward.normalize();
-		Vector2 velTime = Vector2.multiply(maxVel, time / 1000);
-		position.add(Vector2.componentwiseMult(maxVel, velTime));
+		Vector2 velTime = Vector2.multiply(maxVel, time * millisToSeconds);
+		position.add(Vector2.componentwiseMult(toward, velTime));
 	}
 	public boolean closeTo(Vector2 targetPos)
     {

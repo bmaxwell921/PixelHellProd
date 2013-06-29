@@ -7,6 +7,7 @@ import com.theoc.pixhell.logic.AssetMap;
 import com.theoc.pixhell.utilities.Vector2;
 
 public abstract class Ship extends GameObject {
+	protected final static Vector2 DEFAULT_MAX_VEL = new Vector2(100, 100);
 	protected static final float defaultFireRate = 1000;
 	protected static final int defaultHealth = 100;
 	protected static final int defaultDamage = 25;
