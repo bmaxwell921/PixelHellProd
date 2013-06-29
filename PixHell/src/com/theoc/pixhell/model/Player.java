@@ -16,7 +16,10 @@ public class Player extends Ship {
 	InputManager inputManager;
 
 	public Player(Bitmap image, InputManager inputManager, int screenWidth, int screenHeight) {
-		super(image, new Vector2(screenWidth / 2, screenHeight / 2));
+		super(image, new Vector2(screenWidth / 2, screenHeight / 2), UP);
+		this.inputManager = inputManager;
+		this.screenWidth = screenWidth;
+		this.screenHeight = screenHeight;
 	}
 	
 //	public Player(Bitmap image, InputManager inputManager, int screenwidth,
@@ -70,32 +73,5 @@ public class Player extends Ship {
 	private boolean isOutOfBounds(Vector2 tempPos) {
 		return (tempPos.x < 0 || tempPos.x + width > screenWidth
 				|| tempPos.y < 0 || tempPos.y + height > screenHeight);
-	}
-
-	public BulletWeapon Fire(float time) {
-		if (this.FiringTime < 0) {
-			this.stats.resetFireRate();
-			
-			if (!this.inputManager.screenIsTouched())
-			{
-				this.stats.resetFireRate();
-			}
-			else
-			{
-				this.stats.setScreenPressFireRate();
-			}
-			this.FiringTime = this.stats.getCurFireRate();
-			BulletWeapon bullet = new BulletWeapon(AssetMap.getImage(AssetMap.shot), new Vector2(
-
-					this.position.x +(Constants.SHIP_WIDTH)/2-(Constants.BULLET_WIDTH)/2, this.position.y), new Vector2(-1, -1),
-					1, 1);
-			return bullet;
-		} else {
-
-			this.FiringTime = this.FiringTime - time;
-
-			return null;
-		}
-
 	}
 }

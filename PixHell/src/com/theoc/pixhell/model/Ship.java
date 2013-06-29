@@ -8,19 +8,24 @@ import com.theoc.pixhell.utilities.Constants;
 import com.theoc.pixhell.utilities.Vector2;
 
 public abstract class Ship extends GameObject {
+	protected static final int UP = -1;
+	protected static final int DOWN = 1;
 	protected final static Vector2 DEFAULT_MAX_VEL = new Vector2(100, 100);
 	protected static final float defaultFireRate = 1000;
 	protected static final int defaultHealth = 100;
 	protected static final int defaultDamage = 25;
+	
+	private int fireDirection;
 
 	public float FiringTime;
 
 	public StatInfo stats;
 
-	public Ship(Bitmap image, Vector2 location) {
+	public Ship(Bitmap image, Vector2 location, int fireDirection) {
 		super(image, location, DEFAULT_MAX_VEL, Constants.SHIP_WIDTH, Constants.SHIP_HEIGHT);
 		stats = new StatInfo(defaultHealth, defaultDamage, defaultFireRate);
 		this.FiringTime = this.stats.getCurFireRate();
+		this.fireDirection = fireDirection;
 	}
 
 	//
@@ -65,8 +70,8 @@ public abstract class Ship extends GameObject {
 					AssetMap.getImage(AssetMap.shot), new Vector2(
 
 					this.position.x + (Constants.SHIP_WIDTH) / 2
-							- (Constants.BULLET_WIDTH) / 2, this.position.y),
-					new Vector2(1, 1), Constants.BULLET_WIDTH, Constants.BULLET_HEIGHT);
+							- (Constants.BULLET_WIDTH) / 2, this.position.y + (this.height * fireDirection)),
+					new Vector2(0, fireDirection));
 			return bullet;
 		} else {
 

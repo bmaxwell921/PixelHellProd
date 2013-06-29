@@ -1,5 +1,6 @@
 package com.theoc.pixhell.model;
 
+import java.util.LinkedList;
 import java.util.Queue;
 
 import android.graphics.Bitmap;
@@ -11,7 +12,8 @@ public abstract class Enemy extends Ship {
 	Queue<Vector2> pathQueue;
 
 	public Enemy(Bitmap image, Vector2 location) {
-		super(image, location);
+		super(image, location, DOWN);
+		pathQueue = new LinkedList<Vector2>();
 	}
 	
 //	public Enemy(Bitmap image) {
