@@ -14,6 +14,7 @@ import android.view.View;
 import com.theoc.pixhell.manager.InputManager;
 import com.theoc.pixhell.model.GameObject;
 import com.theoc.pixhell.model.LevelObject;
+import com.theoc.pixhell.utilities.GameState;
 import com.theoc.pixhell.utilities.Vector2;
 
 
@@ -93,6 +94,12 @@ public final class GameView extends View
 			canvas.drawRect(0, 0, width, height, this.brush);
 		}
 		
+		//- KillScreen ---------------------------------------
+		if (this.model.curGameState == GameState.TEAR_DOWN) {
+			this.brush.setColor(Color.RED);
+			this.brush.setAlpha(128);
+			canvas.drawRect(0, 0, width, height, this.brush);
+		}		
 		
 		//- Verbose Text --------------------------------------
 		this.framesDrawn++;

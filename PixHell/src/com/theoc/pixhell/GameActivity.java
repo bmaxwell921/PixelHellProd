@@ -29,11 +29,8 @@ import com.theoc.pixhell.logic.AssetMap;
 import com.theoc.pixhell.manager.InputManager;
 import com.theoc.pixhell.manager.SoundManager;
 import com.theoc.pixhell.model.*;
-import com.theoc.pixhell.model.DumbWeapon;
-import com.theoc.pixhell.model.LevelObject;
-import com.theoc.pixhell.model.PersistentConsumable;
-import com.theoc.pixhell.model.HealthConsumable;
 import com.theoc.pixhell.utilities.Constants;
+import com.theoc.pixhell.utilities.GameState;
 import com.theoc.pixhell.utilities.Preferences;
 
 public class GameActivity extends Activity
@@ -186,8 +183,13 @@ public class GameActivity extends Activity
 	        	model.setPlayerWeapon(BulletWeapon.class);
 	        	model.resume();
 	            return true;
+	        case R.id.inventory:
+	        	model.pause();
+	        	return true;
 	        case R.id.health_pack:
 	        	updateStore(Constants.HEALTH_SKU);
+	        	model.player.stats.restoreHealth();
+	        	model.resume();
 	        	return true;
 	        case R.id.store:
 	        	finish();
@@ -223,7 +225,7 @@ public class GameActivity extends Activity
 				@Override
 				public void run()
 				{
-					while (view.run)
+					while (model.curGameState != GameState.GAME_OVER)
 					{
 						try {
 							Thread.sleep(GAME_RATE);

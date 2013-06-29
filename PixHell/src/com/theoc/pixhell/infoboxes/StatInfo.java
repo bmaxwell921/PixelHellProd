@@ -35,6 +35,10 @@ public class StatInfo {
 		return curHealth;
 	}
 	
+	public void restoreHealth() {
+		this.curHealth = this.maxHealth;
+	}
+	
 	public int getDamage() {
 		return damage;
 	}
