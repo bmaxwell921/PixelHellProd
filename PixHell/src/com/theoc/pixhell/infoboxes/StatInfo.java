@@ -48,6 +48,8 @@ public class StatInfo {
 	}
 	
 	public void setScreenPressFireRate() {
-		curFireRate = screenPressModifier * baseFireRate;
+		if (curFireRate < screenPressModifier * baseFireRate) {
+			curFireRate = screenPressModifier * baseFireRate;
+		}
 	}
 }
