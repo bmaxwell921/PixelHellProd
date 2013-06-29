@@ -17,13 +17,6 @@ public abstract class GameObject {
 	
 	public boolean isAlive;
 	
-//	public GameObject(Bitmap image) {
-//		this.image = image;
-//		this.position = Vector2.ZERO;
-//		this.maxVel = Vector2.ZERO;
-//		isAlive = true;
-//	}
-	
 	public GameObject(Bitmap image, int width, int height) {
 		this(image, Vector2.ZERO, Vector2.ZERO, width, height);
 	}
@@ -40,7 +33,7 @@ public abstract class GameObject {
 	
 	public void update(float time)
 	{
-		position.add(Vector2.multiply(maxVel, time));
+		position.add(Vector2.multiply(maxVel, time * millisToSeconds));
 	}
 	
 	public boolean CollidesWith(GameObject gameObject) {
@@ -54,7 +47,9 @@ public abstract class GameObject {
 		return rectangle;		
 	}
 
-
+	public Vector2 getCenter() {
+		return new Vector2(position.x + width / 2, position.y + height / 2);
+	}
 	
 
 }

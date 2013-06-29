@@ -10,17 +10,26 @@ public class StatInfo {
 	
 	private int curHealth;
 	private int maxHealth;
-	private int damage;
 	
 	private float curFireRate;
 	private float baseFireRate;
 	
-	public StatInfo(int maxHealth, int damage, float baseFireRate) {
+	private int missileCooldown;
+	private int missileDamage;
+	
+	private int bulletCooldown;
+	private int bulletDamage;
+	
+	public StatInfo(int maxHealth, int missileCooldown, int missileDamage,
+			int bulletCooldown, int bulletDamage) {
 		this.curHealth = maxHealth;
 		this.maxHealth = maxHealth;
-		this.damage = damage;
-		this.baseFireRate = baseFireRate;
-		this.curFireRate = this.baseFireRate;
+		this.missileCooldown = missileCooldown;
+		this.missileDamage = missileDamage;
+		this.bulletCooldown = bulletCooldown;
+		this.bulletDamage = bulletDamage;
+//		this.baseFireRate = baseFireRate;
+//		this.curFireRate = this.baseFireRate;
 	}
 	
 	public void changeHealth(int amount) {
@@ -39,21 +48,32 @@ public class StatInfo {
 		this.curHealth = this.maxHealth;
 	}
 	
-	public int getDamage() {
-		return damage;
+	public int getMissileCooldown() {
+		return missileCooldown;
 	}
 	
-	public float getCurFireRate() {
-		return curFireRate;
+	public int getMissileDamage() {
+		return missileDamage;
 	}
 	
-	public void resetFireRate() {
-		curFireRate = baseFireRate;
+	public int getBulletCooldown() {
+		return bulletCooldown;
 	}
 	
-	public void setScreenPressFireRate() {
-		if (curFireRate < screenPressModifier * baseFireRate) {
-			curFireRate = screenPressModifier * baseFireRate;
-		}
+	public int getBulletDamage() {
+		return bulletDamage;
 	}
+//	public float getCurFireRate() {
+//		return curFireRate;
+//	}
+//	
+//	public void resetFireRate() {
+//		curFireRate = baseFireRate;
+//	}
+//	
+//	public void setScreenPressFireRate() {
+//		if (curFireRate < screenPressModifier * baseFireRate) {
+//			curFireRate = screenPressModifier * baseFireRate;
+//		}
+//	}
 }

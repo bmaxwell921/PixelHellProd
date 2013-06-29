@@ -32,6 +32,7 @@ import com.theoc.pixhell.utilities.Constants;
 import com.theoc.pixhell.utilities.Difficulty;
 import com.theoc.pixhell.utilities.GameState;
 import com.theoc.pixhell.utilities.Preferences;
+import com.theoc.pixhell.utilities.WeaponType;
 
 public class GameActivity extends Activity
 {
@@ -178,12 +179,12 @@ public class GameActivity extends Activity
 	    		return true;
 	        case R.id.bullet:
 	        	Log.i("WEAPON:", "Bullet");
-	        	model.setPlayerWeapon(BulletWeapon.class);
+	        	model.setPlayerWeapon(WeaponType.BULLET);
 	        	model.resume();
 	            return true;
 	        case R.id.missile:
 	        	Log.i("WEAPON:", "Missile");
-	        	model.setPlayerWeapon(BulletWeapon.class);
+	        	model.setPlayerWeapon(WeaponType.MISSILE);
 	        	model.resume();
 	            return true;
 	        case R.id.inventory:

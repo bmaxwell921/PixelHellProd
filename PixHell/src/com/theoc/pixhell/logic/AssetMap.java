@@ -24,6 +24,7 @@ public class AssetMap {
 	public static final String shot = "img/Shot.png";
 	public static final String explosion = "img/Explosion.png";
 	public static final String missile = "img/Missile.png";
+	public static final String missileDown = "img/MissileUpsideDown.png";
 	
 	public static final int BOSS_KILL_FIZZ   = R.raw.boss_kill01;
 	public static final int BOSS_KILL_BOOM   = R.raw.boss_kill02;
@@ -71,6 +72,7 @@ public class AssetMap {
 		addImage(am, shot);
 		addImage(am, explosion);
 		addImage(am, missile);
+		addImage(am, missileDown);
 	}
 	
 	public static void initSound(Context c, SoundPool sp) {

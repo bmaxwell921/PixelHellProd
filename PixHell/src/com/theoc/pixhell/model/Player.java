@@ -9,6 +9,9 @@ public class Player extends Ship {
 	private int screenHeight;
 	private int screenWidth;
 	private final int buffer = 300;
+	
+	private static final int missileDamage = 100;
+	private static final int bulletDamage = 25;
 
 	InputManager inputManager;
 
@@ -18,41 +21,11 @@ public class Player extends Ship {
 	}
 	
 	public Player(Bitmap image, InputManager im, int screenWidth, int screenHeight, int damage) {
-		super(image, new Vector2(screenWidth / 2, screenHeight / 2), UP, damage);
+		super(image, new Vector2(screenWidth / 2, screenHeight / 2), UP, missileDamage, bulletDamage);
 		this.inputManager = im;
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
 	}
-	
-//	public Player(Bitmap image, InputManager inputManager, int screenwidth,
-//			int screenheight) {
-//		this(image, defaultFireRate, inputManager, screenwidth, screenheight);
-//
-//	}
-//
-//	public Player(Bitmap image, float fireRate, InputManager inputManager, int screenWidth, 
-//			int screenHeight) {
-//		super(image, fireRate);
-//		this.inputManager = inputManager;
-//		this.screenHeight = screenHeight;
-//		this.screenWidth = screenWidth;
-//		this.maxVel = DEFAULT_MAX_VEL;
-//		this.position = new Vector2(screenWidth / 2, screenHeight / 2);
-//	}
-//
-//	public Player(Bitmap image, Vector2 location, Vector2 maxVel,
-//			InputManager inputManager, int screenwidth, int screenheight) {
-//		this(image, location, maxVel, defaultFireRate, inputManager, screenwidth,
-//				screenheight);
-//	}
-//
-//	public Player(Bitmap image, Vector2 location, Vector2 maxVel, float fireRate,
-//			InputManager inputManager, int screenWidth, int screenHeight) {
-//		super(image, location, maxVel, fireRate);
-//		this.inputManager = inputManager;
-//		this.screenHeight = screenHeight;
-//		this.screenWidth = screenWidth;
-//	}
 
 	@Override
 	public void update(float time) {

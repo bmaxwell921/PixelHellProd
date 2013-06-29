@@ -1,56 +1,50 @@
 package com.theoc.pixhell.model;
 
+import java.util.List;
+
 import android.graphics.Bitmap;
 
 import com.theoc.pixhell.infoboxes.StatInfo;
-import com.theoc.pixhell.logic.AssetMap;
 import com.theoc.pixhell.utilities.Constants;
 import com.theoc.pixhell.utilities.Vector2;
+import com.theoc.pixhell.weaponLaunchers.BulletLauncher;
+import com.theoc.pixhell.weaponLaunchers.Launcher;
+import com.theoc.pixhell.weaponLaunchers.WeaponsArray;
 
 public abstract class Ship extends GameObject {
 	protected static final int UP = -1;
 	protected static final int DOWN = 1;
 	protected final static Vector2 DEFAULT_MAX_VEL = new Vector2(100, 100);
-	protected static final float defaultFireRate = 1000;
+	protected static final int missileCooldown = 1000;
+	protected static final int bulletCooldown = 500;
+	
 	protected static final int defaultHealth = 100;
 	protected static final int defaultDamage = 5;
-	
 	private int fireDirection;
-
-	public float FiringTime;
+	private WeaponsArray weapons;
 
 	public StatInfo stats;
 
 	public Ship(Bitmap image, Vector2 location, int fireDirection) {
-		this(image, location, fireDirection, defaultDamage);
+		this(image, location, fireDirection, defaultDamage, defaultDamage);
 	}
 	
-	public Ship(Bitmap image, Vector2 location, int fireDirection, int damage) {
+	public Ship(Bitmap image, Vector2 location, int fireDirection, int missileDamage, int bulletDamage) {
 		super(image, location, DEFAULT_MAX_VEL, Constants.SHIP_WIDTH, Constants.SHIP_HEIGHT);
-		stats = new StatInfo(defaultHealth, damage, defaultFireRate);
-		this.FiringTime = this.stats.getCurFireRate();
+		stats = new StatInfo(defaultHealth, missileCooldown, missileDamage, bulletCooldown, bulletDamage);
 		this.fireDirection = fireDirection;
+		weapons = new WeaponsArray();
+		this.addLauncher(new BulletLauncher(bulletDamage, bulletCooldown));
+//		this.addLauncher(new MissileLauncher(missileDamage, missileCooldown));
 	}
-
-	//
-	// public Ship(Bitmap image, float fireRate) {
-	// super(image);
-	// stats = new StatInfo(defaultHealth, defaultDamage, fireRate);
-	// this.FiringTime = this.stats.getCurFireRate();
-	//
-	// }
-	//
-	// public Ship(Bitmap image, Vector2 location, Vector2 maxVel) {
-	// this(image, location, maxVel, defaultFireRate);
-	//
-	// }
-	//
-	// public Ship(Bitmap image, Vector2 location, Vector2 maxVel, float
-	// fireRate) {
-	// super(location, maxVel, shipHeight, shipWidth, image);
-	// stats = new StatInfo(defaultHealth, defaultDamage, fireRate);
-	// this.FiringTime = this.stats.getCurFireRate();
-	// }
+	
+	public void setLauncher(Launcher l) {
+		weapons.removeAllAndAdd(l);
+	}
+	
+	public void addLauncher(Launcher l) {
+		weapons.addLauncher(l);
+	}
 	
 	@Override
 	public void update(float dt) {
@@ -66,24 +60,9 @@ public abstract class Ship extends GameObject {
 		stats.changeHealth(-1 * damage);
 	}
 
-	public Weapon Fire(float time) {
-		if (this.FiringTime < 0) {
-			this.stats.resetFireRate();
-			this.FiringTime = this.stats.getCurFireRate();
-			Weapon weapon = new BulletWeapon(
-					AssetMap.getImage(AssetMap.missile), new Vector2(
-
-					this.position.x + (Constants.SHIP_WIDTH) / 2
-							- (Constants.BULLET_WIDTH) / 2, this.position.y + (this.height * fireDirection)),
-					new Vector2(0, fireDirection),stats.getDamage());
-			return weapon;
-
-		} else {
-
-			this.FiringTime = this.FiringTime - time;
-
-			return null;
-		}
+	public List<Weapon> Fire(float time) {
+		return weapons.getFiredWeapons(this.getCenter(), new Vector2(width, height), 
+				fireDirection, time);
 
 	}
 

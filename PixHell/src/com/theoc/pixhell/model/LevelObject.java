@@ -6,8 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 
-import android.graphics.Rect;
-
 import com.theoc.pixhell.infoboxes.WaveInfo;
 import com.theoc.pixhell.logic.AIFactory;
 import com.theoc.pixhell.logic.AssetMap;
@@ -16,6 +14,9 @@ import com.theoc.pixhell.manager.SoundManager;
 import com.theoc.pixhell.utilities.Constants;
 import com.theoc.pixhell.utilities.Difficulty;
 import com.theoc.pixhell.utilities.GameState;
+import com.theoc.pixhell.utilities.WeaponType;
+import com.theoc.pixhell.weaponLaunchers.BulletLauncher;
+import com.theoc.pixhell.weaponLaunchers.MissileLauncher;
 
 public class LevelObject extends Observable
 {
@@ -54,7 +55,7 @@ public class LevelObject extends Observable
 		explosions = new LinkedList<GameObject>();
 		//TODO don't have this hard coded here
 		player = new Player(AssetMap.getImage(AssetMap.playerOne), im, screenWidth, screenHeight, 100);
-
+		this.setPlayerWeapon(WeaponType.BULLET);
 		transitionToState(GameState.BETWEEN_WAVE); 
 		onPauseState = GameState.IN_WAVE;
 		
@@ -95,8 +96,15 @@ public class LevelObject extends Observable
 		onPauseState = GameState.IN_WAVE;
 	}
 	
-	public void setPlayerWeapon(Class<? extends Weapon> weapon) {
-		//TODO Overhaul how the weapons work to be component-entity
+	public void setPlayerWeapon(WeaponType weapon) {
+		if (weapon == WeaponType.BULLET) {
+			//player.setLauncher(new BulletLauncher());
+			player.addLauncher(new BulletLauncher(player.stats.getBulletDamage(), 
+					player.stats.getBulletCooldown()));
+		} else if (weapon == WeaponType.MISSILE) {
+			player.addLauncher(new MissileLauncher(player.stats.getMissileDamage(), 
+					player.stats.getMissileCooldown()));
+		}
 	}
 	
 	private void inWaveUpdate(long timeElapsed) {
@@ -110,19 +118,19 @@ public class LevelObject extends Observable
 	private void doUpdates(float timeElapsed) {
 		//Move everyone, then check collisions
 		player.update(timeElapsed);
-		Weapon Playerweapon =player.Fire(timeElapsed);
-		if( Playerweapon !=null)
+		List<Weapon> weapons = player.Fire(timeElapsed);
+		if(weapons !=null && !weapons.isEmpty())
 		{
 			sm.playSoundEffect(AssetMap.SHOT_BULLET);
-			playerShots.add(Playerweapon);
+			playerShots.addAll(weapons);
 		}
 		for (Ship ship : enemies) {
 			ship.update(timeElapsed);
-			Weapon Enemyweapon =ship.Fire(timeElapsed);
-			if( Enemyweapon !=null)
+			List<Weapon> enemyWeapon =ship.Fire(timeElapsed);
+			if( enemyWeapon !=null && !enemyWeapon.isEmpty())
 			{
 				sm.playSoundEffect(AssetMap.SHOT_BULLET);
-				enemyShots.add(Enemyweapon);
+				enemyShots.addAll(enemyWeapon);
 			}
 		}
 		
