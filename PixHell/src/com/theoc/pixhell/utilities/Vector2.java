@@ -23,6 +23,19 @@ public class Vector2 {
 		this.y = result.y;
 	}
 	
+	public void componentwiseMult(Vector2 other) {
+		Vector2 result = Vector2.componentwiseMult(this, other);
+		this.x = result.x;
+		this.y = result.y;
+	}
+	
+	public static Vector2 componentwiseMult(Vector2 one, Vector2 two) {
+		if (one == null || two == null) {
+			throw new IllegalArgumentException("A vector was null");
+		}
+		return new Vector2(one.x * two.x, one.y * two.y);
+	}
+	
 	public static Vector2 multiply(Vector2 vect, float scalar) {
 		if (vect == null) {
 			throw new IllegalArgumentException("Vect was null");
@@ -76,5 +89,19 @@ public class Vector2 {
 			throw new IllegalArgumentException("First or second vector was null");
 		}
 		return new Vector2(first.x - last.x, first.y - last.y);
+	}
+	
+	public double distance(Vector2 other) {
+		if (other == null) {
+			throw new IllegalArgumentException("Vector was null");
+		}
+		return Vector2.distance(this, other);
+	}
+	
+	public static double distance(Vector2 first, Vector2 second) {
+		if (first == null || second == null) {
+			throw new IllegalArgumentException("Vector was null");
+		}
+		return new Vector2(Vector2.subtract(first, second)).magnitude();
 	}
 }

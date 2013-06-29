@@ -8,7 +8,8 @@ import android.graphics.Point;
 import com.theoc.pixhell.utilities.Vector2;
 
 public abstract class Enemy extends Ship {
-	Queue<Point> pathQueue;
+	private final double CLOSE_DIST = 2;
+	Queue<Vector2> pathQueue;
 	public Enemy(Bitmap image) {
 		this(image, defaultFireRate);
 	}
@@ -26,31 +27,20 @@ public abstract class Enemy extends Ship {
 	}
 	
 	
-	public void setPathQueue(Queue<Point> queue) {
+	public void setPathQueue(Queue<Vector2> queue) {
 		pathQueue = queue;
 	}
 	
-	protected void moveToLocation(Point dest,float time) {
+	protected void moveToLocation(Vector2 dest,float time) {
 		//Moves the current Enemy toward the given point
-//		this.position.x =(int) (this.position.x+this.velocity.x*time);
-//		this.position.y =(int) (this.position.y+this.velocity.y*time);
-		//TODO fix
-			
+		Vector2 toward = Vector2.subtract(dest, position);
+		toward.normalize();
+		Vector2 velTime = Vector2.multiply(maxVel, time);
+		position.add(Vector2.componentwiseMult(maxVel, velTime));
 	}
-	public boolean closeTo(Point targetPos)
+	public boolean closeTo(Vector2 targetPos)
     {
-//		boolean b =false;
-//		int xPos=targetPos.x-this.position.x;
-//		int yPos=targetPos.y-this.position.y;
-//		Point newPoint= new Point(xPos, yPos);
-//		
-//		if((newPoint.x-this.velocity.x)+(newPoint.y-this.velocity.y)<.5)
-//		{
-//			b=true;
-//		}
-//		return b; 
-		//TODO fix
-		return false;
+		return Vector2.distance(position, targetPos) < CLOSE_DIST;
     }
 	@Override
 	public void update(float time) {
@@ -62,16 +52,6 @@ public abstract class Enemy extends Ship {
 		{
 			pathQueue.poll();
 		}
-		moveToLocation(pathQueue.peek(),time);	
+		moveToLocation(pathQueue.peek(), time);	
 	}
-
-	@Override
-	public boolean CollidesWith(GameObject gameObject) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-	
-	
-
 }
