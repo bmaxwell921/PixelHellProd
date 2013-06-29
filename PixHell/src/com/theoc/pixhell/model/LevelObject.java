@@ -39,6 +39,7 @@ public class LevelObject extends Observable
 	private AIFactory factory;
 	private SoundManager sm;
 	int randomNumber;
+	int randomNumberForSound;
 	int coinNumber;
 	int score;
 	
@@ -63,6 +64,7 @@ public class LevelObject extends Observable
 		player = new Player(AssetMap.getImage(AssetMap.playerOne), im, screenWidth, screenHeight, 100);
 		Random randomGenerator = new Random();
 		randomNumber =randomGenerator.nextInt(1)%2;
+		randomNumberForSound =randomGenerator.nextInt(1)%3;
 		coinNumber =0;
 		score =0;
 		transitionToState(GameState.BETWEEN_WAVE); 
@@ -138,10 +140,19 @@ public class LevelObject extends Observable
 		}
 		for (Ship ship : enemies) {
 			ship.update(timeElapsed);
+			Random randomGenerator = new Random();
+			randomNumberForSound =randomGenerator.nextInt(4)%2;
 			Weapon Enemyweapon =ship.Fire(timeElapsed);
 			if( Enemyweapon !=null)
 			{
-				sm.playSoundEffect(AssetMap.SHOT_BULLET);
+				if(randomNumberForSound==0)
+				{
+				sm.playSoundEffect(AssetMap.SHOT_MISSILE);
+				}
+				if(randomNumberForSound==1)
+				{
+				sm.playSoundEffect(AssetMap.SHOT_LASER);
+				}
 				enemyShots.add(Enemyweapon);
 			}
 		}
@@ -209,13 +220,26 @@ public class LevelObject extends Observable
 			Ship ship = iter.next();
 			Random randomGenerator = new Random();
 			randomNumber =randomGenerator.nextInt(4)%2;
+			randomNumberForSound =randomGenerator.nextInt(4)%3;
 			if(!ship.isAlive)
 			{
 				if(randomNumber==1)
 				{
+					
 				explosions.add(new Explosion(ship.position));
+					if (randomNumberForSound==0)
+					{
 				sm.playSoundEffect(AssetMap.ENEMY_KILL_WHOOSH);
-				score++;
+					}
+					if(randomNumberForSound==1)
+					{
+				sm.playSoundEffect(AssetMap.ENEMY_KILL_RATTLE);
+					}
+					if(randomNumberForSound==2)
+					{
+				sm.playSoundEffect(AssetMap.ENEMY_KILL_DEREZ);
+					}
+				score=score+10;
 				}
 				else
 				{
