@@ -22,12 +22,18 @@ public class Constants {
 	public static final int ENEMY_CRASH_DAMAGE = 25;
 	
 	public static final Map<String, Integer> SKU_TO_TYPE_MAP ;
+	public static final Map<String, String> SKU_TO_NAME_MAP ;
 	
 	static {
 	    Map<String, Integer> map = new HashMap<String, Integer>();
+	    Map<String, String> nameMap = new HashMap<String, String>();
 	    map.put(HEALTH_SKU, 0);
 	    map.put(LIFE_SKU, 1);
+	    
+	    nameMap.put(HEALTH_SKU, "Health");
+	    nameMap.put(LIFE_SKU, "Life");
 	    // ...
 	    SKU_TO_TYPE_MAP = Collections.unmodifiableMap(map);
+	    SKU_TO_NAME_MAP = Collections.unmodifiableMap(nameMap);
 	}
 }
