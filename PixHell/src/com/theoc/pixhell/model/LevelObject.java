@@ -6,15 +6,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 
-import android.util.Log;
-
 import com.theoc.pixhell.infoboxes.WaveInfo;
 import com.theoc.pixhell.logic.AIFactory;
 import com.theoc.pixhell.logic.AssetMap;
 import com.theoc.pixhell.manager.InputManager;
 import com.theoc.pixhell.manager.SoundManager;
 import com.theoc.pixhell.utilities.Difficulty;
-import com.theoc.pixhell.utilities.Vector2;
 
 public class LevelObject extends Observable
 {
@@ -52,6 +49,7 @@ public class LevelObject extends Observable
 		player = new Player(AssetMap.getImage(AssetMap.playerOne), im, screenWidth, screenHeight);
 
 		curGameState = GameState.BETWEEN_WAVE; 
+		onPauseState = GameState.IN_WAVE;
 		
 		//TODO get Difficulty this from elsewhere
 		factory = new AIFactory(Difficulty.EASY, new WaveInfo(10, 2000, 100), 
@@ -73,8 +71,10 @@ public class LevelObject extends Observable
 	}
 	
 	public void pause() {
-		onPauseState = curGameState;
-		curGameState = GameState.PAUSE;
+		if (!isPaused()) {
+			onPauseState = curGameState;
+			curGameState = GameState.PAUSE;
+		}
 	}
 	
 	public boolean isPaused() {
@@ -90,7 +90,6 @@ public class LevelObject extends Observable
 		doCollisionChecks();
 		spawnNewEnemies(timeElapsed);
 		checkOffScreenGameObjects();
-		//Delete off screen enemies
 	}
 	
 	private void doUpdates(float timeElapsed) {
@@ -114,7 +113,6 @@ public class LevelObject extends Observable
 			shot.update(timeElapsed);
 			
 		}
-		System.out.println("Shots on the screen: " + enemyShots.size());
 		background.update(timeElapsed);
 	}
 	
@@ -131,7 +129,7 @@ public class LevelObject extends Observable
 	}
 	
 	private void playerEnemyCollisions() {
-		//TODO
+		
 	}
 	
 	private void playerEnemyShotCollisions() {
