@@ -61,7 +61,7 @@ public class LevelObject extends Observable
 	
 	public void update(long timeElapsed) {
 		if (curGameState == GameState.PAUSE) {
-			return;
+			//Do nothing
 		} else if (curGameState == GameState.IN_WAVE) {
 			inWaveUpdate(timeElapsed);
 		} else if (curGameState == GameState.BETWEEN_WAVE) {
@@ -75,6 +75,10 @@ public class LevelObject extends Observable
 	public void pause() {
 		onPauseState = curGameState;
 		curGameState = GameState.PAUSE;
+	}
+	
+	public boolean isPaused() {
+		return curGameState == GameState.PAUSE;
 	}
 	
 	public void resume() {
