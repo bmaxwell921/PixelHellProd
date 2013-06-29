@@ -8,25 +8,31 @@ package com.theoc.pixhell.infoboxes;
 public class StatInfo {
 	private final int screenPressModifier = 2;
 	
-	private int health;
+	private int curHealth;
+	private int maxHealth;
 	private int damage;
 	
 	private float curFireRate;
 	private float baseFireRate;
 	
-	public StatInfo(int health, int damage, float baseFireRate) {
-		this.health = health;
+	public StatInfo(int maxHealth, int damage, float baseFireRate) {
+		this.curHealth = maxHealth;
+		this.maxHealth = maxHealth;
 		this.damage = damage;
 		this.baseFireRate = baseFireRate;
 		this.curFireRate = this.baseFireRate;
 	}
 	
 	public void changeHealth(int amount) {
-		health += amount;
+		curHealth += amount;
+	}
+	
+	public int getMaxHealth() {
+		return maxHealth;
 	}
 	
 	public int getHealth() {
-		return health;
+		return curHealth;
 	}
 	
 	public int getDamage() {
