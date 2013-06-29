@@ -13,6 +13,9 @@ public final class SoundManager
 	public SoundManager(AudioManager audioManager, MediaPlayer mediaPlayer) {
 		this.audioManager = audioManager;
 		this.mediaPlayer  = mediaPlayer;
+		
+		this.mediaPlayer.setVolume(0.01f, 0.01f);
+		this.mediaPlayer.setLooping(true);
 	}
 	
 	public void startTheme() {
@@ -24,12 +27,10 @@ public final class SoundManager
 	}
 	
 	public void pauseTheme() {
-		
+		this.mediaPlayer.pause();
 	}
 	
-	public void resumeTheme() {
-		
-	}
+	public void resumeTheme() { }
 	
 	public void playSoundEffect() {
 		this.audioManager.playSoundEffect(R.raw.player_hit04);
