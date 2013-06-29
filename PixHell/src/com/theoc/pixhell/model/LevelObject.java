@@ -25,7 +25,7 @@ public class LevelObject extends Observable
 	
 	private GameObject background;
 	private List<Ship> enemies;
-	private Ship player;
+	public Ship player;
 	
 	
 	private List<Weapon> playerShots;
