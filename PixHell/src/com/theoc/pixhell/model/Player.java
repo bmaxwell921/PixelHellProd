@@ -1,7 +1,6 @@
 package com.theoc.pixhell.model;
 
 import android.graphics.Bitmap;
-import android.graphics.Point;
 
 import com.theoc.pixhell.manager.InputManager;
 import com.theoc.pixhell.utilities.DirectionalVector;

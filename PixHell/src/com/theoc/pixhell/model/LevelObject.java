@@ -32,7 +32,7 @@ public class LevelObject extends Observable
 	
 	private AIFactory factory;
 	
-	public LevelObject(int screenWidth, int screenHeight, InputManager im, SoundManager sm) {
+	public LevelObject(int screenWidth, int screenHeight, InputManager im, SoundManager sm ) {
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
 		background = new Background(AssetMap.getImage(AssetMap.backgroundKey));
@@ -77,6 +77,11 @@ public class LevelObject extends Observable
 		player.update(timeElapsed);
 		for (Ship ship : enemies) {
 			ship.update(timeElapsed);
+			Weapon weapon =ship.Fire(timeElapsed);
+			if( weapon !=null)
+			{
+				enemyShots.add(weapon);
+			}
 		}
 		
 		for (GameObject shot : playerShots) {
@@ -85,6 +90,7 @@ public class LevelObject extends Observable
 		
 		for (GameObject shot : enemyShots) {
 			shot.update(timeElapsed);
+			
 		}
 		
 		background.update(timeElapsed);

@@ -2,25 +2,24 @@ package com.theoc.pixhell;
 
 import java.io.IOException;
 
-import com.theoc.pixhell.logic.AssetMap;
-import com.theoc.pixhell.manager.InputManager;
-import com.theoc.pixhell.manager.SoundManager;
-import com.theoc.pixhell.model.LevelObject;
-
-import com.amazon.insights.AmazonInsights;
-import com.amazon.insights.CustomEvent;
-
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.view.Display;
 import android.view.Menu;
+
+import com.amazon.insights.AmazonInsights;
+import com.amazon.insights.CustomEvent;
+import com.theoc.pixhell.logic.AssetMap;
+import com.theoc.pixhell.manager.InputManager;
+import com.theoc.pixhell.manager.SoundManager;
+import com.theoc.pixhell.model.LevelObject;
 
 public class GameActivity extends Activity
 {

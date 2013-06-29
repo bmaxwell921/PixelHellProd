@@ -3,11 +3,6 @@ package com.theoc.pixhell;
 import java.util.Observable;
 import java.util.Observer;
 
-import com.theoc.pixhell.manager.InputManager;
-import com.theoc.pixhell.model.GameObject;
-import com.theoc.pixhell.model.LevelObject;
-import com.theoc.pixhell.utilities.DirectionalVector;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -15,6 +10,11 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.theoc.pixhell.manager.InputManager;
+import com.theoc.pixhell.model.GameObject;
+import com.theoc.pixhell.model.LevelObject;
+import com.theoc.pixhell.utilities.DirectionalVector;
 
 public final class GameView extends View
 	implements Observer

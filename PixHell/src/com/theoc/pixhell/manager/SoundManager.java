@@ -1,7 +1,5 @@
 package com.theoc.pixhell.manager;
 
-import com.theoc.pixhell.R;
-
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 

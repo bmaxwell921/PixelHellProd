@@ -1,6 +1,5 @@
 package com.theoc.pixhell.model;
 
-import com.theoc.pixhell.db.PixhellDBHelper;
 
 public class PersistentConsumable implements Consumable {
 

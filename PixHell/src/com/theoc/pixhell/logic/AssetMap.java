@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.theoc.pixhell.R;
-
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
+import com.theoc.pixhell.R;
 
 public class AssetMap {
 	//Public keys
@@ -18,7 +18,7 @@ public class AssetMap {
 	public static final String enemyThree = "img/Enemy3.png";
 	public static final String playerOne = "img/Player.png";
 	public static final String playerTwo = "img/Player2.png";
-	public static final String shot = "";
+	public static final String shot = "img/Shot.png";
 	
 	public static final int BOSS_KILL_FIZZ   = R.raw.boss_kill01;
 	public static final int BOSS_KILL_BOOM   = R.raw.boss_kill02;
