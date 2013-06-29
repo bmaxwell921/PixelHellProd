@@ -5,6 +5,6 @@ public interface Preferences {
 	String applicationIdentifier = "pixelHell";
 	String difficultyIdentifier = "difficulty_identifier";
 	String tiltSensitivityIdentifier = "tilt_Identifier";
-	String walletIdentifier = "wallet_identifier";
+	String walletIdentifier = "wallet_identifier";	
 
 }
