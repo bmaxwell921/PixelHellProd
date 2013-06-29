@@ -60,9 +60,7 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 	}
 
 	private HashMap<String, Integer> getStoreData() {
-		String wrapperStr = getSharedPreferences(
-				Preferences.applicationIdentifier, MODE_PRIVATE).getString(
-				Preferences.persistantStorageIdentifier, null);
+		String wrapperStr = getPresistentPref();
 		if (wrapperStr != null) {
 			StoreItemDTO wrapper = gson
 					.fromJson(wrapperStr, StoreItemDTO.class);
@@ -70,6 +68,12 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 			return hashMap;
 		}
 		return null;
+	}
+
+	private String getPresistentPref() {
+		return getSharedPreferences(Preferences.applicationIdentifier,
+				MODE_PRIVATE).getString(
+				Preferences.persistantStorageIdentifier, null);
 	}
 
 	@Override
@@ -113,9 +117,11 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 	/**
 	 * update the DB about the count of the Item purchased and also the the
 	 * StoreActivity View.
+	 * @param string 
 	 */
-	public void update() {
-		// TODO Auto-generated method stub
+	public void update(String string) {
+		HashMap<String, Integer> temp = getStoreData();
+		// push it
 
 	}
 

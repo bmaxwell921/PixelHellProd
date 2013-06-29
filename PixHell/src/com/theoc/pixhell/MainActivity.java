@@ -1,10 +1,17 @@
 package com.theoc.pixhell;
 
+import java.util.HashMap;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+
+import com.google.gson.Gson;
+import com.theoc.pixhell.db.StoreItemDTO;
+import com.theoc.pixhell.utilities.Constants;
+import com.theoc.pixhell.utilities.Preferences;
 
 public class MainActivity extends Activity {
 
@@ -12,6 +19,9 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		// required initializations for the StoreActivity
+		initStoreData();
 	}
 
 	@Override
@@ -32,5 +42,22 @@ public class MainActivity extends Activity {
 
 	public void startOptionsActivity(View v) {
 		startActivity(new Intent(MainActivity.this, OptionsActivity.class));
+	}
+
+	public void initStoreData() {
+		HashMap<String, Integer> temp = new HashMap<String, Integer>();
+		temp.put(Constants.HEALTH_SKU, 1);
+		temp.put(Constants.LIFE_SKU, 0);
+		temp.put(Constants.WEAPON1_SKU,1);
+
+		Gson gson = new Gson();
+		StoreItemDTO wrapper = new StoreItemDTO();
+		wrapper.data = temp;
+		String serializedMap = gson.toJson(wrapper);
+
+		getSharedPreferences(Preferences.applicationIdentifier, MODE_PRIVATE)
+				.edit()
+				.putString(Preferences.persistantStorageIdentifier,
+						serializedMap).commit();
 	}
 }
