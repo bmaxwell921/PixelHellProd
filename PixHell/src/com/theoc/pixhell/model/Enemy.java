@@ -31,11 +31,11 @@ public abstract class Enemy extends Ship {
 		pathQueue = queue;
 	}
 	
-	protected void moveToLocation(Vector2 dest,float time) {
+	protected void moveToLocation(Vector2 dest, float time) {
 		//Moves the current Enemy toward the given point
 		Vector2 toward = Vector2.subtract(dest, position);
 		toward.normalize();
-		Vector2 velTime = Vector2.multiply(maxVel, time);
+		Vector2 velTime = Vector2.multiply(maxVel, time / 1000);
 		position.add(Vector2.componentwiseMult(maxVel, velTime));
 	}
 	public boolean closeTo(Vector2 targetPos)
