@@ -151,6 +151,8 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 				.edit()
 				.putString(Preferences.persistantStorageIdentifier,
 						serializedMap).commit();
+	
+		lv.invalidate();
 	}
 
 	public void onStart() {
