@@ -28,7 +28,7 @@ public class OptionsActivity extends Activity implements OnItemClickListener {
 	private static final int MAX_TILT_VALUE = 100;
 	ListView lv;
 	String menuOptions[] = { "Tilt Sensitivity", "Wallet", "Difficulty",
-			"Weapon Cache" };
+			"Music Volume", "Sound Effects Volume" };
 	String DIFFICULTIES[] = { "Easy", "Medium", "Difficult", "Hell" };
 	Difficulty DEFAULT_DIFFICULTIES = Difficulty.EASY;
 	LayoutInflater inflater;
@@ -67,8 +67,18 @@ public class OptionsActivity extends Activity implements OnItemClickListener {
 			createDifficultyDialog();
 			break;
 		case 3:
-			createWeaponsCacheDialog();
+			createMusicVolumeDialog();
+			break;
+		case 4:
+			createSoundEffectsVolumeDialog();
+		case 5:
+			createSFVolumeDialog();
 		}
+
+	}
+
+	private void createSoundEffectsVolumeDialog() {
+		// TODO Auto-generated method stub
 
 	}
 
@@ -78,12 +88,14 @@ public class OptionsActivity extends Activity implements OnItemClickListener {
 
 		// get weapon data
 		// display in the list
-		
-/*		if (weaponsCache != null) {
-			WeaponsCache map = gson.fromJson(weaponsCache, WeaponsCache.class);
-			HashMap<PersistentConsumable, Integer> weaponsList = map.weaponsCache;
-		}*/
-		
+
+		/*
+		 * if (weaponsCache != null) { WeaponsCache map =
+		 * gson.fromJson(weaponsCache, WeaponsCache.class);
+		 * HashMap<PersistentConsumable, Integer> weaponsList =
+		 * map.weaponsCache; }
+		 */
+
 	}
 
 	private void createDifficultyDialog() {
@@ -141,6 +153,7 @@ public class OptionsActivity extends Activity implements OnItemClickListener {
 		builder.create().show();
 	}
 
+	// tilt sensitivity
 	private void createTiltDialog() {
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -159,7 +172,7 @@ public class OptionsActivity extends Activity implements OnItemClickListener {
 				Preferences.tiltSensitivityIdentifier, 0.0f);
 
 		tv.setText("" + progressValue);
-		sb.setProgress(Math.round(progressValue*10));
+		sb.setProgress(Math.round(progressValue * 10));
 
 		sb.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
@@ -208,6 +221,146 @@ public class OptionsActivity extends Activity implements OnItemClickListener {
 				});
 
 		builder.create().show();
+	}
+
+	// music volume
+
+	public void createMusicVolumeDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+		View v = inflater.inflate(R.layout.dialog_tilt_senstivity, null);
+
+		final SeekBar sb = (SeekBar) v.findViewById(R.id.seekBar1);
+		final TextView tv = (TextView) v.findViewById(R.id.textView1);
+
+		final DecimalFormat df = new DecimalFormat("0.00");
+
+		sb.setMax(MAX_TILT_VALUE);
+
+		float progressValue = getSharedPreferences(
+				Preferences.applicationIdentifier, MODE_PRIVATE).getFloat(
+				Preferences.musicVolumeIdentifier, 0.0f);
+
+		tv.setText("" + progressValue);
+		sb.setProgress(Math.round(progressValue * 10));
+
+		sb.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+
+				float currentTilt = getConvertedValue(progress);
+
+				tv.setText("" + df.format(currentTilt));
+			}
+		});
+
+		builder.setTitle("Music Volume");
+		builder.setView(v);
+
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+
+				getSharedPreferences(Preferences.applicationIdentifier,
+						MODE_PRIVATE)
+						.edit()
+						.putFloat(Preferences.musicVolumeIdentifier,
+								Float.valueOf(tv.getText().toString()))
+						.commit();
+
+			}
+		});
+		builder.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				});
+
+		builder.create().show();
+
+	}
+
+	public void createSFVolumeDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+		View v = inflater.inflate(R.layout.dialog_tilt_senstivity, null);
+
+		final SeekBar sb = (SeekBar) v.findViewById(R.id.seekBar1);
+		final TextView tv = (TextView) v.findViewById(R.id.textView1);
+
+		final DecimalFormat df = new DecimalFormat("0.00");
+
+		sb.setMax(MAX_TILT_VALUE);
+
+		float progressValue = getSharedPreferences(
+				Preferences.applicationIdentifier, MODE_PRIVATE).getFloat(
+				Preferences.soundEffectsVolumeIdentifier, 0.0f);
+
+		tv.setText("" + progressValue);
+		sb.setProgress(Math.round(progressValue * 10));
+
+		sb.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+
+				float currentTilt = getConvertedValue(progress);
+
+				tv.setText("" + df.format(currentTilt));
+			}
+		});
+
+		builder.setTitle("Music Volume");
+		builder.setView(v);
+
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+
+				getSharedPreferences(Preferences.applicationIdentifier,
+						MODE_PRIVATE)
+						.edit()
+						.putFloat(Preferences.soundEffectsVolumeIdentifier,
+								Float.valueOf(tv.getText().toString()))
+						.commit();
+
+			}
+		});
+		builder.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				});
+
+		builder.create().show();
+
 	}
 
 	public float getConvertedValue(int value) {
