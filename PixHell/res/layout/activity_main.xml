@@ -15,7 +15,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="startGameActivity"
-        android:text="Start Game" />
+        android:text="Start Game" 
+        android:textColor="#00ff00"
+        android:textStyle="bold"/>
 
     <Button
         android:id="@+id/button4"
@@ -24,7 +26,9 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/button1"
         android:onClick="startStoryActivity"
-        android:text="Story" />
+        android:text="Story"
+        android:textColor="#00ff00"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/button3"
@@ -33,7 +37,9 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:onClick="startOptionsActivity"
-        android:text="Options" />
+        android:text="Options" 
+        android:textColor="#00ff00"
+        android:textStyle="bold"/>
 
     <Button
         android:id="@+id/button2"
@@ -42,6 +48,8 @@
         android:layout_above="@+id/button3"
         android:layout_alignParentLeft="true"
         android:onClick="startStoreActivity"
-        android:text="Store" />
+        android:text="Store"
+        android:textColor="#00ff00" 
+        android:textStyle="bold"/>
 
 </RelativeLayout>
