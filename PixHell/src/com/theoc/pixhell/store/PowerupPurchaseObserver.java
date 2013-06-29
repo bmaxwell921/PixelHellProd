@@ -266,7 +266,7 @@ public class PowerupPurchaseObserver extends BasePurchasingObserver {
 
 			if (success) {
 
-				//mStoreActivity.update();
+				mStoreActivity.updateUI();
 
 			}
 
