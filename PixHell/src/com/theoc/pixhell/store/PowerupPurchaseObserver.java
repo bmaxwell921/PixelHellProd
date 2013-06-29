@@ -2,8 +2,6 @@ package com.theoc.pixhell.store;
 
 import java.util.Map;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -13,7 +11,6 @@ import com.amazon.inapp.purchasing.GetUserIdResponse.GetUserIdRequestStatus;
 import com.amazon.inapp.purchasing.Item;
 import com.amazon.inapp.purchasing.ItemDataResponse;
 import com.amazon.inapp.purchasing.PurchaseResponse;
-import com.amazon.inapp.purchasing.PurchaseUpdatesResponse;
 import com.amazon.inapp.purchasing.PurchasingManager;
 import com.amazon.inapp.purchasing.Receipt;
 import com.theoc.pixhell.StoreActivity;
@@ -210,7 +207,7 @@ public class PowerupPurchaseObserver extends BasePurchasingObserver {
 					 * editor.putInt(ButtonClickerActivity.NUM_CLICKS, numClicks
 					 * + 10);
 					 */
-
+					mStoreActivity.update(receipt.getSku());
 					break;
 				}
 
@@ -269,7 +266,7 @@ public class PowerupPurchaseObserver extends BasePurchasingObserver {
 
 			if (success) {
 
-				mStoreActivity.update();
+				//mStoreActivity.update();
 
 			}
 
