@@ -40,9 +40,9 @@ public class LevelObject extends Observable
 	//TODO make this better
 	private final int TEAR_DOWN_TIMER = 3000;
 	private int timeLeftForTearDown = 0;
+	private List<GameObject> explosions;
 	
-	
-	public LevelObject(int screenWidth, int screenHeight, InputManager im, SoundManager sm ) {
+	public LevelObject(int screenWidth,ArrayList<PersistentConsumable> persistentconsumable, int screenHeight, InputManager im, SoundManager sm ) {
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
 		this.sm = sm;
@@ -51,7 +51,7 @@ public class LevelObject extends Observable
 		enemies = new LinkedList<Ship>();
 		playerShots = new LinkedList<Weapon>();
 		enemyShots = new LinkedList<Weapon>();
-		
+		explosions = new LinkedList<GameObject>();
 		//TODO don't have this hard coded here
 		player = new Player(AssetMap.getImage(AssetMap.playerOne), im, screenWidth, screenHeight);
 
@@ -95,7 +95,7 @@ public class LevelObject extends Observable
 		onPauseState = GameState.IN_WAVE;
 	}
 	
-	public void setPlayerWeapon(Class<? extends Weapon> weapon) {
+	public void setPlayerWeapon(Class<Weapon> weapon) {
 		//TODO Overhaul how the weapons work to be component-entity
 	}
 	
@@ -150,12 +150,11 @@ public class LevelObject extends Observable
 	}
 	
 	private void playerEnemyCollisions() {
-		//for (Ship enemy : enemies) {
-		for (Iterator<Ship> iter = enemies.iterator(); iter.hasNext();) {
-			Ship enemy = iter.next();
+		for (Ship enemy : enemies) {
 			if (player.CollidesWith(enemy)) {
 				player.applyDamage(Constants.ENEMY_CRASH_DAMAGE);
-				iter.remove();
+			
+				
 			}
 		}
 	}
@@ -170,14 +169,21 @@ public class LevelObject extends Observable
 		}
 	}
 	
+	private void enemyCheckDeath() {
+		for (Iterator<Ship> iter = enemies.iterator(); iter.hasNext(); ) {
+			Ship ship = iter.next();
+			if(ship.isAlive)
+			{
+				explosions.add(new Explosion(ship.position));
+			}
+		}
+	}
+	
 	private void handleShipShotCollision(Ship single, 
 			List<Weapon> others) {
-		//for (Weapon other : others) {
-		for (Iterator<Weapon> iter = others.iterator(); iter.hasNext();) {
-			Weapon other = iter.next();
+		for (Weapon other : others) {
 			if (single.CollidesWith(other)) {
 				single.applyDamage(other.damage);
-				iter.remove();
 			}
 		}
 	}
@@ -232,6 +238,7 @@ public class LevelObject extends Observable
 		onScreen.add(player);
 		onScreen.addAll(enemyShots);
 		onScreen.addAll(playerShots);
+		onScreen.addAll(explosions);
 		return onScreen;
 	}
 }

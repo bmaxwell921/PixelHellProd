@@ -29,13 +29,15 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 	String currentUser;
 	ListView lv;
 	LayoutInflater inflater;
-	ArrayAdapter<String> Adapter;
 	public Map<String, String> requestIdPowerupMap;
 	Gson gson;
 
 	HealthConsumable healthConsumable;
 
 	PixhellDBHelper dbHelper;
+
+	String[] listViewData;
+	ArrayAdapter<String> adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +49,12 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 		gson = new Gson();
 
 		HashMap<String, Integer> storeData = getStoreData();
-		
-		String[] listViewData = formatData(storeData);
 
-		lv.setAdapter(new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, listViewData));
+		listViewData = formatData(storeData);
+		adapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_1, listViewData);
+
+		lv.setAdapter(adapter);
 
 		lv.setOnItemClickListener(this);
 
@@ -64,13 +67,13 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 
 	private String[] formatData(HashMap<String, Integer> storeData) {
 		String[] temp = new String[storeData.size()];
-		   Iterator it = storeData.entrySet().iterator();
-		   int i = 0;
-		    while (it.hasNext()) {
-		        Map.Entry pairs = (Map.Entry)it.next();
-		        temp[i++] = pairs.getKey()+"-"+pairs.getValue();
-		        it.remove(); // avoids a ConcurrentModificationException
-		    }
+		Iterator it = storeData.entrySet().iterator();
+		int i = 0;
+		while (it.hasNext()) {
+			Map.Entry pairs = (Map.Entry) it.next();
+			temp[i++] = pairs.getKey() + "-" + pairs.getValue();
+			it.remove(); // avoids a ConcurrentModificationException
+		}
 		return temp;
 	}
 
@@ -117,8 +120,7 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 	}
 
 	private void buyHealth() {
-		 PurchasingManager		 
-         .initiatePurchaseRequest(Constants.HEALTH_SKU);
+		PurchasingManager.initiatePurchaseRequest(Constants.HEALTH_SKU);
 
 	}
 
@@ -131,17 +133,17 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 	}
 
 	/**
-	 * Update the persistent storage by 1.
-	 * User bought 1 unit of stuff.
-	 * @param string 
+	 * Update the persistent storage by 1. User bought 1 unit of stuff.
+	 * 
+	 * @param string
 	 */
 	public void update(String data) {
-		
-		//update
+
+		// update
 		HashMap<String, Integer> temp = getStoreData();
 		int newCount = temp.get(data) + 1;
 		temp.put(data, newCount);
-		
+
 		// push it
 		StoreItemDTO wrapper = new StoreItemDTO();
 		wrapper.data = temp;
@@ -151,8 +153,6 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 				.edit()
 				.putString(Preferences.persistantStorageIdentifier,
 						serializedMap).commit();
-	
-		lv.invalidate();
 	}
 
 	public void onStart() {
@@ -173,6 +173,11 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 
 		PurchasingManager.initiateGetUserIdRequest();
 
+		// update UI
+		HashMap<String, Integer> storeData = getStoreData();
+		listViewData = formatData(storeData);
+		adapter.notifyDataSetChanged();
+		lv.invalidate();
 	};
 
 }
