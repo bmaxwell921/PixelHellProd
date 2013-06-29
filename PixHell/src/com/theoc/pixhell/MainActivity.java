@@ -19,6 +19,9 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		MenuView view = (MenuView) findViewById(R.id.menuView1);
+		view.setContent(getAssets());
 
 		// required initializations for the StoreActivity
 		initStoreData();

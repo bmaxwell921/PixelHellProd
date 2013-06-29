@@ -42,7 +42,7 @@ public class LevelObject extends Observable
 	private int timeLeftForTearDown = 0;
 	private List<GameObject> explosions;
 	
-	public LevelObject(int screenWidth, int screenHeight, ArrayList<PersistentConsumable> persistentconsumable, InputManager im, SoundManager sm ) {
+	public LevelObject(int screenWidth, int screenHeight, GameStartProperties properties, InputManager im, SoundManager sm ) {
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
 		this.sm = sm;

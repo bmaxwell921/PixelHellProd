@@ -50,16 +50,19 @@ public class InputManager
 	}
 	
 	public Vector2 getTiltVector() {
+		float x = mValuesAccel[0] * (1f + (.1f * this.tiltSensitivity));
+		float y = mValuesAccel[1] * (1f + (.1f * this.tiltSensitivity));
+		
 		// X-Left
-		if (this.mValuesAccel[0] > 3.0f) {
-			this.tiltVector.x = -4f;
-		} else if (this.mValuesAccel[0] > 1.0f) {
+		if (x > 4.0f) {
+			this.tiltVector.x = -5f;
+		} else if (x > 1.5f) {
 			this.tiltVector.x = -2f;
 		} 
 		// X-Right
-		else if (this.mValuesAccel[0] < -3.0f) {
-			this.tiltVector.x = 4f;
-		} else if (this.mValuesAccel[0] < -1.0f) {
+		else if (x < -4.0f) {
+			this.tiltVector.x = 5f;
+		} else if (x < -1.5f) {
 			this.tiltVector.x = 2f;
 		} 
 		// X- Stationary
@@ -69,15 +72,15 @@ public class InputManager
 		
 		
 		// Y-Down
-		if (this.mValuesAccel[1] > 2f) {
-			this.tiltVector.y = 2f;
-		} else if (this.mValuesAccel[1] > 0.75f) {
+		if (y > 2.5f) {
+			this.tiltVector.y = 3f;
+		} else if (y > 1.25f) {
 			this.tiltVector.y = 1f;
 		}
 		// Y-Up
-		else if (this.mValuesAccel[1] < -2f) {
-			this.tiltVector.y = -2f;
-		} else if (this.mValuesAccel[1] < -0.75f) {
+		else if (y < -2.5f) {
+			this.tiltVector.y = -3f;
+		} else if (y < -1.25f) {
 			this.tiltVector.y = -1f;
 		}
 		// Y-Stationary
