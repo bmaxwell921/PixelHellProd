@@ -75,7 +75,7 @@ public final class GameView extends View
 		canvas.drawText("Frames Drawn: " + this.framesDrawn, 10, 15, this.brush);
 		canvas.drawText("GameRate: " + GameActivity.GAME_RATE, 10, 30, this.brush);
 		
-		DirectionalVector<Float> dir = this.inputManager.getTiltVector();
+		DirectionalVector<Integer> dir = this.inputManager.getTiltVector();
 		canvas.drawText("Tilt-X: " + dir.x, 10, 60, this.brush);
 		canvas.drawText("Tilt-Y: " + dir.y, 10, 75, this.brush);
 	}

@@ -12,6 +12,7 @@ public class Player extends Ship {
 	private final int RIGHT = 1;
 	private final int UP = -1;
 	private final int DOWN = 1;
+	private final int ZERO = 0;
 	
 	private int screenheight;
 	private int screenwidth;
@@ -50,30 +51,25 @@ public class Player extends Ship {
 
 	@Override
 	public void update(float time) {
-		DirectionalVector<Float> tilt = inputManager.getTiltVector();
-		int dx = velocity.x * ((tilt.x < 0) ? LEFT : RIGHT);
-		int dy = velocity.y * ((tilt.y < 0) ? UP : DOWN);
+		DirectionalVector<Integer> tilt = inputManager.getTiltVector();
+		int dx = velocity.x * ((tilt.x < 0) ? LEFT : ((tilt.x == 0) ? ZERO : RIGHT));
+		int dy = velocity.y * ((tilt.y < 0) ? UP : ((tilt.y == 0) ? ZERO : DOWN));
 		
-		this.position.x += dx;
-		this.position.y += dy;
-		
-		if (isOutOfBounds()) {
-			
+		Point tempPos = new Point(position);
+		tempPos.x += dx;
+		if (!isOutOfBounds(tempPos)) {
+			this.position.x += dx;
 		}
-		
-		
-		if (this.position.x < 0 || this.position.x > screenwidth
-				|| this.position.y < 0 || this.position.y > screenheight) {
-			inputManager.getTiltVector().x = (float) 0;
+		tempPos.x -= dx;
+		tempPos.y += dy;
+		if (!isOutOfBounds(tempPos)) {
+			this.position.y += dy;
 		}
-		this.position.x = this.position.x + this.velocity.x
-				* (inputManager.getTiltVector().x < 0 ? -1 : 1);
-		this.position.y = this.position.y + this.velocity.y
-				* (inputManager.getTiltVector().y < 0 ? -1 : 1);
 	}
 	
-	private boolean isOutOfBounds() {
-		
+	private boolean isOutOfBounds(Point tempPos) {
+		return (tempPos.x < 0 || tempPos.x + width > screenwidth
+				|| tempPos.y < 0 || tempPos.y + height > screenheight);
 	}
 
 	@Override
