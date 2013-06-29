@@ -7,6 +7,7 @@ import java.util.Map;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -172,12 +173,27 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 		super.onResume();
 
 		PurchasingManager.initiateGetUserIdRequest();
+	};
+	
+	public void updateUI(){
 
 		// update UI
+
+
+		Log.w("UpdateUI", "resuming");
+
 		HashMap<String, Integer> storeData = getStoreData();
+
 		listViewData = formatData(storeData);
-		adapter.notifyDataSetChanged();
-		lv.invalidate();
-	};
+
+		adapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_1, listViewData);
+		
+		Log.i("something",listViewData+"");
+
+		lv.setAdapter(adapter);
+
+		}
+
 
 }

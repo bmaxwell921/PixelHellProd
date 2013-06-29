@@ -1,38 +1,35 @@
 package com.theoc.pixhell.model;
 
 import com.theoc.pixhell.logic.AssetMap;
+import com.theoc.pixhell.utilities.Constants;
 import com.theoc.pixhell.utilities.Vector2;
 
 public class Explosion extends GameObject {
 	public final int LifeTime =10000;
-	public int Timeleft;
-	public boolean isAlive;
-	public final int MilliSeconds =500;
-	public Vector2 position;
+	public int timeLeft;
+	public final int milliSeconds = 1000;
 	
 	
 	
 	public Explosion(Vector2 position){
-		super(AssetMap.getImage(AssetMap.explosion),100,100);
-		this.position=position;
-		
+		super(AssetMap.getImage(AssetMap.explosion), position, Vector2.ZERO, 
+				Constants.EXPLOSION_WIDTH, Constants.EXPLOSION_HEIGHT);		
+		timeLeft = milliSeconds;
 	}
-	
-	
 
-
-	public void Update(int time)
+	@Override
+	public void update(float time)
 	{
 		if(!isAlive)
 		{
 			return;
 		}
 		
-		if(Timeleft < 0)
+		if(timeLeft < 0)
 		{
 			this.isAlive=false;
 		}
-		Timeleft -=MilliSeconds; 
+		timeLeft -= time; 
 	}
 
 }
