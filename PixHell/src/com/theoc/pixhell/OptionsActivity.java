@@ -1,6 +1,7 @@
 package com.theoc.pixhell;
 
 import java.text.DecimalFormat;
+import java.util.HashMap;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -19,6 +20,9 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.theoc.pixhell.global.WeaponsCache;
+import com.theoc.pixhell.model.PersistentConsumable;
 import com.theoc.pixhell.utilities.Difficulty;
 import com.theoc.pixhell.utilities.Preferences;
 
@@ -72,14 +76,26 @@ public class OptionsActivity extends Activity implements OnItemClickListener {
 	}
 
 	private void createWeaponsCacheDialog() {
+		Gson gson = new Gson();
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+		// get weapon data
+		// display in the list
+		String weaponsCache = getSharedPreferences(
+				Preferences.applicationIdentifier, MODE_PRIVATE).getString(
+				Preferences.weaponsCacheIdentifier, null);
+		if (weaponsCache != null) {
+			WeaponsCache map = gson.fromJson(weaponsCache, WeaponsCache.class);
+			HashMap<PersistentConsumable, Integer> weaponsList = map.weaponsCache;
+		}
 
 	}
 
 	private void createDifficultyDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		int checkedValue = getSharedPreferences(
-				Preferences.applicationIdentifier, MODE_PRIVATE).getInt(Preferences.difficultyIdentifier, 0);
+				Preferences.applicationIdentifier, MODE_PRIVATE).getInt(
+				Preferences.difficultyIdentifier, 0);
 
 		builder.setSingleChoiceItems(DIFFICULTIES, checkedValue,
 				new OnClickListener() {

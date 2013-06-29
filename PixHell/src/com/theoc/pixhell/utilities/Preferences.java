@@ -6,5 +6,5 @@ public interface Preferences {
 	String difficultyIdentifier = "difficulty_identifier";
 	String tiltSensitivityIdentifier = "tilt_Identifier";
 	String walletIdentifier = "wallet_identifier";	
-
+	String weaponsCacheIdentifier = "weapons_idetifier";
 }
