@@ -9,29 +9,34 @@ import com.theoc.pixhell.utilities.Vector2;
 public abstract class Enemy extends Ship {
 	private final double CLOSE_DIST = 2;
 	Queue<Vector2> pathQueue;
-	public Enemy(Bitmap image) {
-		this(image, defaultFireRate);
-	}
 
 	public Enemy(Bitmap image, Vector2 location) {
-		this(image, location, defaultFireRate);
+		super(image, location);
 	}
 	
-	public Enemy(Bitmap image, float fireRate) {
-		super(image, fireRate);
-	}
-	
-	public Enemy(Bitmap image, Vector2 location, float fireRate) {
-		this(image, location, DEFAULT_MAX_VEL, fireRate);
-	}
-	
-	public Enemy(Bitmap image, Vector2 location, Vector2 maxVel) {
-		super (image, location, maxVel, defaultFireRate);
-	}
-	
-	public Enemy(Bitmap image, Vector2 location, Vector2 maxVel, float fireRate) {
-		super(image, location, maxVel, fireRate);
-	}
+//	public Enemy(Bitmap image) {
+//		this(image, defaultFireRate);
+//	}
+//
+//	public Enemy(Bitmap image, Vector2 location) {
+//		this(image, location, defaultFireRate);
+//	}
+//	
+//	public Enemy(Bitmap image, float fireRate) {
+//		super(image, fireRate);
+//	}
+//	
+//	public Enemy(Bitmap image, Vector2 location, float fireRate) {
+//		this(image, location, DEFAULT_MAX_VEL, fireRate);
+//	}
+//	
+//	public Enemy(Bitmap image, Vector2 location, Vector2 maxVel) {
+//		super (image, location, maxVel, defaultFireRate);
+//	}
+//	
+//	public Enemy(Bitmap image, Vector2 location, Vector2 maxVel, float fireRate) {
+//		super(image, location, maxVel, fireRate);
+//	}
 	
 	
 	public void setPathQueue(Queue<Vector2> queue) {

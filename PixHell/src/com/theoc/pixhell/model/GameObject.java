@@ -17,19 +17,18 @@ public abstract class GameObject {
 	
 	public boolean isAlive;
 	
-	public GameObject(Bitmap image) {
-		this.image = image;
-		this.position = Vector2.ZERO;
-		this.maxVel = Vector2.ZERO;
-		isAlive = true;
-	}
+//	public GameObject(Bitmap image) {
+//		this.image = image;
+//		this.position = Vector2.ZERO;
+//		this.maxVel = Vector2.ZERO;
+//		isAlive = true;
+//	}
 	
 	public GameObject(Bitmap image, int width, int height) {
-		this(Vector2.ZERO, Vector2.ZERO, height, width, image);
+		this(image, Vector2.ZERO, Vector2.ZERO, width, height);
 	}
 	
-	public GameObject(Vector2 position, Vector2 maxVel, int height, int width,
-			Bitmap image) {
+	public GameObject(Bitmap image, Vector2 position, Vector2 maxVel, int width, int height) {
 		super();
 		this.position = position;
 		this.maxVel = maxVel;
@@ -42,8 +41,9 @@ public abstract class GameObject {
 	{
 		position.add(Vector2.multiply(maxVel, time));
 	}
+	
 	public boolean CollidesWith(GameObject gameObject) {
-		return this.RectBoxforCollision().intersect(gameObject.RectBoxforCollision());
+		return Rect.intersects(this.RectBoxforCollision(), gameObject.RectBoxforCollision());
 	}
 	
 	public  Rect RectBoxforCollision()
