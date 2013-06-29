@@ -75,6 +75,15 @@ public class Player extends Ship {
 	public BulletWeapon Fire(float time) {
 		if (this.FiringTime < 0) {
 			this.stats.resetFireRate();
+			
+			if (!this.inputManager.screenIsTouched())
+			{
+				this.stats.resetFireRate();
+			}
+			else
+			{
+				this.stats.setScreenPressFireRate();
+			}
 			this.FiringTime = this.stats.getCurFireRate();
 			BulletWeapon bullet = new BulletWeapon(new Vector2(
 
