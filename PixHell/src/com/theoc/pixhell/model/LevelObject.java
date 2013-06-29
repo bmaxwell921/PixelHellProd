@@ -53,7 +53,7 @@ public class LevelObject extends Observable
 		enemyShots = new LinkedList<Weapon>();
 		explosions = new LinkedList<GameObject>();
 		//TODO don't have this hard coded here
-		player = new Player(AssetMap.getImage(AssetMap.playerOne), im, screenWidth, screenHeight);
+		player = new Player(AssetMap.getImage(AssetMap.playerOne), im, screenWidth, screenHeight, 100);
 
 		transitionToState(GameState.BETWEEN_WAVE); 
 		onPauseState = GameState.IN_WAVE;
@@ -134,6 +134,13 @@ public class LevelObject extends Observable
 			shot.update(timeElapsed);
 			
 		}
+		
+		for (GameObject exp : explosions) {
+			exp.update(timeElapsed);
+		}
+		
+		checkDeaths();
+		
 		background.update(timeElapsed);
 	}
 	
@@ -150,11 +157,13 @@ public class LevelObject extends Observable
 	}
 	
 	private void playerEnemyCollisions() {
-		for (Ship enemy : enemies) {
+		//for (Ship enemy : enemies) {
+		for (Iterator<Ship> iter = enemies.iterator(); iter.hasNext();) {
+			Ship enemy = iter.next();
 			if (player.CollidesWith(enemy)) {
 				player.applyDamage(Constants.ENEMY_CRASH_DAMAGE);
-			
-				
+				explosions.add(new Explosion(enemy.position));
+				iter.remove();
 			}
 		}
 	}
@@ -169,21 +178,32 @@ public class LevelObject extends Observable
 		}
 	}
 	
-	private void enemyCheckDeath() {
+	private void checkDeaths() {
 		for (Iterator<Ship> iter = enemies.iterator(); iter.hasNext(); ) {
 			Ship ship = iter.next();
-			if(ship.isAlive)
+			if(!ship.isAlive)
 			{
 				explosions.add(new Explosion(ship.position));
+				iter.remove();
+			}
+		}
+		
+		for (Iterator<GameObject> iter = explosions.iterator(); iter.hasNext();) {
+			GameObject exp = iter.next();
+			if (!exp.isAlive) {
+				iter.remove();
 			}
 		}
 	}
 	
 	private void handleShipShotCollision(Ship single, 
 			List<Weapon> others) {
-		for (Weapon other : others) {
+		//for (Weapon other : others) {
+		for (Iterator<Weapon> iter = others.iterator(); iter.hasNext();) {
+			Weapon other = iter.next();
 			if (single.CollidesWith(other)) {
 				single.applyDamage(other.damage);
+				iter.remove();
 			}
 		}
 	}

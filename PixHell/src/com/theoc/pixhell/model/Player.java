@@ -1,23 +1,25 @@
 package com.theoc.pixhell.model;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 
-import com.theoc.pixhell.logic.AssetMap;
 import com.theoc.pixhell.manager.InputManager;
-import com.theoc.pixhell.utilities.Constants;
-import com.theoc.pixhell.utilities.DirectionalVector;
 import com.theoc.pixhell.utilities.Vector2;
 
 public class Player extends Ship {
 	private int screenHeight;
 	private int screenWidth;
+	private final int buffer = 300;
 
 	InputManager inputManager;
 
 	public Player(Bitmap image, InputManager inputManager, int screenWidth, int screenHeight) {
-		super(image, new Vector2(screenWidth / 2, screenHeight / 2), UP);
-		this.inputManager = inputManager;
+		this(image, inputManager, screenWidth, screenHeight, UP);
+		
+	}
+	
+	public Player(Bitmap image, InputManager im, int screenWidth, int screenHeight, int damage) {
+		super(image, new Vector2(screenWidth / 2, screenHeight / 2), UP, damage);
+		this.inputManager = im;
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
 	}
@@ -72,6 +74,6 @@ public class Player extends Ship {
 	
 	private boolean isOutOfBounds(Vector2 tempPos) {
 		return (tempPos.x < 0 || tempPos.x + width > screenWidth
-				|| tempPos.y < 0 || tempPos.y + height > screenHeight);
+				|| tempPos.y < 0 || tempPos.y + height + buffer > screenHeight);
 	}
 }
