@@ -42,7 +42,7 @@ public class Player extends Ship {
 	}
 
 	public Player(Bitmap image, Point location, Point velocity, float fireRate,
-			InputManager inputManager, int screenHeight, int screenWidth) {
+			InputManager inputManager, int screenWidth, int screenHeight) {
 		super(image, location, velocity, fireRate);
 		this.inputManager = inputManager;
 		this.screenheight = screenHeight;
