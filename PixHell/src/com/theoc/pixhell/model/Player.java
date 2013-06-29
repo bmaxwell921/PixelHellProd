@@ -1,14 +1,20 @@
 package com.theoc.pixhell.model;
 
 import com.theoc.pixhell.manager.InputManager;
+import com.theoc.pixhell.utilities.DirectionalVector;
 
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.util.Log;
 
 public class Player extends Ship {
-	int screenheight = 0;
-	int screenwidth = 0;
+	private final int LEFT = -1;
+	private final int RIGHT = 1;
+	private final int UP = -1;
+	private final int DOWN = 1;
+	
+	private int screenheight;
+	private int screenwidth;
 
 	InputManager inputManager;
 
@@ -44,8 +50,18 @@ public class Player extends Ship {
 
 	@Override
 	public void update(float time) {
-		Point prev = position;
-		// TODO Auto-generated method stub
+		DirectionalVector<Float> tilt = inputManager.getTiltVector();
+		int dx = velocity.x * ((tilt.x < 0) ? LEFT : RIGHT);
+		int dy = velocity.y * ((tilt.y < 0) ? UP : DOWN);
+		
+		this.position.x += dx;
+		this.position.y += dy;
+		
+		if (isOutOfBounds()) {
+			
+		}
+		
+		
 		if (this.position.x < 0 || this.position.x > screenwidth
 				|| this.position.y < 0 || this.position.y > screenheight) {
 			inputManager.getTiltVector().x = (float) 0;
@@ -54,8 +70,10 @@ public class Player extends Ship {
 				* (inputManager.getTiltVector().x < 0 ? -1 : 1);
 		this.position.y = this.position.y + this.velocity.y
 				* (inputManager.getTiltVector().y < 0 ? -1 : 1);
-		Point newP = position;
-		Log.i("Player Update", "Moved from: " + prev + " to: " + newP);
+	}
+	
+	private boolean isOutOfBounds() {
+		
 	}
 
 	@Override
