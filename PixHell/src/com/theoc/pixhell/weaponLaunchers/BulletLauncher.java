@@ -28,8 +28,7 @@ public class BulletLauncher extends Launcher {
 				-shipSize.y / 2));
 		proj.add(new BulletWeapon(AssetMap.getImage(AssetMap.shot), pos, 
 				Vector2.multiply(DEFAULT_SPEED, direction), damage));
-		return proj;
-		
+		return proj;	
 	}
 
 }
