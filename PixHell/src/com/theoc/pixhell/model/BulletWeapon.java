@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import com.theoc.pixhell.utilities.Constants;
 import com.theoc.pixhell.utilities.Vector2;
 
+
+
 public class BulletWeapon extends DumbWeapon {
 	private static final int DEFAULT_DAMAGE = 10;
 	
@@ -16,4 +18,6 @@ public class BulletWeapon extends DumbWeapon {
 		super(image, position, maxVel, Constants.BULLET_WIDTH, 
 				Constants.BULLET_HEIGHT, damage);
 	}
+	
+	
 }
