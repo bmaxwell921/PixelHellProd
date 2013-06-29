@@ -65,21 +65,6 @@ public class PowerupPurchaseObserver extends BasePurchasingObserver {
 		PurchasingManager.initiateGetUserIdRequest();
 	}
 
-	private SharedPreferences getSharedPreferencesForCurrentUser() {
-
-		final SharedPreferences settings = mStoreActivity.getSharedPreferences(
-				mStoreActivity.getCurrentUser(), Context.MODE_PRIVATE);
-
-		return settings;
-
-	}
-
-	private SharedPreferences.Editor getSharedPreferencesEditor() {
-
-		return getSharedPreferencesForCurrentUser().edit();
-
-	}
-
 	private void printReceipt(final Receipt receipt) {
 
 		Log.v(
@@ -191,10 +176,6 @@ public class PowerupPurchaseObserver extends BasePurchasingObserver {
 
 			final String userId = mStoreActivity.getCurrentUser();
 
-			final SharedPreferences settings = getSharedPreferencesForCurrentUser();
-
-			final SharedPreferences.Editor editor = getSharedPreferencesEditor();
-
 			switch (purchaseResponse.getPurchaseRequestStatus()) {
 
 			case SUCCESSFUL:
@@ -224,7 +205,6 @@ public class PowerupPurchaseObserver extends BasePurchasingObserver {
 
 					break;
 				}
-				editor.commit();
 
 				printReceipt(purchaseResponse.getReceipt());
 
