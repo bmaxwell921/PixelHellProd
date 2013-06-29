@@ -19,70 +19,70 @@ import com.theoc.pixhell.utilities.WeaponType;
 import com.theoc.pixhell.weaponLaunchers.BulletLauncher;
 import com.theoc.pixhell.weaponLaunchers.MissileLauncher;
 
-public class LevelObject extends Observable
-{
+public class LevelObject extends Observable {
 	public int screenWidth, screenHeight;
 	public GameState curGameState;
 	private GameState onPauseState;
-	
+
 	private GameObject background;
 	private List<Ship> enemies;
 	public Ship player;
-	
-	
+
 	private List<Weapon> playerShots;
 	private List<Weapon> enemyShots;
-	
-	//private List<GameObject> consumables;
-	//private List<Explosion>
-	
+
+	// private List<GameObject> consumables;
+	// private List<Explosion>
+
 	private AIFactory factory;
 	private SoundManager sm;
 	int randomNumber;
 	int randomNumberForSound;
 	int coinNumber;
 	int score;
-	
-	//TODO make this better
+
+	// TODO make this better
 	private final int TEAR_DOWN_TIMER = 3000;
 	private int timeLeftForTearDown = 0;
 	private List<GameObject> explosions;
 	private List<GameObject> coins;
-	
-	public LevelObject(int screenWidth, int screenHeight, GameStartProperties properties, InputManager im, SoundManager sm ) {
+
+	public LevelObject(int screenWidth, int screenHeight,
+			GameStartProperties properties, InputManager im, SoundManager sm) {
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
 		this.sm = sm;
-		background = new Background(AssetMap.getImage(AssetMap.backgroundKey), screenWidth, 
-				screenHeight);
+		background = new Background(AssetMap.getImage(AssetMap.backgroundKey),
+				screenWidth, screenHeight);
 		enemies = new LinkedList<Ship>();
 		playerShots = new LinkedList<Weapon>();
 		enemyShots = new LinkedList<Weapon>();
 		explosions = new LinkedList<GameObject>();
 		coins = new LinkedList<GameObject>();
-		//TODO don't have this hard coded here
-		player = new Player(AssetMap.getImage(AssetMap.playerOne), im, screenWidth, screenHeight, 100);
+		// TODO don't have this hard coded here
+		player = new Player(AssetMap.getImage(AssetMap.playerOne), im,
+				screenWidth, screenHeight, 100);
 
 		this.setPlayerWeapon(WeaponType.BULLET);
 
 		Random randomGenerator = new Random();
-		randomNumber =randomGenerator.nextInt(1)%2;
-		randomNumberForSound =randomGenerator.nextInt(1)%3;
-		coinNumber =0;
-		score =0;
+		randomNumber = randomGenerator.nextInt(1) % 2;
+		randomNumberForSound = randomGenerator.nextInt(1) % 3;
+		coinNumber = 0;
+		score = 0;
 
-		transitionToState(GameState.BETWEEN_WAVE); 
+		transitionToState(GameState.BETWEEN_WAVE);
 		onPauseState = GameState.IN_WAVE;
-		
-		//TODO get Difficulty this from elsewhere
-		factory = new AIFactory(Difficulty.EASY, new WaveInfo(10, 2000, 100), 
+
+		// TODO get Difficulty this from elsewhere
+		factory = new AIFactory(Difficulty.EASY, new WaveInfo(10, 2000, 100),
 				screenWidth, screenHeight);
 		setUpNextWave();
 	}
-	
+
 	public void update(long timeElapsed) {
 		if (curGameState == GameState.PAUSE) {
-			//Do nothing
+			// Do nothing
 		} else if (curGameState == GameState.IN_WAVE) {
 			inWaveUpdate(timeElapsed);
 		} else if (curGameState == GameState.BETWEEN_WAVE) {
@@ -90,42 +90,42 @@ public class LevelObject extends Observable
 		} else if (curGameState == GameState.TEAR_DOWN) {
 			tearDownUpdate(timeElapsed);
 		}
-		
+
 		this.setChanged();
 		this.notifyObservers();
 	}
-	
+
 	public void pause() {
 		if (!isPaused()) {
 			onPauseState = curGameState;
 			transitionToState(GameState.PAUSE);
 		}
 	}
-	
+
 	public boolean isPaused() {
 		return curGameState == GameState.PAUSE;
 	}
-	
+
 	public void resume() {
 		transitionToState(onPauseState);
 		onPauseState = GameState.IN_WAVE;
 	}
-	
 
 	public void setPlayerWeapon(WeaponType weapon) {
 		if (weapon == WeaponType.BULLET) {
-			//player.setLauncher(new BulletLauncher());
-			player.addLauncher(new BulletLauncher(player.stats.getBulletDamage(), 
-					player.stats.getBulletCooldown()));
+			// player.setLauncher(new BulletLauncher());
+			player.addLauncher(new BulletLauncher(player.stats
+					.getBulletDamage(), player.stats.getBulletCooldown()));
 		} else if (weapon == WeaponType.MISSILE) {
-			player.addLauncher(new MissileLauncher(player.stats.getMissileDamage(), 
-					player.stats.getMissileCooldown()));
+			player.addLauncher(new MissileLauncher(player.stats
+					.getMissileDamage(), player.stats.getMissileCooldown()));
 		}
 	}
-	
+
 	public int getCoinNumber() {
 		return coinNumber;
 	}
+
     
 	
 	public int getScore() {
@@ -136,11 +136,11 @@ public class LevelObject extends Observable
 		this.coins = coins;
 	}
 
+
 	public List<GameObject> getCoins() {
 		return coins;
 	}
 
-	
 	private void inWaveUpdate(long timeElapsed) {
 		doUpdates(timeElapsed);
 		doCollisionChecks();
@@ -148,13 +148,12 @@ public class LevelObject extends Observable
 		checkOffScreenGameObjects();
 		checkEndGame();
 	}
-	
+
 	private void doUpdates(float timeElapsed) {
-		//Move everyone, then check collisions
+		// Move everyone, then check collisions
 		player.update(timeElapsed);
 		List<Weapon> weapons = player.Fire(timeElapsed);
-		if(weapons !=null && !weapons.isEmpty())
-		{
+		if (weapons != null && !weapons.isEmpty()) {
 			sm.playSoundEffect(AssetMap.SHOT_BULLET);
 			playerShots.addAll(weapons);
 		}
@@ -163,55 +162,54 @@ public class LevelObject extends Observable
 
 			List<Weapon> enemyWeapon = ship.Fire(timeElapsed);
 			Random randomGenerator = new Random();
-			randomNumberForSound =randomGenerator.nextInt(4)%2;
-			if( enemyWeapon !=null && !enemyWeapon.isEmpty())
-			{
-				if(randomNumberForSound==0)
-				{
-				sm.playSoundEffect(AssetMap.SHOT_MISSILE);
-				}
-				if(randomNumberForSound==1)
-				{
-				sm.playSoundEffect(AssetMap.SHOT_LASER);
+			randomNumberForSound = randomGenerator.nextInt(4) % 2;
+			if (enemyWeapon != null && !enemyWeapon.isEmpty()) {
+				if (randomNumberForSound == 0) {
+					sm.playSoundEffect(AssetMap.SHOT_MISSILE);
+				} else if (randomNumberForSound == 1) {
+					sm.playSoundEffect(AssetMap.SHOT_LASER);
+				} else if (randomNumberForSound == 2) {
+					sm.playSoundEffect(AssetMap.SHOT_BULLET);
+				} else {
+					sm.playSoundEffect(AssetMap.SHOT_BOMB);
 				}
 			}
-				sm.playSoundEffect(AssetMap.SHOT_BULLET);
-				enemyShots.addAll(enemyWeapon);
+			enemyShots.addAll(enemyWeapon);
 		}
-		
+
 		for (GameObject shot : playerShots) {
 			shot.update(timeElapsed);
 		}
-		
+
 		for (GameObject shot : enemyShots) {
 			shot.update(timeElapsed);
-			
+
 		}
-		
+
 		for (GameObject exp : explosions) {
 			exp.update(timeElapsed);
 		}
-		
+
 		checkDeaths();
-		
+
 		background.update(timeElapsed);
 	}
-	
+
 	private void doCollisionChecks() {
 		playerEnemyCollisions();
 		playerEnemyShotCollisions();
 		enemyPlayerShotCollisions();
 		playerCoinCollisions();
 	}
-	
+
 	private void spawnNewEnemies(float dt) {
 		if (factory.timeForSpawn(dt)) {
 			enemies.add(factory.spawnEnemy());
 		}
 	}
-	
+
 	private void playerEnemyCollisions() {
-		//for (Ship enemy : enemies) {
+		// for (Ship enemy : enemies) {
 		for (Iterator<Ship> iter = enemies.iterator(); iter.hasNext();) {
 			Ship enemy = iter.next();
 			if (player.CollidesWith(enemy)) {
@@ -221,75 +219,66 @@ public class LevelObject extends Observable
 			}
 		}
 	}
-	
+
 	private void playerEnemyShotCollisions() {
 		handleShipShotCollision(player, enemyShots);
 	}
-	
+
 	private void enemyPlayerShotCollisions() {
 		for (Ship enemy : enemies) {
 			handleShipShotCollision(enemy, playerShots);
 		}
 	}
-	
+
 	private void playerCoinCollisions() {
 		coinCollision(player, coins);
 	}
-	
-	
+
 	private void checkDeaths() {
-		for (Iterator<Ship> iter = enemies.iterator(); iter.hasNext(); ) {
+		for (Iterator<Ship> iter = enemies.iterator(); iter.hasNext();) {
 			Ship ship = iter.next();
 			Random randomGenerator = new Random();
-			randomNumber =randomGenerator.nextInt(4)%2;
-			randomNumberForSound =randomGenerator.nextInt(4)%3;
-			if(!ship.isAlive)
-			{
-				if(randomNumber==1)
-				{
-					
-				explosions.add(new Explosion(ship.position));
-					if (randomNumberForSound==0)
-					{
-				sm.playSoundEffect(AssetMap.ENEMY_KILL_WHOOSH);
+			randomNumber = randomGenerator.nextInt(4) % 2;
+			randomNumberForSound = randomGenerator.nextInt(4) % 3;
+			if (!ship.isAlive) {
+				if (randomNumber == 1) {
+
+					explosions.add(new Explosion(ship.position));
+					if (randomNumberForSound == 0) {
+						sm.playSoundEffect(AssetMap.ENEMY_KILL_WHOOSH);
 					}
-					if(randomNumberForSound==1)
-					{
-				sm.playSoundEffect(AssetMap.ENEMY_KILL_RATTLE);
+					if (randomNumberForSound == 1) {
+						sm.playSoundEffect(AssetMap.ENEMY_KILL_RATTLE);
 					}
-					if(randomNumberForSound==2)
-					{
-				sm.playSoundEffect(AssetMap.ENEMY_KILL_DEREZ);
+					if (randomNumberForSound == 2) {
+						sm.playSoundEffect(AssetMap.ENEMY_KILL_DEREZ);
 					}
-				score=score+10;
-				}
-				else
-				{
+					score = score + 10;
+				} else {
 					coins.add(new Coins(ship.position));
 				}
 				iter.remove();
 			}
 		}
-		
+
 		for (Iterator<GameObject> iter = explosions.iterator(); iter.hasNext();) {
 			GameObject exp = iter.next();
 			if (!exp.isAlive) {
 				iter.remove();
 			}
 		}
-		
+
 		for (Iterator<GameObject> iter = coins.iterator(); iter.hasNext();) {
 			GameObject coin = iter.next();
 			if (!coin.isAlive) {
 				iter.remove();
 			}
 		}
-		
+
 	}
-	
-	private void handleShipShotCollision(Ship single, 
-			List<Weapon> others) {
-		//for (Weapon other : others) {
+
+	private void handleShipShotCollision(Ship single, List<Weapon> others) {
+		// for (Weapon other : others) {
 		for (Iterator<Weapon> iter = others.iterator(); iter.hasNext();) {
 			Weapon other = iter.next();
 			if (single.CollidesWith(other)) {
@@ -298,63 +287,65 @@ public class LevelObject extends Observable
 			}
 		}
 	}
-	
-	private void coinCollision(Ship single, 
-			List<? extends GameObject> others) {
-		//for (Weapon other : others) {
-		for (Iterator<? extends GameObject> iter = others.iterator(); iter.hasNext();) {
-		  Coins other = (Coins) iter.next();
+
+	private void coinCollision(Ship single, List<? extends GameObject> others) {
+		// for (Weapon other : others) {
+		for (Iterator<? extends GameObject> iter = others.iterator(); iter
+				.hasNext();) {
+			Coins other = (Coins) iter.next();
 			if (single.CollidesWith(other)) {
-				other.isAlive =false;
+				other.isAlive = false;
 				coinNumber++;
 				iter.remove();
 			}
 		}
 	}
-	
+
 	private void checkOffScreenGameObjects() {
 		checkListOffScreen(enemies);
 		checkListOffScreen(playerShots);
 		checkListOffScreen(enemyShots);
 	}
-	
+
 	private void checkListOffScreen(List<? extends GameObject> objs) {
-		for (Iterator<? extends GameObject> iter = objs.iterator(); iter.hasNext(); ) {
+		for (Iterator<? extends GameObject> iter = objs.iterator(); iter
+				.hasNext();) {
 			if (isOffScreen(iter.next())) {
 				iter.remove();
 			}
 		}
 	}
-	
+
 	private void checkEndGame() {
 		if (player.stats.getHealth() <= 0) {
 			transitionToState(GameState.TEAR_DOWN);
 		}
 	}
-	
+
 	private boolean isOffScreen(GameObject obj) {
-		return !background.RectBoxforCollision().contains(obj.RectBoxforCollision());
+		return !background.RectBoxforCollision().contains(
+				obj.RectBoxforCollision());
 	}
-	
+
 	private void setUpNextWave() {
 		factory.moveToNextWave();
 		transitionToState(GameState.IN_WAVE);
 	}
-	
+
 	private void tearDownUpdate(float dt) {
 		timeLeftForTearDown -= dt;
 		if (timeLeftForTearDown <= 0) {
 			transitionToState(GameState.GAME_OVER);
 		}
 	}
-	
+
 	private void transitionToState(GameState state) {
 		curGameState = state;
 		if (state == GameState.TEAR_DOWN) {
 			timeLeftForTearDown = TEAR_DOWN_TIMER;
 		}
 	}
-	
+
 	public List<GameObject> getOnscreenObjects() {
 		List<GameObject> onScreen = new ArrayList<GameObject>();
 		onScreen.add(background);
