@@ -61,9 +61,16 @@ public final class GameView extends View
 	public void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		
-		this.brush.setColor(Color.BLACK);
-		canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), this.brush);
+		int width = canvas.getWidth();
+		int height = canvas.getHeight();
 		
+		//Bitmap bb = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+		//Canvas bc = new Canvas(bb);
+		
+		//this.brush.setColor(Color.BLACK);
+		//canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), this.brush);
+		
+		//- Draw ALL objects --------------------------------
 		if (this.model != null) {
 			for (GameObject obj : this.model.getOnscreenObjects()) {
 				int x = (int) obj.position.x;
@@ -72,6 +79,22 @@ public final class GameView extends View
 			}
 		}
 		
+		//- Health Bar ----------------------------------------
+		this.brush.setColor(Color.GREEN);
+		int hu = height / 100;
+		int wu = width / 100;
+		int health = this.model.player.stats.getHealth();
+		canvas.drawRect(0, (100-health) * hu, wu, 0, this.brush);
+		
+		//- Paused -------------------------------------------
+		if (this.model.isPaused()) {
+			this.brush.setColor(Color.GRAY);
+			this.brush.setAlpha(128);
+			canvas.drawRect(0, 0, width, height, this.brush);
+		}
+		
+		
+		//- Verbose Text --------------------------------------
 		this.framesDrawn++;
 		this.brush.setColor(Color.WHITE);
 		canvas.drawText("Frames Drawn: " + this.framesDrawn, 10, 15, this.brush);

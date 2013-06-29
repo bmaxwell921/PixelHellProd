@@ -50,23 +50,37 @@ public class InputManager
 	}
 	
 	public Vector2 getTiltVector() {
+		// X-Left
 		if (this.mValuesAccel[0] > 3.0f) {
-			this.tiltVector.x = -2f;
+			this.tiltVector.x = -4f;
 		} else if (this.mValuesAccel[0] > 1.0f) {
-			this.tiltVector.x = -1f;
-		} else if (this.mValuesAccel[0] < -3.0f) {
-			this.tiltVector.x = 2f;
+			this.tiltVector.x = -2f;
+		} 
+		// X-Right
+		else if (this.mValuesAccel[0] < -3.0f) {
+			this.tiltVector.x = 4f;
 		} else if (this.mValuesAccel[0] < -1.0f) {
-			this.tiltVector.x = 1f;
-		} else {
+			this.tiltVector.x = 2f;
+		} 
+		// X- Stationary
+		else {
 			this.tiltVector.x = 0f;
 		}
 		
-		if (this.mValuesAccel[1] > 2.0f) {
-			this.tiltVector.y = 1;
-		} else if (this.mValuesAccel[1] < -2.0f) {
-			this.tiltVector.y = -1;
+		
+		// Y-Down
+		if (this.mValuesAccel[1] > 2f) {
+			this.tiltVector.y = 2f;
+		} else if (this.mValuesAccel[1] > 0.75f) {
+			this.tiltVector.y = 1f;
 		}
+		// Y-Up
+		else if (this.mValuesAccel[1] < -2f) {
+			this.tiltVector.y = -2f;
+		} else if (this.mValuesAccel[1] < -0.75f) {
+			this.tiltVector.y = -1f;
+		}
+		// Y-Stationary
 		else {
 			this.tiltVector.y = 0;
 		}

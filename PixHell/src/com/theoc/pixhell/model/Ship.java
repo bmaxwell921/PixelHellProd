@@ -19,7 +19,7 @@ public abstract class Ship extends GameObject {
 	public float FiringTime;
 	
 
-	private StatInfo stats;
+	public StatInfo stats;
 
 	public Ship(Bitmap image) {
 		this(image, defaultFireRate);
@@ -42,7 +42,6 @@ public abstract class Ship extends GameObject {
 		super(location, maxVel, shipHeight, shipWidth, image);
 		stats = new StatInfo(defaultHealth, defaultDamage, fireRate);
 		this.FiringTime = this.stats.getCurFireRate();
-
 	}
 
 	public void applyDamage(int damage) {

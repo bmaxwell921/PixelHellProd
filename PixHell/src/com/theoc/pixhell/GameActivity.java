@@ -2,28 +2,23 @@ package com.theoc.pixhell;
 
 import java.io.IOException;
 
-import com.theoc.pixhell.logic.AssetMap;
-import com.theoc.pixhell.manager.InputManager;
-import com.theoc.pixhell.manager.SoundManager;
-import com.theoc.pixhell.model.LevelObject;
-
-import com.amazon.insights.AmazonInsights;
-import com.amazon.insights.CustomEvent;
-
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.SoundPool;
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-import android.util.Log;
-
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
+import android.os.Bundle;
 import android.view.Display;
 import android.view.Menu;
+
+import com.theoc.pixhell.logic.AssetMap;
+import com.theoc.pixhell.manager.InputManager;
+import com.theoc.pixhell.manager.SoundManager;
+import com.theoc.pixhell.model.LevelObject;
 
 public class GameActivity extends Activity
 {
@@ -99,6 +94,7 @@ public class GameActivity extends Activity
 			this.gameThread.start();		
 		}
 		this.soundManager.startTheme();
+		this.model.resume();
 		
 		CustomEvent.create("_session.start").record();
 	}
@@ -107,6 +103,7 @@ public class GameActivity extends Activity
 	public void onPause() {
 		super.onPause();
 		this.soundManager.pauseTheme();
+		this.model.pause();
 		CustomEvent.create("_session.pause").record();
 	}
 	
@@ -114,6 +111,7 @@ public class GameActivity extends Activity
 	public void onResume() {
 		super.onResume();
 		this.soundManager.resumeTheme();
+		this.model.resume();
 		CustomEvent.create("_session.resume").record();
 	}
 	
@@ -128,6 +126,7 @@ public class GameActivity extends Activity
 	public void onDestroy() {
 		super.onDestroy();
 		this.gameThread.interrupt();
+		this.model.pause();
 		this.soundManager.stopTheme();
 		CustomEvent.create("_session.stop").record();
 		
@@ -161,23 +160,13 @@ public class GameActivity extends Activity
 				@Override
 				public void run()
 				{
-					long tick = 0;
 					while (view.run)
 					{
 						try {
 							Thread.sleep(GAME_RATE);
 							model.update(GAME_RATE);	
-							
-							tick += GAME_RATE;
 						} catch (InterruptedException e) {
 							e.printStackTrace();
-						}
-						
-						if (tick > 1000) {
-							tick = 0;
-							Log.i("tick", "tock");
-							soundManager.playSoundEffect(AssetMap.PLAYER_HIT_BULLET);
-							//soundManager.playSoundEffect(AssetMap.MENU_SELECT_START);
 						}
 					}
 					finish();

@@ -2,8 +2,6 @@ package com.theoc.pixhell.store;
 
 import java.util.Map;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -13,7 +11,6 @@ import com.amazon.inapp.purchasing.GetUserIdResponse.GetUserIdRequestStatus;
 import com.amazon.inapp.purchasing.Item;
 import com.amazon.inapp.purchasing.ItemDataResponse;
 import com.amazon.inapp.purchasing.PurchaseResponse;
-import com.amazon.inapp.purchasing.PurchaseUpdatesResponse;
 import com.amazon.inapp.purchasing.PurchasingManager;
 import com.amazon.inapp.purchasing.Receipt;
 import com.theoc.pixhell.StoreActivity;
@@ -40,44 +37,37 @@ public class PowerupPurchaseObserver extends BasePurchasingObserver {
 		new GetUserIdAsyncTask().execute(getUserIdResponse);
 	}
 
-	@Override
-	public void onItemDataResponse(ItemDataResponse itemDataResponse) {
-		// TODO Auto-generated method stub
-		super.onItemDataResponse(itemDataResponse);
+	public void onItemDataResponse(final ItemDataResponse itemDataResponse) {
+
+		Log.v(TAG, "onItemDataResponse recieved");
+
+		Log.v(TAG,
+				"ItemDataRequestStatus"
+						+ itemDataResponse.getItemDataRequestStatus());
+
+		Log.v(TAG, "ItemDataRequestId" + itemDataResponse.getRequestId());
+
+		new ItemDataAsyncTask().execute(itemDataResponse);
+
 	}
 
 	@Override
-	public void onPurchaseResponse(PurchaseResponse purchaseResponse) {
-		// TODO Auto-generated method stub
-		super.onPurchaseResponse(purchaseResponse);
-	}
+	public void onPurchaseResponse(final PurchaseResponse purchaseResponse) {
 
-	@Override
-	public void onPurchaseUpdatesResponse(
-			PurchaseUpdatesResponse purchaseUpdatesResponse) {
-		// TODO Auto-generated method stub
-		super.onPurchaseUpdatesResponse(purchaseUpdatesResponse);
+		Log.v(TAG, "onPurchaseResponse recieved");
+
+		Log.v(TAG,
+				"PurchaseRequestStatus:"
+						+ purchaseResponse.getPurchaseRequestStatus());
+
+		new PurchaseAsyncTask().execute(purchaseResponse);
+
 	}
 
 	@Override
 	public void onSdkAvailable(boolean isSandboxMode) {
 		Log.w("", "" + isSandboxMode);
 		PurchasingManager.initiateGetUserIdRequest();
-	}
-
-	private SharedPreferences getSharedPreferencesForCurrentUser() {
-
-		final SharedPreferences settings = mStoreActivity.getSharedPreferences(
-				mStoreActivity.getCurrentUser(), Context.MODE_PRIVATE);
-
-		return settings;
-
-	}
-
-	private SharedPreferences.Editor getSharedPreferencesEditor() {
-
-		return getSharedPreferencesForCurrentUser().edit();
-
 	}
 
 	private void printReceipt(final Receipt receipt) {
@@ -191,10 +181,6 @@ public class PowerupPurchaseObserver extends BasePurchasingObserver {
 
 			final String userId = mStoreActivity.getCurrentUser();
 
-			final SharedPreferences settings = getSharedPreferencesForCurrentUser();
-
-			final SharedPreferences.Editor editor = getSharedPreferencesEditor();
-
 			switch (purchaseResponse.getPurchaseRequestStatus()) {
 
 			case SUCCESSFUL:
@@ -221,10 +207,9 @@ public class PowerupPurchaseObserver extends BasePurchasingObserver {
 					 * editor.putInt(ButtonClickerActivity.NUM_CLICKS, numClicks
 					 * + 10);
 					 */
-
+					mStoreActivity.update(receipt.getSku());
 					break;
 				}
-				editor.commit();
 
 				printReceipt(purchaseResponse.getReceipt());
 
@@ -281,7 +266,7 @@ public class PowerupPurchaseObserver extends BasePurchasingObserver {
 
 			if (success) {
 
-				mStoreActivity.update();
+				//mStoreActivity.update();
 
 			}
 

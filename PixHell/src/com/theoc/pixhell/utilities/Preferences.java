@@ -7,4 +7,5 @@ public interface Preferences {
 	String tiltSensitivityIdentifier = "tilt_Identifier";
 	String walletIdentifier = "wallet_identifier";	
 	String weaponsCacheIdentifier = "weapons_idetifier";
+	String persistantStorageIdentifier = "persistant_storage_identifier";
 }

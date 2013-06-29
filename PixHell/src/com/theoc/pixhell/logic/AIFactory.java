@@ -85,7 +85,6 @@ public class AIFactory {
 	
 	private Vector2 getStartPosition() {
 		int x = gen.nextInt(screenWidth - 100);
-		Log.i("Movement", "x pos is: " + x);
 		return new Vector2(gen.nextInt(screenWidth - 100), 0);
 	}
 	

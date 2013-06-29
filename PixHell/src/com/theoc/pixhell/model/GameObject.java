@@ -24,6 +24,10 @@ public abstract class GameObject {
 		isAlive = true;
 	}
 	
+	public GameObject(Bitmap image, int width, int height) {
+		this(Vector2.ZERO, Vector2.ZERO, height, width, image);
+	}
+	
 	public GameObject(Vector2 position, Vector2 maxVel, int height, int width,
 			Bitmap image) {
 		super();
