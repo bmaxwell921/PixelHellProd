@@ -23,6 +23,7 @@ public class InputManager
     private DirectionalVector<Float> tiltVector = null;
 	
 	public InputManager(SensorManager sensorManager) {
+		this.tiltVector = new DirectionalVector<Float>(0f, 0f);
 		this.sensorManager = sensorManager;
 		this.mEventListener =
 			new SensorEventListener()

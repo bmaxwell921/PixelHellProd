@@ -7,6 +7,11 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
+    
+    <instrumentation
+        android:name="android.test.InstrumentationTestRunner"
+        android:label="PixHell Tests"
+        android:targetPackage="com.theoc.pixhell.utilities" />
 
     <application
         android:allowBackup="true"
@@ -43,6 +48,8 @@
                     android:permission="com.amazon.inapp.purchasing.Permission.NOTIFY" />
             </intent-filter>
         </receiver>
+        
+        <uses-library android:name="android.test.runner" />
     </application>
 
 </manifest>
