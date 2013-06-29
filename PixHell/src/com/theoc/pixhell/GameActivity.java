@@ -4,8 +4,11 @@ import java.io.IOException;
 
 import com.theoc.pixhell.logic.AssetMap;
 import com.theoc.pixhell.manager.InputManager;
+import com.theoc.pixhell.manager.SoundManager;
 import com.theoc.pixhell.model.LevelObject;
 
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.res.AssetManager;
@@ -19,14 +22,15 @@ public class GameActivity extends Activity
 	public static final long GAME_RATE = 16;
 	public static final long FRAME_RATE = 32;
 	
-	private AssetManager 	assetMgr;
+	private AssetManager 	assetMgr  = null;
 	
-	private Thread       gameThread;
+	private Thread       gameThread   = null;
 	//private Thread dispThread;
-	private GameView     view;
-	private LevelObject  model;
-	private InputManager inputManager;
-
+	private GameView     view         = null;
+	private LevelObject  model        = null;
+	private InputManager inputManager = null;
+	private SoundManager soundManager = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -34,15 +38,22 @@ public class GameActivity extends Activity
 		this.setContentView(R.layout.activity_game);
 		this.assetMgr = this.getAssets();
 		
+		AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);
+		MediaPlayer  mp = new MediaPlayer();
 		this.inputManager = new InputManager((SensorManager) this.getSystemService(SENSOR_SERVICE));
 		this.setSensorListners();
 		try
 		{
 			AssetMap.init(this.assetMgr);
+			mp.setDataSource(this.assetMgr.openFd("mus/game_theme.mp3").getFileDescriptor()); 
+			//this.mediaPlayer.setDataSource(this.assetMgr.openFd("mus/game_theme.mp3").getFileDescriptor()); 
+	        //this.mediaPlayer.setData
+			//this.mediaPlayer.prepare(); 
 		} catch (IOException e)
 		{
 			e.printStackTrace();
 		}
+		this.soundManager = new SoundManager(am, mp);
 		
 		Display display = getWindowManager().getDefaultDisplay();
 		int width = display.getWidth();
@@ -71,21 +82,31 @@ public class GameActivity extends Activity
 		if (this.gameThread != null) {
 			this.gameThread.start();		
 		}
+		this.soundManager.startTheme();
 	}
 	
 	@Override
 	public void onPause() {
 		super.onPause();
+		this.soundManager.pauseTheme();
 	}
 	
 	@Override
 	public void onResume() {
 		super.onResume();
+		this.soundManager.resumeTheme();
 	}
 	
 	@Override 
 	public void onRestart() {
 		super.onRestart();
+		this.soundManager.startTheme();
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		this.soundManager.stopTheme();
 	}
 		
 	
@@ -114,6 +135,14 @@ public class GameActivity extends Activity
 						try {
 							Thread.sleep(GAME_RATE);
 							model.update(GAME_RATE);
+							
+							
+							if (inputManager.screenIsTouched()) {
+								soundManager.playSoundEffect();			
+								inputManager.setTouched(false);
+							}
+							
+							
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
