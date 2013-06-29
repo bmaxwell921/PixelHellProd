@@ -7,8 +7,11 @@ import java.util.Observable;
 
 import android.graphics.Point;
 
+import com.theoc.pixhell.infoboxes.WaveInfo;
+import com.theoc.pixhell.logic.AIFactory;
 import com.theoc.pixhell.logic.AssetMap;
 import com.theoc.pixhell.manager.InputManager;
+import com.theoc.pixhell.utilities.Difficulty;
 
 public class LevelObject extends Observable
 {
@@ -27,7 +30,7 @@ public class LevelObject extends Observable
 	//private List<GameObject> consumables;
 	//private List<Explosion>
 	
-	private int curWave;
+	private AIFactory factory;
 	
 	public LevelObject(int screenWidth, int screenHeight, InputManager im) {
 		this.screenWidth = screenWidth;
@@ -37,12 +40,15 @@ public class LevelObject extends Observable
 		playerShots = new LinkedList<Weapon>();
 		enemyShots = new LinkedList<Weapon>();
 		
+		//TODO don't have this hard coded here
 		player = new Player(AssetMap.getImage(AssetMap.playerOne), 
-				new Point(screenWidth / 2, screenHeight / 2), new Point(0 ,0), 
+				new Point(screenWidth / 2, screenHeight / 2), new Point(5 , 5), 
 				im, screenWidth, screenHeight);
 
-		curGameState = GameState.BETWEEN_WAVE;
-		curWave = 1;
+		curGameState = GameState.BETWEEN_WAVE; 
+		
+		//TODO get Difficulty this from elsewhere
+		factory = new AIFactory(Difficulty.EASY, new WaveInfo(10, 2000, 100));
 		setUpNextWave();
 	}
 	
@@ -50,16 +56,20 @@ public class LevelObject extends Observable
 		if (curGameState == GameState.IN_WAVE) {
 			inWaveUpdate(timeElapsed);
 		} else if (curGameState == GameState.BETWEEN_WAVE) {
-			//setUpNextWave();
+			setUpNextWave();
 		}
-		
-		
 		
 		this.setChanged();
 		this.notifyObservers();
 	}
 	
 	private void inWaveUpdate(long timeElapsed) {
+		doUpdates(timeElapsed);
+		doCollisionChecks();
+		spawnNewEnemies(timeElapsed);
+	}
+	
+	private void doUpdates(float timeElapsed) {
 		//Move everyone, then check collisions
 		player.update(timeElapsed);
 		for (Ship ship : enemies) {
@@ -75,24 +85,22 @@ public class LevelObject extends Observable
 		}
 		
 		background.update(timeElapsed);
-		
-		/*
-		 * Collisions:
-		 * 	Player on enemy - Take away health
-		 * 	Player on enemyProj - take away health
-		 * 	
-		 * 	Enemy of playerProj - take away health
-		 * 	
-		 * 	Player with edge of screen
-		 */
+	}
+	
+	private void doCollisionChecks() {
 		playerEnemyCollisions();
 		playerEnemyShotCollisions();
-		
 		enemyPlayerShotCollisions();
 	}
 	
+	private void spawnNewEnemies(float dt) {
+		if (factory.timeForSpawn(dt)) {
+			enemies.add(factory.spawnEnemy());
+		}
+	}
+	
 	private void playerEnemyCollisions() {
-		
+		//TODO
 	}
 	
 	private void playerEnemyShotCollisions() {
@@ -115,11 +123,8 @@ public class LevelObject extends Observable
 	}
 	
 	private void setUpNextWave() {
-		//Ask the AIWaveInfoManager to give us how many enemies to make
-		//Send that info to the AIFactory
-		
+		factory.moveToNextWave();
 		curGameState = GameState.IN_WAVE;
-		++curWave;
 	}
 	
 	public List<GameObject> getOnscreenObjects() {

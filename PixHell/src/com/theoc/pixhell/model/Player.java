@@ -4,6 +4,7 @@ import com.theoc.pixhell.manager.InputManager;
 
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.util.Log;
 
 public class Player extends Ship {
 	int screenheight = 0;
@@ -43,7 +44,7 @@ public class Player extends Ship {
 
 	@Override
 	public void update(float time) {
-
+		Point prev = position;
 		// TODO Auto-generated method stub
 		if (this.position.x < 0 || this.position.x > screenwidth
 				|| this.position.y < 0 || this.position.y > screenheight) {
@@ -53,7 +54,8 @@ public class Player extends Ship {
 				* (inputManager.getTiltVector().x < 0 ? -1 : 1);
 		this.position.y = this.position.y + this.velocity.y
 				* (inputManager.getTiltVector().y < 0 ? -1 : 1);
-
+		Point newP = position;
+		Log.i("Player Update", "Moved from: " + prev + " to: " + newP);
 	}
 
 	@Override

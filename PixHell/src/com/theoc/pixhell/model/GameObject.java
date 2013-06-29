@@ -19,9 +19,8 @@ public abstract class GameObject {
 		this.velocity = new Point(0, 0);
 	}
 	
-	public  void update(float time)
+	public void update(float time)
 	{
-		
 		position.x =(int) (position.x*velocity.x*time);
 		position.y =(int) (position.y*velocity.y*time);
 	}
