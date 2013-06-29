@@ -16,6 +16,8 @@ public class Constants {
 	public static final int BULLET_HEIGHT=20;
 	public static final int BULLET_WIDTH=20;
 	
+	public static final int ENEMY_CRASH_DAMAGE = 50;
+	
 	public static final Map<String, Integer> SKU_TO_TYPE_MAP ;
 	
 	static {

@@ -6,18 +6,21 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 
+import android.graphics.Rect;
+
 import com.theoc.pixhell.infoboxes.WaveInfo;
 import com.theoc.pixhell.logic.AIFactory;
 import com.theoc.pixhell.logic.AssetMap;
 import com.theoc.pixhell.manager.InputManager;
 import com.theoc.pixhell.manager.SoundManager;
+import com.theoc.pixhell.utilities.Constants;
 import com.theoc.pixhell.utilities.Difficulty;
+import com.theoc.pixhell.utilities.GameState;
 
 public class LevelObject extends Observable
 {
 	public int screenWidth, screenHeight;
-	private enum GameState {PAUSE, IN_WAVE, BETWEEN_WAVE};
-	private GameState curGameState;
+	public GameState curGameState;
 	private GameState onPauseState;
 	
 	private GameObject background;
@@ -34,6 +37,10 @@ public class LevelObject extends Observable
 	private AIFactory factory;
 	private SoundManager sm;
 	
+	//TODO make this better
+	private final int TEAR_DOWN_TIMER = 3000;
+	private int timeLeftForTearDown = 0;
+	
 	
 	public LevelObject(int screenWidth, int screenHeight, InputManager im, SoundManager sm ) {
 		this.screenWidth = screenWidth;
@@ -48,7 +55,7 @@ public class LevelObject extends Observable
 		//TODO don't have this hard coded here
 		player = new Player(AssetMap.getImage(AssetMap.playerOne), im, screenWidth, screenHeight);
 
-		curGameState = GameState.BETWEEN_WAVE; 
+		transitionToState(GameState.BETWEEN_WAVE); 
 		onPauseState = GameState.IN_WAVE;
 		
 		//TODO get Difficulty this from elsewhere
@@ -64,6 +71,8 @@ public class LevelObject extends Observable
 			inWaveUpdate(timeElapsed);
 		} else if (curGameState == GameState.BETWEEN_WAVE) {
 			setUpNextWave();
+		} else if (curGameState == GameState.TEAR_DOWN) {
+			tearDownUpdate(timeElapsed);
 		}
 		
 		this.setChanged();
@@ -73,7 +82,7 @@ public class LevelObject extends Observable
 	public void pause() {
 		if (!isPaused()) {
 			onPauseState = curGameState;
-			curGameState = GameState.PAUSE;
+			transitionToState(GameState.PAUSE);
 		}
 	}
 	
@@ -82,7 +91,12 @@ public class LevelObject extends Observable
 	}
 	
 	public void resume() {
-		curGameState = onPauseState;
+		transitionToState(onPauseState);
+		onPauseState = GameState.IN_WAVE;
+	}
+	
+	public void setPlayerWeapon(Class<Weapon> weapon) {
+		//TODO Overhaul how the weapons work to be component-entity
 	}
 	
 	private void inWaveUpdate(long timeElapsed) {
@@ -90,6 +104,7 @@ public class LevelObject extends Observable
 		doCollisionChecks();
 		spawnNewEnemies(timeElapsed);
 		checkOffScreenGameObjects();
+		checkEndGame();
 	}
 	
 	private void doUpdates(float timeElapsed) {
@@ -129,7 +144,11 @@ public class LevelObject extends Observable
 	}
 	
 	private void playerEnemyCollisions() {
-		
+		for (Ship enemy : enemies) {
+			if (player.CollidesWith(enemy)) {
+				player.applyDamage(Constants.ENEMY_CRASH_DAMAGE);
+			}
+		}
 	}
 	
 	private void playerEnemyShotCollisions() {
@@ -165,13 +184,33 @@ public class LevelObject extends Observable
 		}
 	}
 	
+	private void checkEndGame() {
+		if (player.stats.getHealth() <= 0) {
+			transitionToState(GameState.TEAR_DOWN);
+		}
+	}
+	
 	private boolean isOffScreen(GameObject obj) {
 		return !background.RectBoxforCollision().contains(obj.RectBoxforCollision());
 	}
 	
 	private void setUpNextWave() {
 		factory.moveToNextWave();
-		curGameState = GameState.IN_WAVE;
+		transitionToState(GameState.IN_WAVE);
+	}
+	
+	private void tearDownUpdate(float dt) {
+		timeLeftForTearDown -= dt;
+		if (timeLeftForTearDown <= 0) {
+			transitionToState(GameState.GAME_OVER);
+		}
+	}
+	
+	private void transitionToState(GameState state) {
+		curGameState = state;
+		if (state == GameState.TEAR_DOWN) {
+			timeLeftForTearDown = TEAR_DOWN_TIMER;
+		}
 	}
 	
 	public List<GameObject> getOnscreenObjects() {

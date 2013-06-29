@@ -1,24 +1,12 @@
 package com.theoc.pixhell.model;
 
+import com.theoc.pixhell.utilities.Vector2;
+
 import android.graphics.Bitmap;
 
 public class Boss extends Enemy {
 
 	public Boss(Bitmap image) {
-		super(image);
+		super(image, Vector2.ZERO);
 	}
-	@Override
-	public void update(float time) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean CollidesWith(GameObject gameObject) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	
-
 }

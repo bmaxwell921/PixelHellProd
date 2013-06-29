@@ -9,8 +9,8 @@ public class Grunt extends Enemy {
 	public Grunt(Bitmap image, Vector2 position) {
 		super(image, position);
 	}
-	
-	public Grunt(Bitmap image, Vector2 position, Vector2 maxVel) {
-		super(image, position, maxVel);
-	}	
+//	
+//	public Grunt(Bitmap image, Vector2 position, Vector2 maxVel) {
+//		super(image, position, maxVel);
+//	}	
 }

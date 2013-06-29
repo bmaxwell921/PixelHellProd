@@ -7,9 +7,8 @@ import com.theoc.pixhell.utilities.Vector2;
 public class BulletWeapon extends DumbWeapon {
 
 	
-	public BulletWeapon(Vector2 position, Vector2 maxVel, int height, int width,
-			Bitmap image) {
-		super(position, maxVel, height, width, image);
+	public BulletWeapon(Bitmap image, Vector2 position, Vector2 maxVel, int height, int width) {
+		super(image, position, maxVel, height, width);
 		
 	}
 	
