@@ -24,7 +24,7 @@ public class PowerupPurchaseObserver extends BasePurchasingObserver {
 	private static final String TAG = "PowerupPurchaseObserver";
 	private String currentUser;
 
-	public PowerupPurchaseObserver(final StoreActivity storeActivity) {
+	public PowerupPurchaseObserver(StoreActivity storeActivity) {
 		super(storeActivity);
 		this.mStoreActivity = storeActivity;
 		// TODO Auto-generated constructor stub
