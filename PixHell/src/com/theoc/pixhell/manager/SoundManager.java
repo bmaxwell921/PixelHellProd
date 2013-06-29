@@ -1,8 +1,6 @@
 package com.theoc.pixhell.manager;
 
-import java.util.HashMap;
-
-import com.theoc.pixhell.R;
+import com.theoc.pixhell.logic.AssetMap;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -39,7 +37,6 @@ public final class SoundManager
 	public void resumeTheme() { }
 	
 	public void playSoundEffect(int soundEffect) {
-		//this.audioManager.playSoundEffect(soundEffect);
-		this.soundPool.play(soundEffect, 0.75f, 0.75f, 1, 0, 1f);
+		this.soundPool.play(AssetMap.getSoundID(soundEffect), 0.75f, 0.75f, 1, 0, 1f);
 	}
 }

@@ -21,6 +21,7 @@ import android.content.res.AssetManager;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.util.Log;
+
 import android.view.Display;
 import android.view.Menu;
 
@@ -37,8 +38,6 @@ public class GameActivity extends Activity
 	private LevelObject  model        = null;
 	private InputManager inputManager = null;
 	private SoundManager soundManager = null;
-	
-	int sid = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -62,11 +61,10 @@ public class GameActivity extends Activity
 		try
 		{
 			Context context = this.getBaseContext();
-			AssetMap.init(this.assetMgr);
+			AssetMap.initImage(this.assetMgr);
+			AssetMap.initSound(context, sp);
 			mp.setDataSource(this.assetMgr.openFd("mus/game_theme.mp3").getFileDescriptor()); 
 			mp.prepare();
-			sid = sp.load(context, AssetMap.MENU_SELECT_START, 1);
-			sp.load(context, R.raw.menu_select01, 2);
 		} catch (IOException e)
 		{
 			e.printStackTrace();
@@ -178,7 +176,7 @@ public class GameActivity extends Activity
 						if (tick > 1000) {
 							tick = 0;
 							Log.i("tick", "tock");
-							soundManager.playSoundEffect(sid);
+							soundManager.playSoundEffect(AssetMap.PLAYER_HIT_BULLET);
 							//soundManager.playSoundEffect(AssetMap.MENU_SELECT_START);
 						}
 					}

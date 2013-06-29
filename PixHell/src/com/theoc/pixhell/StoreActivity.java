@@ -1,24 +1,22 @@
 package com.theoc.pixhell;
 
-import java.util.Currency;
 import java.util.Map;
 
-import com.amazon.inapp.purchasing.PurchasingManager;
-import com.amazon.inapp.purchasing.PurchasingObserver;
-import com.theoc.pixhell.db.PixhellDBHelper;
-import com.theoc.pixhell.model.HealthConsumable;
-import com.theoc.pixhell.store.PowerupPurchaseObserver;
-
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
+
+import com.amazon.inapp.purchasing.PurchasingManager;
+import com.theoc.pixhell.db.PixhellDBHelper;
+import com.theoc.pixhell.model.HealthConsumable;
+import com.theoc.pixhell.store.PowerupPurchaseObserver;
 
 public class StoreActivity extends Activity implements OnItemClickListener{
 

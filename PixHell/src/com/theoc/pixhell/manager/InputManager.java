@@ -1,12 +1,12 @@
 package com.theoc.pixhell.manager;
 
-import com.theoc.pixhell.utilities.DirectionalVector;
-import com.theoc.pixhell.utilities.Vector2;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+
+import com.theoc.pixhell.utilities.Vector2;
 
 public class InputManager 
 {

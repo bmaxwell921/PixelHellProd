@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.theoc.pixhell.R;
-
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.SoundPool;
+import android.util.SparseIntArray;
+
+import com.theoc.pixhell.R;
 
 public class AssetMap {
 	//Public keys
@@ -18,7 +21,7 @@ public class AssetMap {
 	public static final String enemyThree = "img/Enemy3.png";
 	public static final String playerOne = "img/Player.png";
 	public static final String playerTwo = "img/Player2.png";
-	public static final String shot = "";
+	public static final String shot = "img/Shot.png";
 	
 	public static final int BOSS_KILL_FIZZ   = R.raw.boss_kill01;
 	public static final int BOSS_KILL_BOOM   = R.raw.boss_kill02;
@@ -37,9 +40,9 @@ public class AssetMap {
 	public static final int MENU_SELECT_SUBMENU = R.raw.player_hit03;
 	public static final int MENU_SELECT_TOGGLE  = R.raw.player_hit04; 
 	public static final int PICKUP_HEALTH  = R.raw.pickup01; 
-	public static final int PLAYER_WEAPON  = R.raw.pickup02;
-	public static final int PLAYER_MISSILE = R.raw.pickup03;
-	public static final int PLAYER_BOMB    = R.raw.pickup04; 
+	public static final int PICKUP_WEAPON  = R.raw.pickup02;
+	public static final int PICKUP_MISSILE = R.raw.pickup03;
+	public static final int PICKUP_BOMB    = R.raw.pickup04; 
 	public static final int PLAYER_HIT_BULLET  = R.raw.player_hit01; 
 	public static final int PLAYER_HIT_LASER   = R.raw.player_hit02;
 	public static final int PLAYER_HIT_MISSILE = R.raw.player_hit03;
@@ -54,16 +57,55 @@ public class AssetMap {
 	public static final int SHOT_BOMB    = R.raw.lazer04; 
 	
 	private static Map<String, Bitmap> imageMap;
-	//private static Map<Integer, Float> soundMap;
+	private static SparseIntArray soundMap;
 	
-	public static void init(AssetManager am) throws IOException {
+	public static void initImage(AssetManager am) throws IOException {
 		imageMap = new HashMap<String, Bitmap>();
 		addImage(am, backgroundKey);
 		addImage(am, playerOne);
-		
 		addImage(am, enemyOne);
 		addImage(am, enemyTwo);
 		addImage(am, enemyThree);
+	}
+	
+	public static void initSound(Context c, SoundPool sp) {
+		soundMap = new SparseIntArray();
+		soundMap.put(BOSS_KILL_FIZZ, sp.load(c, BOSS_KILL_FIZZ, 1));
+		soundMap.put(BOSS_KILL_BOOM, sp.load(c, BOSS_KILL_BOOM, 1));
+		soundMap.put(BOSS_KILL_RATTLE, sp.load(c, BOSS_KILL_RATTLE, 1));
+		soundMap.put(BOSS_KILL_WHOOSH, sp.load(c, BOSS_KILL_WHOOSH, 1));
+		soundMap.put(ENEMY_HIT_BULLET, sp.load(c, ENEMY_HIT_BULLET, 1));
+		soundMap.put(ENEMY_HIT_LASER, sp.load(c, ENEMY_HIT_LASER, 1));
+		soundMap.put(ENEMY_HIT_MISSILE, sp.load(c, ENEMY_HIT_MISSILE, 1));
+		soundMap.put(ENEMY_HIT_BOMB, sp.load(c, ENEMY_HIT_BOMB, 1));
+		soundMap.put(ENEMY_KILL_FIZZ, sp.load(c, ENEMY_KILL_FIZZ, 1));
+		soundMap.put(ENEMY_KILL_WHOOSH, sp.load(c, ENEMY_KILL_WHOOSH, 1));
+		soundMap.put(ENEMY_KILL_DEREZ, sp.load(c, ENEMY_KILL_DEREZ, 1));
+		soundMap.put(ENEMY_KILL_RATTLE, sp.load(c, ENEMY_KILL_RATTLE, 1));
+		soundMap.put(MENU_SELECT_START, sp.load(c, MENU_SELECT_START, 1));
+		soundMap.put(MENU_SELECT_TOGGLE, sp.load(c, MENU_SELECT_TOGGLE, 1));
+		soundMap.put(MENU_SELECT_SUBMENU, sp.load(c, MENU_SELECT_SUBMENU, 1));
+		soundMap.put(MENU_SELECT_BACK, sp.load(c, MENU_SELECT_BACK, 1));
+		soundMap.put(PICKUP_HEALTH, sp.load(c, PICKUP_HEALTH, 1));
+		soundMap.put(PICKUP_WEAPON, sp.load(c, PICKUP_WEAPON, 1));
+		soundMap.put(PICKUP_MISSILE, sp.load(c, PICKUP_MISSILE, 1));
+		soundMap.put(PICKUP_BOMB, sp.load(c, PICKUP_BOMB, 1));
+		soundMap.put(PLAYER_HIT_BULLET, sp.load(c, PLAYER_HIT_BULLET, 1));
+		soundMap.put(PLAYER_HIT_LASER, sp.load(c, PLAYER_HIT_LASER, 1));
+		soundMap.put(PLAYER_HIT_MISSILE, sp.load(c, PLAYER_HIT_MISSILE, 1));
+		soundMap.put(PLAYER_HIT_BOMB, sp.load(c, PLAYER_HIT_BOMB, 1));
+		soundMap.put(PLAYER_KILL_EXPLODE, sp.load(c, PLAYER_KILL_EXPLODE, 1));
+		soundMap.put(PLAYER_KILL_GAMEOVER, sp.load(c, PLAYER_KILL_GAMEOVER, 1));
+		soundMap.put(PLAYER_KILL_FIZZ, sp.load(c, PLAYER_KILL_FIZZ, 1));
+		soundMap.put(PLAYER_KILL_BLOOP, sp.load(c, PLAYER_KILL_BLOOP, 1));
+		soundMap.put(SHOT_BULLET, sp.load(c, SHOT_BULLET, 1));
+		soundMap.put(SHOT_MISSILE, sp.load(c, SHOT_MISSILE, 1));
+		soundMap.put(SHOT_LASER, sp.load(c, SHOT_LASER, 1));
+		soundMap.put(SHOT_BOMB, sp.load(c, SHOT_BOMB, 1));
+	}
+	
+	public static int getSoundID(int key) {
+		return soundMap.get(key);
 	}
 	
 	//Adds an image to the map, the key needs to be the same as the relative filepath to the image
