@@ -35,7 +35,6 @@ public abstract class Ship extends GameObject {
 		this.fireDirection = fireDirection;
 		weapons = new WeaponsArray();
 		this.addLauncher(new BulletLauncher(bulletDamage, bulletCooldown));
-//		this.addLauncher(new MissileLauncher(missileDamage, missileCooldown));
 	}
 	
 	public void setLauncher(Launcher l) {

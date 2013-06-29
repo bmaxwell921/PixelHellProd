@@ -30,7 +30,6 @@ public class CircleBlaster extends Launcher {
 		int upYVel = leftXVel;
 		int downYVel = rightXVel;
 		
-		
 		Vector2 left = Vector2.add(shipCenter, new Vector2(-shipSize.x, 
 				-Constants.BULLET_HEIGHT / 2));
 		Vector2 leftVel = new Vector2(leftXVel, 0);
@@ -58,9 +57,8 @@ public class CircleBlaster extends Launcher {
 		return new BulletWeapon(AssetMap.getImage(AssetMap.shot), pos, vel, damage);
 	}
 	
-	private float getYOfCircle(float x, float x1, float y1) {
-		float xCoord = x - x1;
-		return y1 + (float) Math.sqrt(1 - xCoord * xCoord);
+	private float getYOfCircle(float x, Vector2 center, float radius) {
+		float xCoord = x - center.x;
+		return center.y + (float) Math.sqrt(radius - xCoord * xCoord);
 	}
-
 }

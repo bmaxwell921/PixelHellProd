@@ -64,8 +64,6 @@ public class LevelObject extends Observable {
 		// TODO don't have this hard coded here
 		player = new Player(AssetMap.getImage(AssetMap.playerOne), im,
 				screenWidth, screenHeight, 100);
-
-		this.setPlayerWeapon(WeaponType.CIRCLE_BLASTER);
 		
 
 		Random randomGenerator = new Random();
