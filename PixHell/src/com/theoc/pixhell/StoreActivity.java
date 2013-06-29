@@ -115,14 +115,26 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 	}
 
 	/**
-	 * update the DB about the count of the Item purchased and also the the
-	 * StoreActivity View.
+	 * Update the persistent storage by 1.
+	 * User bought 1 unit of stuff.
 	 * @param string 
 	 */
-	public void update(String string) {
+	public void update(String data) {
+		
+		//update
 		HashMap<String, Integer> temp = getStoreData();
+		int newCount = temp.get(data) + 1;
+		temp.put(data, newCount);
+		
 		// push it
+		StoreItemDTO wrapper = new StoreItemDTO();
+		wrapper.data = temp;
+		String serializedMap = gson.toJson(wrapper);
 
+		getSharedPreferences(Preferences.applicationIdentifier, MODE_PRIVATE)
+				.edit()
+				.putString(Preferences.persistantStorageIdentifier,
+						serializedMap).commit();
 	}
 
 	public void onStart() {
