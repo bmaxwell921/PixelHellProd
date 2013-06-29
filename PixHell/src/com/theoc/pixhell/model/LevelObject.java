@@ -17,6 +17,7 @@ import com.theoc.pixhell.utilities.Difficulty;
 import com.theoc.pixhell.utilities.GameState;
 import com.theoc.pixhell.utilities.WeaponType;
 import com.theoc.pixhell.weaponLaunchers.BulletLauncher;
+import com.theoc.pixhell.weaponLaunchers.CircleBlaster;
 import com.theoc.pixhell.weaponLaunchers.MissileLauncher;
 import com.theoc.pixhell.weaponLaunchers.TriBlasterLauncher;
 
@@ -63,8 +64,6 @@ public class LevelObject extends Observable {
 		// TODO don't have this hard coded here
 		player = new Player(AssetMap.getImage(AssetMap.playerOne), im,
 				screenWidth, screenHeight, 100);
-
-		this.setPlayerWeapon(WeaponType.BULLET);
 		
 
 		Random randomGenerator = new Random();
@@ -122,6 +121,9 @@ public class LevelObject extends Observable {
 					.getMissileDamage(), player.stats.getMissileCooldown()));
 		} else if (weapon == WeaponType.TRI_BLASTER) {
 			player.addLauncher(new TriBlasterLauncher(player.stats.getBulletDamage(), 
+					player.stats.getBulletCooldown()));
+		} else if (weapon == WeaponType.CIRCLE_BLASTER) {
+			player.addLauncher(new CircleBlaster(player.stats.getBulletDamage(), 
 					player.stats.getBulletCooldown()));
 		}
 	}

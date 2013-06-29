@@ -1,5 +1,5 @@
 package com.theoc.pixhell.utilities;
 
 public enum WeaponType {
-	BULLET, MISSILE, TRI_BLASTER
+	BULLET, MISSILE, TRI_BLASTER, CIRCLE_BLASTER
 }
