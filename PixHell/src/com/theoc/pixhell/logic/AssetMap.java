@@ -22,10 +22,17 @@ public class AssetMap {
 	
 	public static void init(AssetManager am) throws IOException {
 		map = new HashMap<String, Bitmap>();
-		map.put(backgroundKey, BitmapFactory.decodeStream(am.open(backgroundKey)));
-		map.put(playerOne, BitmapFactory.decodeStream(am.open(playerOne)));
+		addImage(am, backgroundKey);
+		addImage(am, playerOne);
 		
-		map.put(enemyOne, BitmapFactory.decodeStream(am.open(enemyOne)));
+		addImage(am, enemyOne);
+		addImage(am, enemyTwo);
+		addImage(am, enemyThree);
+	}
+	
+	//Adds an image to the map, the key needs to be the same as the relative filepath to the image
+	private static void addImage(AssetManager am, String keyFilePath) throws IOException {
+		map.put(keyFilePath, BitmapFactory.decodeStream(am.open(keyFilePath)));
 	}
 	
 	/**
