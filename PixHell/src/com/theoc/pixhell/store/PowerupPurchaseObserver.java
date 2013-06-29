@@ -40,23 +40,31 @@ public class PowerupPurchaseObserver extends BasePurchasingObserver {
 		new GetUserIdAsyncTask().execute(getUserIdResponse);
 	}
 
-	@Override
-	public void onItemDataResponse(ItemDataResponse itemDataResponse) {
-		// TODO Auto-generated method stub
-		super.onItemDataResponse(itemDataResponse);
+	public void onItemDataResponse(final ItemDataResponse itemDataResponse) {
+
+		Log.v(TAG, "onItemDataResponse recieved");
+
+		Log.v(TAG,
+				"ItemDataRequestStatus"
+						+ itemDataResponse.getItemDataRequestStatus());
+
+		Log.v(TAG, "ItemDataRequestId" + itemDataResponse.getRequestId());
+
+		new ItemDataAsyncTask().execute(itemDataResponse);
+
 	}
 
 	@Override
-	public void onPurchaseResponse(PurchaseResponse purchaseResponse) {
-		// TODO Auto-generated method stub
-		super.onPurchaseResponse(purchaseResponse);
-	}
+	public void onPurchaseResponse(final PurchaseResponse purchaseResponse) {
 
-	@Override
-	public void onPurchaseUpdatesResponse(
-			PurchaseUpdatesResponse purchaseUpdatesResponse) {
-		// TODO Auto-generated method stub
-		super.onPurchaseUpdatesResponse(purchaseUpdatesResponse);
+		Log.v(TAG, "onPurchaseResponse recieved");
+
+		Log.v(TAG,
+				"PurchaseRequestStatus:"
+						+ purchaseResponse.getPurchaseRequestStatus());
+
+		new PurchaseAsyncTask().execute(purchaseResponse);
+
 	}
 
 	@Override
