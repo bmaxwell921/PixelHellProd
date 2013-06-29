@@ -15,7 +15,7 @@ public abstract class Ship extends GameObject {
 	private static final int shipHeight = 100;
 	public float FiringTime;
 
-	private StatInfo stats;
+	public StatInfo stats;
 
 	public Ship(Bitmap image) {
 		this(image, defaultFireRate);
