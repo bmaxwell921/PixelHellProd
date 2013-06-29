@@ -2,7 +2,9 @@ package com.theoc.pixhell.model;
 
 import android.graphics.Bitmap;
 
+import com.theoc.pixhell.logic.AssetMap;
 import com.theoc.pixhell.manager.InputManager;
+import com.theoc.pixhell.utilities.Constants;
 import com.theoc.pixhell.utilities.DirectionalVector;
 import com.theoc.pixhell.utilities.Vector2;
 
@@ -69,6 +71,23 @@ public class Player extends Ship {
 	public boolean CollidesWith(GameObject gameObject) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	public BulletWeapon Fire(float time) {
+		if (this.FiringTime < 0) {
+			this.stats.resetFireRate();
+			this.FiringTime = this.stats.getCurFireRate();
+			BulletWeapon bullet = new BulletWeapon(new Vector2(
+
+					this.position.x +(Constants.SHIP_WIDTH)/2-(Constants.BULLET_WIDTH)/2, this.position.y), new Vector2(-1, -1),
+					1, 1, AssetMap.getImage(AssetMap.shot));
+			return bullet;
+		} else {
+
+			this.FiringTime = this.FiringTime - time;
+
+			return null;
+		}
+
 	}
 
 }

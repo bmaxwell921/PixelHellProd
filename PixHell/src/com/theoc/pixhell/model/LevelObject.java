@@ -95,13 +95,19 @@ public class LevelObject extends Observable
 	private void doUpdates(float timeElapsed) {
 		//Move everyone, then check collisions
 		player.update(timeElapsed);
+		Weapon Playerweapon =player.Fire(timeElapsed);
+		if( Playerweapon !=null)
+		{
+			sm.playSoundEffect(AssetMap.SHOT_BULLET);
+			playerShots.add(Playerweapon);
+		}
 		for (Ship ship : enemies) {
 			ship.update(timeElapsed);
-			Weapon weapon =ship.Fire(timeElapsed);
-			if( weapon !=null)
+			Weapon Enemyweapon =ship.Fire(timeElapsed);
+			if( Enemyweapon !=null)
 			{
 				sm.playSoundEffect(AssetMap.SHOT_BULLET);
-				enemyShots.add(weapon);
+				enemyShots.add(Enemyweapon);
 			}
 		}
 		
