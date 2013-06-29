@@ -1,21 +1,14 @@
 package com.theoc.pixhell.model;
 
-import java.nio.channels.ClosedByInterruptException;
-import java.util.ArrayList;
 import java.util.Queue;
 
 import android.graphics.Bitmap;
 import android.graphics.Point;
 
 public abstract class Enemy extends Ship {
-	Queue<Point> Pathqueue;
-	Point TargetPos;
+	Queue<Point> pathQueue;
 	public Enemy(Bitmap image) {
 		this(image, defaultFireRate);
-	}
-	
-	public void setTargetPos(Point targetPos) {
-		TargetPos = targetPos;
 	}
 
 	public Enemy(Bitmap image, float fireRate) {
@@ -30,6 +23,11 @@ public abstract class Enemy extends Ship {
 		super(image, location, velocity, fireRate);
 	}
 	
+	
+	public void setPathQueue(Queue<Point> queue) {
+		pathQueue = queue;
+	}
+	
 	protected void moveToLocation(Point dest,float time) {
 		//Moves the current Enemy toward the given point
 		this.position.x =(int) (this.position.x+this.velocity.x*time);
@@ -38,12 +36,11 @@ public abstract class Enemy extends Ship {
 	}
 	public boolean closeTo(Point targetPos)
     {
-		Point newPoint=null;
 		boolean b =false;
 		int xPos=targetPos.x-this.position.x;
 		int yPos=targetPos.y-this.position.y;
-		newPoint.x=xPos;
-		newPoint.y=yPos;
+		Point newPoint= new Point(xPos, yPos);
+		
 		if((newPoint.x-this.velocity.x)+(newPoint.y-this.velocity.y)<.5)
 		{
 			b=true;
@@ -53,13 +50,11 @@ public abstract class Enemy extends Ship {
     }
 	@Override
 	public void update(float time) {
-		// TODO Auto-generated method stub
-		setTargetPos(Pathqueue.peek());
-		if(closeTo(TargetPos))
+		if(closeTo(pathQueue.peek()))
 		{
-			Pathqueue.poll();
+			pathQueue.poll();
 		}
-		moveToLocation(Pathqueue.peek(),time);
+		moveToLocation(pathQueue.peek(),time);
 		
 		
 	}
