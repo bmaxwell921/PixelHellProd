@@ -54,8 +54,6 @@ public class MainActivity extends Activity {
 	public void initStoreData() {
 		HashMap<String, Integer> temp = new HashMap<String, Integer>();
 		temp.put(Constants.HEALTH_SKU, 0);
-		temp.put(Constants.LIFE_SKU, 0);
-		temp.put(Constants.WEAPON1_SKU, 0);
 		temp.put(Constants.CHEAT_SKU, 0);
 
 		Gson gson = new Gson();
