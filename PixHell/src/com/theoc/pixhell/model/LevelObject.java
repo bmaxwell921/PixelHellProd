@@ -128,6 +128,14 @@ public class LevelObject extends Observable
 	}
     
 	
+	public int getScore() {
+		return score;
+	}
+
+	public void setCoins(List<GameObject> coins) {
+		this.coins = coins;
+	}
+
 	public List<GameObject> getCoins() {
 		return coins;
 	}
