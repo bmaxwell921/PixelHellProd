@@ -25,8 +25,6 @@ public class StoryActivity extends Activity {
 		try {
 			Bitmap background = (Bitmap) BitmapFactory.decodeStream(getAssets()
 					.open("img/Background.png"));
-			RelativeLayout rl = (RelativeLayout) findViewById(R.id.relativeLayout1);
-			rl.setBackground(new BitmapDrawable(getResources(), background));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -337,7 +337,7 @@ public class OptionsActivity extends Activity implements OnItemClickListener {
 			}
 		});
 
-		builder.setTitle("Music Volume");
+		builder.setTitle("Sound Effects Volume");
 		builder.setView(v);
 
 		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
