@@ -53,6 +53,11 @@ public class StoreActivity extends Activity implements OnItemClickListener {
 
 	}
 
+	private HashMap<String, Integer> getStoreData() {
+		String 
+		return null;
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
