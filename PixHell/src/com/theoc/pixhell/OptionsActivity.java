@@ -79,8 +79,7 @@ public class OptionsActivity extends Activity implements OnItemClickListener {
 	private void createDifficultyDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		int checkedValue = getSharedPreferences(
-				Preferences.applicationIdentifier, MODE_PRIVATE).getInt(
-				Preferences.difficultyIdentifier, 0);
+				Preferences.applicationIdentifier, MODE_PRIVATE).getInt(Preferences.difficultyIdentifier, 0);
 
 		builder.setSingleChoiceItems(DIFFICULTIES, checkedValue,
 				new OnClickListener() {
@@ -97,7 +96,7 @@ public class OptionsActivity extends Activity implements OnItemClickListener {
 
 		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
-
+				dialog.dismiss();
 			}
 		});
 		builder.setNegativeButton("Cancel",
