@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 
-import android.graphics.Rect;
+import android.graphics.Point;
 
 import com.theoc.pixhell.logic.AssetMap;
 import com.theoc.pixhell.manager.InputManager;
@@ -37,7 +37,10 @@ public class LevelObject extends Observable
 		playerShots = new LinkedList<Weapon>();
 		enemyShots = new LinkedList<Weapon>();
 		
-//		player = new Player();
+		player = new Player(AssetMap.getImage(AssetMap.playerOne), 
+				new Point(screenWidth / 2, screenHeight / 2), new Point(0 ,0), 
+				im, screenWidth, screenHeight);
+
 		curGameState = GameState.BETWEEN_WAVE;
 		curWave = 1;
 		setUpNextWave();
@@ -45,7 +48,7 @@ public class LevelObject extends Observable
 	
 	public void update(long timeElapsed) {
 		if (curGameState == GameState.IN_WAVE) {
-			//inWaveUpdate(timeElapsed);
+			inWaveUpdate(timeElapsed);
 		} else if (curGameState == GameState.BETWEEN_WAVE) {
 			//setUpNextWave();
 		}
@@ -123,7 +126,7 @@ public class LevelObject extends Observable
 		List<GameObject> onScreen = new ArrayList<GameObject>();
 		onScreen.add(background);
 		onScreen.addAll(enemies);
-		//onScreen.add(player);
+		onScreen.add(player);
 		onScreen.addAll(enemyShots);
 		onScreen.addAll(playerShots);
 		return onScreen;

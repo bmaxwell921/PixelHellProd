@@ -6,6 +6,7 @@ import java.util.Observer;
 import com.theoc.pixhell.manager.InputManager;
 import com.theoc.pixhell.model.GameObject;
 import com.theoc.pixhell.model.LevelObject;
+import com.theoc.pixhell.utilities.DirectionalVector;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -27,6 +28,8 @@ public final class GameView extends View
 	
 	public GameView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		
+		this.setKeepScreenOn(true);
 		
 		this.brush = new Paint();
 	}
@@ -69,9 +72,12 @@ public final class GameView extends View
 		
 		this.framesDrawn++;
 		this.brush.setColor(Color.WHITE);
-		canvas.drawText("Frames: " + this.framesDrawn, 10, 15, this.brush);
+		canvas.drawText("Frames Drawn: " + this.framesDrawn, 10, 15, this.brush);
 		canvas.drawText("GameRate: " + GameActivity.GAME_RATE, 10, 30, this.brush);
 		
+		DirectionalVector<Float> dir = this.inputManager.getTiltVector();
+		canvas.drawText("Tilt-X: " + dir.x, 10, 60, this.brush);
+		canvas.drawText("Tilt-Y: " + dir.y, 10, 75, this.brush);
 	}
 
 
