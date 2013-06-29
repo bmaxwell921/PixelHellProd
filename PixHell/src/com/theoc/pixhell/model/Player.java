@@ -16,8 +16,13 @@ public class Player extends Ship {
 	InputManager inputManager;
 
 	public Player(Bitmap image, InputManager inputManager, int screenWidth, int screenHeight) {
-		super(image, new Vector2(screenWidth / 2, screenHeight / 2), UP);
-		this.inputManager = inputManager;
+		this(image, inputManager, screenWidth, screenHeight, UP);
+		
+	}
+	
+	public Player(Bitmap image, InputManager im, int screenWidth, int screenHeight, int damage) {
+		super(image, new Vector2(screenWidth / 2, screenHeight / 2), UP, damage);
+		this.inputManager = im;
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
 	}
