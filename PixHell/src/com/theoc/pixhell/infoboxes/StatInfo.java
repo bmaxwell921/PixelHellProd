@@ -6,7 +6,7 @@ package com.theoc.pixhell.infoboxes;
  *
  */
 public class StatInfo {
-	private final int screenPressModifier = 2;
+	private final float screenPressModifier = 0.5f;
 	
 	private int curHealth;
 	private int maxHealth;
