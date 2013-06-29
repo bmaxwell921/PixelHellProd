@@ -30,6 +30,7 @@ public class GameActivity extends Activity
 	private LevelObject  model        = null;
 	private InputManager inputManager = null;
 	private SoundManager soundManager = null;
+	private MediaPlayer  mediaPlayer  = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -39,13 +40,14 @@ public class GameActivity extends Activity
 		this.assetMgr = this.getAssets();
 		
 		AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);
-		MediaPlayer  mp = new MediaPlayer();
+		this.mediaPlayer = new MediaPlayer();
 		this.inputManager = new InputManager((SensorManager) this.getSystemService(SENSOR_SERVICE));
 		this.setSensorListners();
 		try
 		{
 			AssetMap.init(this.assetMgr);
-			mp.setDataSource(this.assetMgr.openFd("mus/game_theme.mp3").getFileDescriptor()); 
+			this.mediaPlayer.setDataSource(this.assetMgr.openFd("mus/game_theme.mp3").getFileDescriptor()); 
+			this.mediaPlayer.prepare();
 			//this.mediaPlayer.setDataSource(this.assetMgr.openFd("mus/game_theme.mp3").getFileDescriptor()); 
 	        //this.mediaPlayer.setData
 			//this.mediaPlayer.prepare(); 
@@ -53,7 +55,7 @@ public class GameActivity extends Activity
 		{
 			e.printStackTrace();
 		}
-		this.soundManager = new SoundManager(am, mp);
+		this.soundManager = new SoundManager(am, this.mediaPlayer);
 		
 		Display display = getWindowManager().getDefaultDisplay();
 		int width = display.getWidth();
