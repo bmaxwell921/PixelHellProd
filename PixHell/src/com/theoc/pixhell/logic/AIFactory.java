@@ -84,7 +84,6 @@ public class AIFactory {
 	}
 	
 	private Vector2 getStartPosition() {
-		int x = gen.nextInt(screenWidth - 100);
 		return new Vector2(gen.nextInt(screenWidth - 100), 0);
 	}
 	

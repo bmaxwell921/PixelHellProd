@@ -35,6 +35,7 @@ public abstract class GameObject {
 		this.height = height;
 		this.width = width;
 		this.image = image;
+		isAlive = true;
 	}
 	
 	public void update(float time)
