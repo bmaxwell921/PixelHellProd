@@ -161,23 +161,13 @@ public class GameActivity extends Activity
 				@Override
 				public void run()
 				{
-					long tick = 0;
 					while (view.run)
 					{
 						try {
 							Thread.sleep(GAME_RATE);
 							model.update(GAME_RATE);	
-							
-							tick += GAME_RATE;
 						} catch (InterruptedException e) {
 							e.printStackTrace();
-						}
-						
-						if (tick > 1000) {
-							tick = 0;
-							Log.i("tick", "tock");
-							soundManager.playSoundEffect(AssetMap.PLAYER_HIT_BULLET);
-							//soundManager.playSoundEffect(AssetMap.MENU_SELECT_START);
 						}
 					}
 					finish();

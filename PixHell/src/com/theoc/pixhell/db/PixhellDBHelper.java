@@ -123,8 +123,8 @@ public class PixhellDBHelper extends SQLiteOpenHelper {
 				cursor.moveToLast();
 				while (!cursor.isLast()) {
 					StoreItemDTO temp = new StoreItemDTO();
-					temp.setSku(cursor.getString(0));
-					temp.setCount(cursor.getString(1));
+					//temp.setSku(cursor.getString(0));
+					//temp.setCount(cursor.getString(1));
 					result.add(temp);
 				}
 			}

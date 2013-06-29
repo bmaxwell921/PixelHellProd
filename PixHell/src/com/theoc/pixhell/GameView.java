@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -61,6 +62,10 @@ public final class GameView extends View
 	public void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		
+		//int width = canvas.getWidth();
+		//int height = canvas.getHeight();
+		
+		//Bitmap bb = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 		this.brush.setColor(Color.BLACK);
 		canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), this.brush);
 		

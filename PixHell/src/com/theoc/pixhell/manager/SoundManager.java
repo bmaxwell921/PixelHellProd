@@ -18,7 +18,7 @@ public final class SoundManager
 		this.mediaPlayer  = mediaPlayer;
 		this.soundPool    = soundPool;
 		
-		this.mediaPlayer.setVolume(0.10f, 0.10f);
+		this.mediaPlayer.setVolume(0.75f, 0.75f);
 		this.mediaPlayer.setLooping(true);
 	}
 	
@@ -37,6 +37,6 @@ public final class SoundManager
 	public void resumeTheme() { }
 	
 	public void playSoundEffect(int soundEffect) {
-		this.soundPool.play(AssetMap.getSoundID(soundEffect), 0.75f, 0.75f, 1, 0, 1f);
+		this.soundPool.play(AssetMap.getSoundID(soundEffect), 0.99f, 0.99f, 1, 0, 1f);
 	}
 }
