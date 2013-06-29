@@ -159,7 +159,7 @@ public class OptionsActivity extends Activity implements OnItemClickListener {
 				Preferences.tiltSensitivityIdentifier, 0.0f);
 
 		tv.setText("" + progressValue);
-		sb.setProgress(Math.round(progressValue));
+		sb.setProgress(Math.round(progressValue*10));
 
 		sb.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
