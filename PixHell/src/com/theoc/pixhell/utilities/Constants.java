@@ -17,6 +17,8 @@ public class Constants {
 	public static final int BULLET_WIDTH=100;
 	public static final int MISSILE_HEIGHT=100;
 	public static final int MISSILE_WIDTH=100;
+	public static final int COIN_HEIGHT=100;
+	public static final int COIN_WIDTH=100;
 	
 	public static final int EXPLOSION_WIDTH = 100;
 	public static final int EXPLOSION_HEIGHT = 100;
