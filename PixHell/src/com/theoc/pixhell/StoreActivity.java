@@ -1,34 +1,36 @@
 package com.theoc.pixhell;
 
+import java.util.Currency;
 import java.util.Map;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
 import com.amazon.inapp.purchasing.PurchasingManager;
+import com.amazon.inapp.purchasing.PurchasingObserver;
 import com.theoc.pixhell.db.PixhellDBHelper;
 import com.theoc.pixhell.model.HealthConsumable;
 import com.theoc.pixhell.store.PowerupPurchaseObserver;
 
-public class StoreActivity extends Activity implements OnItemClickListener{
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.app.Activity;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
+
+public class StoreActivity extends Activity implements OnItemClickListener {
 
 	String currentUser;
 	ListView lv;
-	String menuOptions[] = { "Tilt Sensitivity", "Wallet", "Difficulty",
-			"Weapon Cache" };
 	LayoutInflater inflater;
-	public Map<String, String> requestIdPowerupMap ; 
-	
+	ArrayAdapter<String> Adapter;
+	public Map<String, String> requestIdPowerupMap;
+
 	HealthConsumable healthConsumable;
-	
+
 	PixhellDBHelper dbHelper;
 
 	@Override
@@ -37,15 +39,18 @@ public class StoreActivity extends Activity implements OnItemClickListener{
 		setContentView(R.layout.activity_store);
 
 		lv = (ListView) findViewById(R.id.listView1);
+		
+		HashMap<String,Integer> storeData = getStoreData();
 		lv.setAdapter(new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, menuOptions));
+		
 		lv.setOnItemClickListener(this);
 
 		inflater = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		dbHelper = new PixhellDBHelper(getBaseContext());
 		healthConsumable = new HealthConsumable();
-		
+
 	}
 
 	@Override
@@ -54,7 +59,7 @@ public class StoreActivity extends Activity implements OnItemClickListener{
 		getMenuInflater().inflate(R.menu.store, menu);
 		return true;
 	}
-	
+
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		switch (arg2) {
@@ -70,16 +75,16 @@ public class StoreActivity extends Activity implements OnItemClickListener{
 
 	private void buyLife() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void buyHealth() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void setCurrentUser(String userId) {
-		currentUser = userId;		
+		currentUser = userId;
 	}
 
 	public String getCurrentUser() {
@@ -87,33 +92,32 @@ public class StoreActivity extends Activity implements OnItemClickListener{
 	}
 
 	/**
-	 * update the DB about the count of the Item purchased and also the the StoreActivity View.
+	 * update the DB about the count of the Item purchased and also the the
+	 * StoreActivity View.
 	 */
 	public void update() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	
-	 public void onStart() {
-		 
-	        super.onStart();
-	 
-	        PowerupPurchaseObserver buttonClickerObserver = new PowerupPurchaseObserver(this);
-	 
-	        PurchasingManager.registerObserver(buttonClickerObserver);
-	 
-	    }
-	 
-	 
-	 
-	    @Override
-	    protected void onResume() {
-	 
-	        super.onResume();
-	 
-	        PurchasingManager.initiateGetUserIdRequest();
-	 
-	    };
+
+	public void onStart() {
+
+		super.onStart();
+
+		PowerupPurchaseObserver buttonClickerObserver = new PowerupPurchaseObserver(
+				this);
+
+		PurchasingManager.registerObserver(buttonClickerObserver);
+
+	}
+
+	@Override
+	protected void onResume() {
+
+		super.onResume();
+
+		PurchasingManager.initiateGetUserIdRequest();
+
+	};
 
 }
