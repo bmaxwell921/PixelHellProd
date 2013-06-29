@@ -15,9 +15,6 @@ import com.theoc.pixhell.manager.InputManager;
 import com.theoc.pixhell.model.GameObject;
 import com.theoc.pixhell.model.LevelObject;
 import com.theoc.pixhell.utilities.GameState;
-import com.theoc.pixhell.utilities.Vector2;
-
-
 
 public final class GameView extends View
 	implements Observer
@@ -25,7 +22,6 @@ public final class GameView extends View
 	private Paint       brush  = null;
 	private LevelObject model  = null;
 	public boolean      run    = true;
-	private long        framesDrawn = 0;
 	
 	private InputManager inputManager = null;
 	
@@ -65,12 +61,6 @@ public final class GameView extends View
 		int width = canvas.getWidth();
 		int height = canvas.getHeight();
 		
-		//Bitmap bb = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-		//Canvas bc = new Canvas(bb);
-		
-		//this.brush.setColor(Color.BLACK);
-		//canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), this.brush);
-		
 		//- Draw ALL objects --------------------------------
 		if (this.model != null) {
 			for (GameObject obj : this.model.getOnscreenObjects()) {
@@ -104,14 +94,9 @@ public final class GameView extends View
 		}		
 		
 		//- Verbose Text --------------------------------------
-		this.framesDrawn++;
 		this.brush.setColor(Color.WHITE);
-		canvas.drawText("Frames Drawn: " + this.framesDrawn, 10, 15, this.brush);
-		canvas.drawText("GameRate: " + GameActivity.GAME_RATE, 10, 30, this.brush);
-		
-		Vector2 dir = this.inputManager.getTiltVector();
-		canvas.drawText("Tilt-X: " + dir.x, 10, 60, this.brush);
-		canvas.drawText("Tilt-Y: " + dir.y, 10, 75, this.brush);
+		canvas.drawText("Score: " + this.model.getScore(), 10, 20, this.brush);
+		canvas.drawText("Coins: " + this.model.getCoinNumber(), 10, 35, this.brush);
 	}
 
 
