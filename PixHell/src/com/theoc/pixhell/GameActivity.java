@@ -3,7 +3,6 @@ package com.theoc.pixhell;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
@@ -30,6 +29,7 @@ import com.theoc.pixhell.manager.InputManager;
 import com.theoc.pixhell.manager.SoundManager;
 import com.theoc.pixhell.model.*;
 import com.theoc.pixhell.utilities.Constants;
+import com.theoc.pixhell.utilities.Difficulty;
 import com.theoc.pixhell.utilities.GameState;
 import com.theoc.pixhell.utilities.Preferences;
 
@@ -65,6 +65,8 @@ public class GameActivity extends Activity
 		SoundPool    sp   = new SoundPool(4, AudioManager.STREAM_MUSIC, 100);
 		MediaPlayer  mp   = new MediaPlayer();
 		this.inputManager = new InputManager((SensorManager) this.getSystemService(SENSOR_SERVICE));
+		this.inputManager.setTiltSensitivity(this.getPresistentPref_Tilt());
+		
 		this.setSensorListners();
 		try
 		{
@@ -88,6 +90,7 @@ public class GameActivity extends Activity
 		for (int i = 0; i < health; i++) {
 			defInv.add(new HealthConsumable());
 		}
+		GameStartProperties props = new GameStartProperties(defInv, getPersistentPref_Diff(), getPersistentPref_Money());
 		/*for (int i = 0; i < life; i++) {
 			defInv.add(new HealthConsumable());
 		}*/
@@ -99,7 +102,7 @@ public class GameActivity extends Activity
 		int height = size.y;
 		
 		// link M-V
-		this.model = new LevelObject(width, height, defInv, this.inputManager, this.soundManager);
+		this.model = new LevelObject(width, height, props, this.inputManager, this.soundManager);
 		this.view = (GameView) this.findViewById(R.id.game_view_primary);	
 		this.view.addInputManager(this.inputManager);
 		this.view.addModel(this.model);
@@ -277,6 +280,24 @@ public class GameActivity extends Activity
 		return getSharedPreferences(Preferences.applicationIdentifier,
 				MODE_PRIVATE).getString(
 				Preferences.persistantStorageIdentifier, null);
+	}
+	
+	private float getPresistentPref_Tilt() {
+		return getSharedPreferences(Preferences.applicationIdentifier,
+				MODE_PRIVATE).getFloat(
+				Preferences.tiltSensitivityIdentifier, 5f);
+	}
+	
+	private int getPersistentPref_Diff() {
+		return getSharedPreferences(Preferences.applicationIdentifier,
+				MODE_PRIVATE).getInt(
+				Preferences.difficultyIdentifier, 0);
+	}
+	
+	private int getPersistentPref_Money() {
+		return getSharedPreferences(Preferences.applicationIdentifier,
+				MODE_PRIVATE).getInt(
+				Preferences.walletIdentifier, 0);
 	}
 	
 	/**

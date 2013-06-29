@@ -19,7 +19,7 @@ public class InputManager
     private final float[] mRotationMatrix    = {0f, 0f, 0f,
     		                                    0f, 0f, 0f,
     		                                    0f, 0f, 0f};
-    
+    private float   tiltSensitivity = 5f;
     private boolean isTouched = false;
     //private DirectionalVector<Integer> tiltVector = null;
     private Vector2 tiltVector = null;
@@ -94,6 +94,10 @@ public class InputManager
 
 	public void setTouched(boolean touched) {
 		this.isTouched = touched;
+	}
+	
+	public void setTiltSensitivity(float sensitivity) {
+		this.tiltSensitivity = sensitivity;
 	}
 	
 }
