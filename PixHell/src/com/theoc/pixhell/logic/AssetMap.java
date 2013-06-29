@@ -66,6 +66,7 @@ public class AssetMap {
 		addImage(am, enemyOne);
 		addImage(am, enemyTwo);
 		addImage(am, enemyThree);
+		addImage(am, shot);
 	}
 	
 	public static void initSound(Context c, SoundPool sp) {
