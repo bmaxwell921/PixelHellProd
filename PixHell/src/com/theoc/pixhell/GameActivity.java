@@ -212,11 +212,6 @@ public class GameActivity extends Activity
 	        	model.setPlayerWeapon(WeaponType.TRI_BLASTER);
 	        	model.resume();
 	            return true;
-	        case R.id.circle_blaster:
-	        	CustomEvent.create("equip: circle blaster").record();
-	        	model.setPlayerWeapon(WeaponType.TRI_BLASTER);
-	        	model.resume();
-	            return true;
 	        case R.id.inventory:
 	        	this.togglePause();
 	        	return true;

@@ -326,6 +326,7 @@ public class LevelObject extends Observable {
 	private void checkEndGame() {
 		if (player.stats.getHealth() <= 0) {
 			transitionToState(GameState.TEAR_DOWN);
+			sm.playSoundEffect(AssetMap.PLAYER_KILL_GAMEOVER);
 		}
 	}
 

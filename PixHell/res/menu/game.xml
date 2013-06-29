@@ -12,7 +12,6 @@
                 android:id="@+id/missile"
                 android:title="@string/_missile"/>
             <item android:id="@+id/tri_blaster" android:title="@string/_tri_blaster"/>
-            <item android:id="@+id/circle_blaster" android:title="@string/_circle_blaster"/>
         </menu>
     </item>
     
