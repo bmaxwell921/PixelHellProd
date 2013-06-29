@@ -19,8 +19,10 @@ import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.amazon.insights.ABTest;
 import com.amazon.insights.AmazonInsights;
 import com.amazon.insights.CustomEvent;
+import com.amazon.insights.*;
 import com.google.gson.Gson;
 import com.theoc.pixhell.db.StoreItemDTO;
 import com.theoc.pixhell.logic.AssetMap;
@@ -93,9 +95,6 @@ public class GameActivity extends Activity
 			defInv.add(new HealthConsumable());
 		}
 		GameStartProperties props = new GameStartProperties(defInv, getPersistentPref_Diff(), getPersistentPref_Money());
-		/*for (int i = 0; i < life; i++) {
-			defInv.add(new HealthConsumable());
-		}*/
 		
 		this.healthCount = health;
 		
@@ -131,6 +130,22 @@ public class GameActivity extends Activity
 		this.model.resume();
 		
 		CustomEvent.create("_session.start").record();
+		
+		
+		ABTest        
+	        .getVariationsByProjectNames("Session Start Weapon")
+	        .withVariationListener("Session Start Weapon", new VariationListener() {
+	            public void onVariationAvailable(Variation variation) {     
+	                final boolean b = variation.getVariableAsBoolean("startWithBullet", true);
+	                
+	                if (b) {
+	                	model.setPlayerWeapon(WeaponType.BULLET);
+	                } else {
+	                	model.setPlayerWeapon(WeaponType.TRI_BLASTER);
+	                }
+	                
+	            }
+	    });
 	}
 	
 	@Override
@@ -207,12 +222,14 @@ public class GameActivity extends Activity
 	        	return true;
 	        case R.id.health_pack:
 	        	if (healthCount > 0) {
+	        		CustomEvent.create("consumed: health").record();
 		        	useItem(Constants.HEALTH_SKU);
 		        	model.player.stats.restoreHealth();
 		        	model.resume();
 	        	}
 	        	return true;
 	        case R.id.store:
+	        	CustomEvent.create("store visited");
 	        	finish();
 	        	startActivity(new Intent(GameActivity.this, StoreActivity.class));
 	        	return true;
@@ -263,6 +280,7 @@ public class GameActivity extends Activity
 							e.printStackTrace();
 						}
 					}
+					CustomEvent.create("player death").record();
 					finish();
 				}
 			};
