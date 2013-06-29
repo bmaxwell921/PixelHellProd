@@ -9,6 +9,7 @@ import com.theoc.pixhell.infoboxes.WaveInfo;
 import com.theoc.pixhell.logic.AIFactory;
 import com.theoc.pixhell.logic.AssetMap;
 import com.theoc.pixhell.manager.InputManager;
+import com.theoc.pixhell.manager.SoundManager;
 import com.theoc.pixhell.utilities.Difficulty;
 import com.theoc.pixhell.utilities.Vector2;
 
@@ -31,7 +32,7 @@ public class LevelObject extends Observable
 	
 	private AIFactory factory;
 	
-	public LevelObject(int screenWidth, int screenHeight, InputManager im) {
+	public LevelObject(int screenWidth, int screenHeight, InputManager im, SoundManager sm) {
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
 		background = new Background(AssetMap.getImage(AssetMap.backgroundKey));
