@@ -1,6 +1,8 @@
 package com.theoc.pixhell.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -57,8 +59,14 @@ public class LevelObject extends Observable {
 		background = new Background(AssetMap.getImage(AssetMap.backgroundKey),
 				screenWidth, screenHeight);
 		enemies = new LinkedList<Ship>();
-		playerShots = new LinkedList<Weapon>();
-		enemyShots = new LinkedList<Weapon>();
+		
+		// highly used object - added synchronous access
+		List<Weapon> playerShots_ns = new LinkedList<Weapon>();
+		playerShots = Collections.synchronizedList(playerShots_ns);
+		
+		// highly used object - added synchronous access
+		List<Weapon> enemyShots_ns = new LinkedList<Weapon>();
+		enemyShots = Collections.synchronizedList(enemyShots_ns);
 		explosions = new LinkedList<GameObject>();
 		coins = new LinkedList<GameObject>();
 		// TODO don't have this hard coded here
