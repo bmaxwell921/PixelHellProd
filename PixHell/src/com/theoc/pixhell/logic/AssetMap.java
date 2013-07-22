@@ -22,6 +22,7 @@ public class AssetMap {
 	public static final String playerOne = "img/Player.png";
 	public static final String playerTwo = "img/Player2.png";
 	public static final String shot = "img/Shot.png";
+	public static final String enemyShot = "img/EnemyShot.png";
 	public static final String explosion = "img/Explosion.png";
 	public static final String missile = "img/Missile.png";
 	public static final String missileDown = "img/MissileUpsideDown.png";
@@ -72,6 +73,7 @@ public class AssetMap {
 		addImage(am, enemyTwo);
 		addImage(am, enemyThree);
 		addImage(am, shot);
+		addImage(am, enemyShot);
 		addImage(am, explosion);
 		addImage(am, missile);
 		addImage(am, missileDown);

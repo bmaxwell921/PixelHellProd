@@ -34,7 +34,7 @@ public abstract class Ship extends GameObject {
 		stats = new StatInfo(defaultHealth, missileCooldown, missileDamage, bulletCooldown, bulletDamage);
 		this.fireDirection = fireDirection;
 		weapons = new WeaponsArray();
-		this.addLauncher(new BulletLauncher(bulletDamage, bulletCooldown));
+		this.addLauncher(new BulletLauncher(bulletDamage, bulletCooldown, !(this instanceof Player)));
 	}
 	
 	public void setLauncher(Launcher l) {

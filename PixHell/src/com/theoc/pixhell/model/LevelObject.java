@@ -123,16 +123,16 @@ public class LevelObject extends Observable {
 	public void setPlayerWeapon(WeaponType weapon) {
 		if (weapon == WeaponType.BULLET) {
 			player.addLauncher(new BulletLauncher(player.stats
-					.getBulletDamage(), player.stats.getBulletCooldown()));
+					.getBulletDamage(), player.stats.getBulletCooldown(), false));
 		} else if (weapon == WeaponType.MISSILE) {
 			player.addLauncher(new MissileLauncher(player.stats
-					.getMissileDamage(), player.stats.getMissileCooldown()));
+					.getMissileDamage(), player.stats.getMissileCooldown(), false));
 		} else if (weapon == WeaponType.TRI_BLASTER) {
 			player.addLauncher(new TriBlasterLauncher(player.stats.getBulletDamage(), 
-					player.stats.getBulletCooldown()));
+					player.stats.getBulletCooldown(), false));
 		} else if (weapon == WeaponType.CIRCLE_BLASTER) {
 			player.addLauncher(new CircleBlaster(player.stats.getBulletDamage(), 
-					player.stats.getBulletCooldown()));
+					player.stats.getBulletCooldown(), false));
 		}
 	}
 

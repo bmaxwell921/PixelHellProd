@@ -11,8 +11,8 @@ import com.theoc.pixhell.utilities.Vector2;
 
 public class CircleBlaster extends Launcher {
 
-	public CircleBlaster(int damage, int coolDown) {
-		super(damage, coolDown);
+	public CircleBlaster(int damage, int coolDown, boolean isEnemy) {
+		super(damage, coolDown, isEnemy);
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class CircleBlaster extends Launcher {
 	}
 	
 	private Weapon makeWeapon(Vector2 pos, Vector2 vel) {
-		return new BulletWeapon(AssetMap.getImage(AssetMap.shot), pos, vel, damage);
+		return new BulletWeapon(super.getBulletImage(), pos, vel, damage);
 	}
 	
 	private float getYOfCircle(float x, Vector2 center, float radius) {

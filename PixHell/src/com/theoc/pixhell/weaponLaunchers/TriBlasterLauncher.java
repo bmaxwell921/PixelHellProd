@@ -13,8 +13,8 @@ public class TriBlasterLauncher extends Launcher {
 
 	private final int xVel = 100;
 	
-	public TriBlasterLauncher(int damage, int coolDown) {
-		super(damage, coolDown);
+	public TriBlasterLauncher(int damage, int coolDown, boolean isEnemy) {
+		super(damage, coolDown, isEnemy);
 	}
 
 	@Override
@@ -30,21 +30,21 @@ public class TriBlasterLauncher extends Launcher {
 		//Middle shot
 		Vector2 pos = Vector2.add(shipCenter, new Vector2(-Constants.BULLET_WIDTH / 2, 
 				-shipSize.y / 2));
-		proj.add(new BulletWeapon(AssetMap.getImage(AssetMap.shot), pos, 
+		proj.add(new BulletWeapon(super.getBulletImage(), pos, 
 				Vector2.multiply(DEFAULT_SPEED, direction), damage));
 		
 		//Left shot
 		pos = Vector2.add(shipCenter, new Vector2(-1.5f * Constants.BULLET_WIDTH,
 				-shipSize.y / 2));
 		Vector2 vel = new Vector2(-xVel, DEFAULT_SPEED.y * direction);
-		proj.add(new BulletWeapon(AssetMap.getImage(AssetMap.shot), pos, 
+		proj.add(new BulletWeapon(super.getBulletImage(), pos, 
 				vel, damage));
 		
 		//Right shot
 		pos = Vector2.add(shipCenter, new Vector2(Constants.BULLET_WIDTH, 
 				-shipSize.y / 2));
 		vel = new Vector2(xVel, DEFAULT_SPEED.y * direction);
-		proj.add(new BulletWeapon(AssetMap.getImage(AssetMap.shot), pos,
+		proj.add(new BulletWeapon(super.getBulletImage(), pos,
 				vel, damage));
 		return proj;
 	}

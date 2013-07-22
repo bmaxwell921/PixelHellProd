@@ -11,8 +11,8 @@ import com.theoc.pixhell.utilities.Vector2;
 
 public class MissileLauncher extends Launcher {
 	
-	public MissileLauncher(int damage, int coolDown) {
-		super(damage, coolDown);
+	public MissileLauncher(int damage, int coolDown, boolean isEnemy) {
+		super(damage, coolDown, isEnemy);
 		
 	}
 
