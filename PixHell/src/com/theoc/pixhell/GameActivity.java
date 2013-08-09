@@ -133,10 +133,10 @@ public class GameActivity extends Activity {
 		this.soundManager.startTheme();
 		this.model.resume();
 
-		CustomEvent.create("_session.start").record();
+		CustomEvent.create("_game.start").record();
 
-		ABTest.getVariationsByProjectNames("Session Start Weapon")
-				.withVariationListener("Session Start Weapon",
+		ABTest.getVariationsByProjectNames("Weak Weapons Promote Store")
+				.withVariationListener("Weak Weapons Promote Store",
 						new VariationListener() {
 							public void onVariationAvailable(Variation variation) {
 								final boolean b = variation
@@ -144,8 +144,10 @@ public class GameActivity extends Activity {
 												"startWithBullet", true);
 
 								if (b) {
-									model.setPlayerWeapon(WeaponType.BULLET);
+									CustomEvent.create("Starting With Bullet").record();
+									//model.setPlayerWeapon(WeaponType.BULLET);
 								} else {
+									CustomEvent.create("Starting With Tri-Blaster").record();
 									model.setPlayerWeapon(WeaponType.TRI_BLASTER);
 								}
 
@@ -158,7 +160,7 @@ public class GameActivity extends Activity {
 		super.onPause();
 		this.soundManager.pauseTheme();
 		this.model.pause();
-		CustomEvent.create("_session.pause").record();
+		CustomEvent.create("_game.pause").record();
 	}
 
 	@Override
@@ -166,14 +168,14 @@ public class GameActivity extends Activity {
 		super.onResume();
 		this.soundManager.resumeTheme();
 		this.model.resume();
-		CustomEvent.create("_session.resume").record();
+		CustomEvent.create("_game.resume").record();
 	}
 
 	@Override
 	public void onRestart() {
 		super.onRestart();
 		this.soundManager.startTheme();
-		CustomEvent.create("_session.start").record();
+		CustomEvent.create("_game.start").record();
 	}
 
 	@Override
@@ -184,10 +186,12 @@ public class GameActivity extends Activity {
 		this.model.pause();
 		this.soundManager.stopTheme();
 		CustomEvent.create("coins: " + this.model.getCoinNumber()).record();
-		CustomEvent.create("_session.stop").record();
+		CustomEvent.create("_game.stop").record();
 
 		// MWAHAHAHAHAHAHAHAHAHAHA!!!!! - Force Custom Event Submission
+		/*
 		Context context = getApplicationContext();
+		
 		Intent intent = new Intent(context,
 				com.amazon.insights.InsightsProcessingService.class);
 		intent.setAction("SubmitMeasurements");
@@ -195,6 +199,7 @@ public class GameActivity extends Activity {
 		context.startService(intent);
 		android.util.Log.w("f8f453bb8cf44935871480432bf58224",
 				"CODE TO FORCE SUBMISSION: I am a horrible person [^_^]");
+		// */
 	}
 
 	@Override
